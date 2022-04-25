@@ -1,0 +1,72 @@
+html {
+    color: #005bbb;
+}
+
+body {
+    color: #005bbb !important;
+    background: #f6d945 !important;
+}
+nav{
+    background: #005bbb;
+}
+.color-uk {
+    color: #f6d945 !important;
+}
+
+.color-uk-w {
+    color: #ffffff !important;
+}
+
+.color-uk-w-b {
+    color: #ffffff !important;
+    background: #005bbb !important;
+}
+
+.carrousel-dimensions {
+    height: 450px;
+    width: auto;
+
+}
+
+.carrousel-settings {
+    z-index: -1;
+}
+
+.carrousel-text {
+    max-width: 350px;
+}
+
+.carrousel-subtext{
+    color: #707070 !important;
+}
+
+.carrousel-button {
+    color: #ffffff !important;
+    background: #0d6efd !important;
+}
+
+.carrousel-button-uk {
+    color: #f6d945 !important;
+}
+
+.card-subtitle {
+    color: #707070 !important;
+
+}
+
+.card-size {
+    height: 200px;
+}
+
+.card-text {
+    color: #707070 !important;
+}
+
+.statistics-color {
+    background: transparent !important;
+}
+
+.testimonies-color {
+    color: #707070 !important;
+
+}
