@@ -112,7 +112,7 @@ def contacts(request):
 
 # Area reservada
 def reserved(request):
-    return None
+    return render(request, 'slavaukraine/reserved.html')
 
 # pagina de mais informações sobre ser voluntário
 def volunteer(request):

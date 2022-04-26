@@ -150,3 +150,10 @@ nav{
 .contacts-margin-title {
     margin-bottom:  1.5rem !important;
 }
+
+/* reserved area */
+.reserved-page-card {
+    background-color: #ffffff !important;
+    width: 900px !important;
+    margin: 10px !important;
+}
