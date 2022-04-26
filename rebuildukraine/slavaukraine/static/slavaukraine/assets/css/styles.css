@@ -144,7 +144,7 @@ nav{
 
 .contacts-page-card {
     background: #ffffff;
-
+    width: 900px !important;
 }
 
 .contacts-margin-title {
