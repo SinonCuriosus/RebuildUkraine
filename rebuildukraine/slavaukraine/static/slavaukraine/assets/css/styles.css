@@ -20,12 +20,15 @@ nav{
 .color-uk-w-b {
     color: #ffffff !important;
     background: #005bbb !important;
+
 }
 
+
+
+/* Carrousel section */
 .carrousel-dimensions {
     height: 450px;
     width: auto;
-
 }
 
 .carrousel-settings {
@@ -42,13 +45,15 @@ nav{
 
 .carrousel-button {
     color: #ffffff !important;
-    background: #0d6efd !important;
+    background: #005bbb !important;
 }
 
 .carrousel-button-uk {
     color: #f6d945 !important;
 }
 
+
+/* Offerts section */
 .card-subtitle {
     color: #707070 !important;
 }
@@ -61,15 +66,29 @@ nav{
     color: #707070 !important;
 }
 
+
+
+/* Statistics section */
 .statistics-color {
     background: transparent !important;
 }
 
+/* Testimonies section */
 
 .testimonies-color {
     color: #707070 !important;
 
 }
+
+/* Footer section */
+
+.footer-configurations {
+    color: #f6d945 !important;
+    background: #005bbb !important;
+    height: auto !important;
+    padding: 1rem;
+}
+
 
 /* login page */
 
@@ -144,16 +163,28 @@ nav{
 
 .contacts-page-card {
     background: #ffffff;
-    width: 900px !important;
+    width: 60% !important;
+    height: auto !important;
 }
 
 .contacts-margin-title {
-    margin-bottom:  1.5rem !important;
+    margin-bottom:  1rem !important;
 }
 
 /* reserved area */
 .reserved-page-card {
-    background-color: #ffffff !important;
-    width: 900px !important;
-    margin: 10px !important;
+    background: #ffffff !important;
+    width: 80% !important;
+
+    margin-top:  1.5rem !important;
+}
+
+.reserved-page-buttons {
+    margin:  0.5rem !important;
+}
+
+.reserved-page-information {
+    margin:  0.5rem !important;
+    color: grey;
+    padding: 1rem !important;
 }
