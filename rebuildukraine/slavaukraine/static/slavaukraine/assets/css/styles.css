@@ -51,7 +51,6 @@ nav{
 
 .card-subtitle {
     color: #707070 !important;
-
 }
 
 .card-size {
@@ -66,7 +65,88 @@ nav{
     background: transparent !important;
 }
 
+
 .testimonies-color {
     color: #707070 !important;
 
+}
+
+/* login page */
+
+.login-size-form {
+   width: 700px !important;
+    height: auto;
+}
+
+.login-size-card {
+    height: auto;
+}
+
+.login-size-fileds {
+    width: 350px ;
+    height: auto ;
+}
+
+.login-color-error {
+    color: crimson !important;
+}
+
+.login-color-help {
+    color: grey;
+}
+
+.login-allign-fields {
+    text-align: left;
+    width: 100% !important;
+    margin: 10px;
+}
+
+.login-hiperlinks,.login-hiperlinks:active {
+    color: grey !important;
+}
+
+.login-hiperlinks:hover {
+    color: #005bbb !important;
+}
+
+/* register page */
+
+.register-size-form {
+   width: 700px !important;
+    height: auto;
+}
+
+.register-size-card {
+    height: auto;
+}
+
+.register-color-error {
+    color: crimson !important;
+}
+
+.register-size-fileds {
+    width: 470px ;
+    height: auto ;
+}
+
+.register-color-help {
+    color: grey;
+}
+
+.register-allign-fields {
+    text-align: left;
+    width: 100% !important;
+    margin: 10px;
+}
+
+
+/* Contacts Page */
+
+.contacts-page-card {
+    background: #ffffff;
+
+}
+
+.contacts-margin-title {
+    margin-bottom:  1.5rem !important;
 }

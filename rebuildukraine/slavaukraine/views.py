@@ -18,9 +18,22 @@ from .models import Registration
 # Create your views here.
 
 def home_screen(request):
-    print(request.user.is_authenticated)
-    #return render(request, 'slavaukraine/base.html');
-    return render(request, 'slavaukraine/volunteers.html');
+    if request.user.is_authenticated & request.user.is_active:
+        name_user = request.user.first_name + " " + request.user.last_name
+        is_authenticated = 1
+        role_user = request.user.is_person
+    else:
+        print("anonymous")
+        name_user = "anonymous"
+        is_authenticated = 0
+        role_user = 0
+    context = {
+        'title': 'Building Ukraine - Homepage ',
+        'name_user': name_user,
+        'role_user': role_user,
+        'is_authenticated': is_authenticated
+    }
+    return render(request, 'slavaukraine/home.html',context);
 
 def login_view(request):
     context={}
@@ -70,3 +83,41 @@ def login_view(request):
         form = PersonAuthenticationForm
     context['login_form'] = form
     return render(request, 'slavaukraine/login.html',context)
+
+
+
+
+#pagina de contactos
+def contacts(request):
+    if request.user.is_authenticated & request.user.is_active:
+        name_user = request.user.first_name + " " + request.user.last_name
+        is_authenticated = 1
+        role_user = request.user.is_person
+    else:
+        print("anonymous")
+        name_user = "anonymous"
+        is_authenticated = 0
+        role_user = 0
+    context = {
+        'title': 'Building Ukraine - Contactos',
+        'name_user': name_user,
+        'role_user': role_user,
+        'is_authenticated': is_authenticated
+    }
+    return render(request, 'slavaukraine/contacts.html',context)
+
+
+
+
+
+# Area reservada
+def reserved(request):
+    return None
+
+# pagina de mais informações sobre ser voluntário
+def volunteer(request):
+    return None
+
+# pagina de mais informações sobre empresa
+def enterprise(request):
+    return None

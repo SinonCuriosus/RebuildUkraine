@@ -13,4 +13,14 @@ urlpatterns = [
     path("login/",views.login_view, name="login"),
     #http://127.0.0.1:8000/slavaukraine/logout
     path("logout/",views.logout_view, name="logout"),
+
+    path("reserved",views.reserved, name="reserved"),
+
+    path("volunteer",views.volunteer, name="volunteer"),
+
+    path("enterprise",views.enterprise, name="enterprise"),
+
+    path("contacts",views.contacts, name="contacts"),
+
+
 ]
