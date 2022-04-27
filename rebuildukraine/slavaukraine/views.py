@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from .forms import PersonRegistrationForm, PersonAuthenticationForm
+
+from . import forms
+from .forms import PersonRegistrationForm, PersonAuthenticationForm, EnterpriseRegistrationForm
 from django.http import HttpResponse
 
-#We must import our objects structure, so we can work them
-#example... Using : Person.objects.all() to list all people
 from .models import Person
-from .models import Enterprise
 from .models import Country
 from .models import City
 from .models import Expertise
@@ -18,10 +17,18 @@ from .models import Registration
 # Create your views here.
 
 def home_screen(request):
+
     if request.user.is_authenticated & request.user.is_active:
-        name_user = request.user.first_name + " " + request.user.last_name
-        is_authenticated = 1
-        role_user = request.user.is_person
+
+        #name_user = request.user.first_name + " " + request.user.last_name
+        name_user=request.user.username
+#OS ATRIBUTOS DE BAIXO CONSEGUIMOS OBTER USANDO:
+    # user.is_authenticated
+    # user.is_person ou user.is_enterprise
+        #print(name_user)
+        #is_authenticated = 1
+        #Não precisamos do role_user;
+        #role_user = request.user.is_person
     else:
         print("anonymous")
         name_user = "anonymous"
@@ -50,15 +57,35 @@ def personRegistration_view(request):
             email= form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
             person = authenticate(email=email, password=raw_password)
+            person.setPerson()
             login(request,person)
             return home_screen(request)
         else:
             context['personregistration_form'] = form
     else:
-        form = PersonRegistrationForm
+        form = PersonRegistrationForm()
         context['personregistration_form'] = form
     return render(request, 'slavaukraine/register.html', context)
-    #return render(request, 'slavaukraine/register_test.html', context)
+
+def enterpriseRegistration_view(request):
+    context={}
+    if request.POST:
+        form = EnterpriseRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            email= form.cleaned_data.get('email')
+            raw_password = form.cleaned_data.get('password1')
+            person = authenticate(email=email, password=raw_password)
+            #person.setEnterprise()
+            login(request,person)
+            return home_screen(request)
+        else:
+
+            context['enterpriseregistration_form'] = form
+    else:
+        form = EnterpriseRegistrationForm()
+        context['enterpriseregistration_form'] = form
+    return render(request, 'slavaukraine/register_test.html', context)
 
 def logout_view(request):
     logout(request)
@@ -90,10 +117,12 @@ def login_view(request):
 #pagina de contactos
 def contacts(request):
     if request.user.is_authenticated & request.user.is_active:
-        name_user = request.user.first_name + " " + request.user.last_name
+        #name_user = request.user.first_name + " " + request.user.last_name
+        name_user = request.user.username
         is_authenticated = 1
         role_user = request.user.is_person
     else:
+
         print("anonymous")
         name_user = "anonymous"
         is_authenticated = 0
@@ -104,7 +133,7 @@ def contacts(request):
         'role_user': role_user,
         'is_authenticated': is_authenticated
     }
-    return render(request, 'slavaukraine/contacts.html',context)
+    return render(request, 'slavaukraine/contacts.html')
 
 
 

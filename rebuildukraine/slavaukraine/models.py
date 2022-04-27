@@ -60,13 +60,15 @@ class Person(AbstractBaseUser):
     email                       =models.EmailField(verbose_name="email", max_length=60, unique=True)
     username                    =models.CharField(max_length=30, unique=True)
     profile_image               =models.ImageField(null=True,blank=True)
+    taxnumber = models.CharField(max_length=9, unique=True)
     date_joined                 =models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login                  =models.DateTimeField(verbose_name='last login', auto_now=True)
     is_admin                    =models.BooleanField(default=False)
     is_active                   = models.BooleanField(default=True)
     is_staff                    = models.BooleanField(default=False)
     is_superuser                = models.BooleanField(default=False)
-    is_person                   = models.BooleanField(default=True)
+    is_enterprise               = models.BooleanField(null=True, blank=True)
+    is_person                   = models.BooleanField(null=True, blank=True)
     first_name                  = models.CharField(max_length=30,null=True, blank=True)
     last_name                   = models.CharField(max_length=30,null=True, blank=True)
     gender                      = models.CharField(max_length=10,choices=GENDER,null=True, blank=True)
@@ -88,12 +90,20 @@ class Person(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
+    def setEnterprise(self):
+        self.is_enterprise=True;
+        self.is_person=False;
+
+    def setPerson(self):
+        self.is_enterprise=False;
+        self.is_person=True;
+
     class Meta:
         abstract = False
         verbose_name= "Utilizadores singulares"
         verbose_name_plural= "Utilizadores singulares"
 
-
+"""
 class MyEnterpriseManager(BaseUserManager):
     # Se adicionar nos REQUIRED arguments do USER mais argumentos, tenho que acrescentar aqui também
     def create_user(self, email, username, password=None):
@@ -125,6 +135,7 @@ class Enterprise(AbstractBaseUser):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True)
     taxnumber = models.CharField(max_length=9, unique=True)
+    profile_image               =models.ImageField(null=True,blank=True)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
     is_admin = models.BooleanField(default=False)
@@ -150,9 +161,11 @@ class Enterprise(AbstractBaseUser):
     class Meta:
         verbose_name = "Empresa"
         verbose_name_plural = "Empresas"
+"""
 
+#Neste momento faz sentido ser um tuplo porque só temos um país. Contudo se virmos que há potencial
+#para acrescentar países, criamos um método para adicionar campos e retiramos o tuplo;
 
-#Poderemos acrescentar mais países através do tuplo!
 class Country(models.Model):
     UKRAINI='Ucrânia'
     COUNTRIES = [
@@ -213,7 +226,7 @@ class Specialization(models.Model):
 
 #Rever se acham que vale a pena só a cidade
 class Proposal(models.Model):
-    enterprise                  =models.OneToOneField(Enterprise,on_delete=models.CASCADE)
+    enterprise                  =models.OneToOneField(Person,on_delete=models.CASCADE)
     city                        =models.ForeignKey(City, on_delete=models.CASCADE)
     expertiseNeeded             =models.OneToOneField(Expertise,on_delete=models.CASCADE)
     description                 =models.CharField(max_length=150)

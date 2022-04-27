@@ -1,6 +1,8 @@
 {% extends "slavaukraine/template.html" %}
 {% load static %}
 {% block main %}
+    {% if user.is_authenticated == true %}
+    {% endif %}
     <div>
         <section class="position-relative py-4 py-xl-5">
             <div class="container">
