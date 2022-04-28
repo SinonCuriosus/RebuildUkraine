@@ -15,6 +15,8 @@ urlpatterns = [
     path("login/",views.login_view, name="login"),
     #http://127.0.0.1:8000/slavaukraine/logout
     path("logout/",views.logout_view, name="logout"),
+    # http://127.0.0.1:8000/slavaukraine/logout
+
 
     path("reserved",views.reserved, name="reserved"),
 

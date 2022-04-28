@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 
 from . import forms
@@ -35,10 +35,10 @@ def home_screen(request):
         is_authenticated = 0
         role_user = 0
     context = {
-        'title': 'Building Ukraine - Homepage ',
+        #'title': 'Building Ukraine - Homepage ',
         'name_user': name_user,
-        'role_user': role_user,
-        'is_authenticated': is_authenticated
+        #'role_user': role_user,
+        #'is_authenticated': is_authenticated
     }
     return render(request, 'slavaukraine/home.html',context);
 
@@ -87,6 +87,33 @@ def enterpriseRegistration_view(request):
         context['enterpriseregistration_form'] = form
     return render(request, 'slavaukraine/register_test.html', context)
 
+
+"""
+def newproposal(request, person_id):
+    context={}
+
+    if request.POST:
+        if request.user.is_authenticated:
+            if request.POST.get('enterprise') and request.POST.get('city') and request.POST.get('description') and request.POST.get('expertiseNeeded'):
+                enterprise = get_object_or_404(Person, pk=person_id)
+                proposal = Proposal(enterprise=enterprise,city=city,expertiseNeeded=expertiseNeeded,description=description)
+                proposal.save()
+                return render(request, 'slavaukraine/home.html', context)
+            else:
+                return render(request, 'slavaukraine/register_test.html', context)
+    else:
+        cities = City.objects.all()
+        description = request.POST.get('description')
+        expertiseNeeded = request.POST.get('expertiseNeeded')
+        context = {
+            'city': city,
+            'description': description,
+            'expertiseNeeded': expertiseNeeded
+        }
+        return render(request, 'slavaukraine/register_test.html', context)
+
+        cities = City.o
+"""
 def logout_view(request):
     logout(request)
     return home_screen(request)
