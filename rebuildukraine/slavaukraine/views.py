@@ -162,10 +162,6 @@ def contacts(request):
     }
     return render(request, 'slavaukraine/contacts.html')
 
-
-
-
-
 # Area reservada
 def reserved(request):
     return render(request, 'slavaukraine/reserved.html')
@@ -177,3 +173,41 @@ def volunteer(request):
 # pagina de mais informações sobre empresa
 def enterprise(request):
     return None
+
+#voluntario regista-se em propostas
+def registerInProposal(request, proposta_id):
+    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
+        proposal = get_object_or_404(Proposal, pk=proposta_id)
+        proposal.register(user=request.user)
+        return render(request, 'slavaukraine/home.html')  # Colocar para a proposal
+    else:
+        return login_view(request)
+
+
+# voluntario remove proposta
+def unregisterInProposal(request, proposta_id):
+    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
+        proposal = get_object_or_404(Proposal, pk=proposta_id)
+        proposal.unregister(user=request.user)
+        return render(request, 'slavaukraine/home.html')  # Colocar para a proposal
+    else:
+        return login_view(request)
+
+#voluntario coloca proposta nos favoritos
+def registerInProposal(request, proposta_id):
+    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
+        proposal = get_object_or_404(Proposal, pk=proposta_id)
+        proposal.subscribe(user=request.user)
+        return render(request, 'slavaukraine/home.html')  # Colocar para a proposal
+    else:
+        return login_view(request)
+
+
+# voluntario remove registo
+def unregisterInProposal(request, proposta_id):
+    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
+        proposal = get_object_or_404(Proposal, pk=proposta_id)
+        proposal.unsubscribe()user=request.user)
+        return render(request, 'slavaukraine/home.html')  # Colocar para a proposal
+    else:
+        return login_view(request)

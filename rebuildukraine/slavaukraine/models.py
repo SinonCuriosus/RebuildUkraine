@@ -73,7 +73,6 @@ class Person(AbstractBaseUser):
     gender                      = models.CharField(max_length=10,choices=GENDER,null=True, blank=True)
     address                     = models.CharField(max_length=150,null=True, blank=True)
     birth                       = models.DateField(null=True, blank=True)
-
 #Se quisermos o login com o username invés do e-mail é substituir aqui
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', ]
@@ -172,7 +171,21 @@ class Proposal(models.Model):
 
     def __str__(self):
         return self.pk
+    
+    def register(self, user):
+        registration = Registration.objects.create(person=user, proposal=self)
 
+    def unregister(self, user):
+        registration = Registration.objects.get(person=user, proposal=self)
+        registration.delete()
+        
+    def subscribe(self, user):
+        registration = Favorites.objects.create(person=user, proposal=self)
+
+    def unsubscribe(self, user):
+        registration = Favorites.objects.get(person=user, proposal=self)
+        registration.delete()
+        
     class Meta:
         verbose_name= "Proposta de voluntariado"
         verbose_name_plural= "Propostas de voluntariado"
