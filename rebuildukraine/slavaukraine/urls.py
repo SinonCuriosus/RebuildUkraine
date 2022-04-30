@@ -25,10 +25,15 @@ urlpatterns = [
 
     #http://127.0.0.1:8000/slavaukraine/volunteer
     path("volunteer",views.volunteer, name="volunteer"),
+    
+    #http://127.0.0.1:8000/slavaukraine/volunteer/edit
+    path("volunteer/edit",views.volunteer, name="volunteer"),
 
     #http://127.0.0.1:8000/slavaukraine/enterprise
     path("enterprise",views.enterprise, name="enterprise"),
 
     #http://127.0.0.1:8000/slavaukraine/contacts
     path("contacts",views.contacts, name="contacts"),
+    
+    
 ]
