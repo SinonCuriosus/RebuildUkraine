@@ -38,4 +38,9 @@ urlpatterns = [
     #http://127.0.0.1:8000/slavaukraine/Porposal_List
     path("test_Porposal_List",views.proposal_view, name="test_Porposal_List"),
     
+    #teste
+    path('<int:proposal_id>', views.porposal_detail, name="test_Porposal"),
+    
+    path('<int:proposal_id>/register_porposal', views.register_proposal, name="register_porposal"),
+    
 ]

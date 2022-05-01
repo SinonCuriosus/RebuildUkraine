@@ -175,40 +175,44 @@ def enterprise(request):
     return None
 
 #voluntario regista-se em propostas
-def register_proposal(request, proposta_id):
+def register_proposal(request, proposal_id):
     if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
-        proposal = get_object_or_404(Proposal, pk=proposta_id)
+        proposal = get_object_or_404(Proposal, pk=proposal_id)
         proposal.register(user=request.user)
-        return render(request, 'slavaukraine/home.html')  # Colocar para a proposal
+        context = {'proposal': proposal}
+        return render(request, 'slavaukraine/test_Porposal.html', context)
     else:
         return login_view(request)
 
 
 # voluntario remove proposta
-def unregister_proposal(request, proposta_id):
+def unregister_proposal(request, proposal_id):
     if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
-        proposal = get_object_or_404(Proposal, pk=proposta_id)
+        proposal = get_object_or_404(Proposal, pk=proposal_id)
         proposal.unregister(user=request.user)
-        return render(request, 'slavaukraine/home.html')  # Colocar para a proposal
+        context = {'proposal': proposal}
+        return render(request, 'slavaukraine/test_Porposal.html', context)
     else:
         return login_view(request)
 
 #voluntario coloca proposta nos favoritos
-def favorite_proposal(request, proposta_id):
+def favorite_proposal(request, proposal_id):
     if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
-        proposal = get_object_or_404(Proposal, pk=proposta_id)
+        proposal = get_object_or_404(Proposal, pk=proposal_id)
         proposal.subscribe(user=request.user)
-        return render(request, 'slavaukraine/home.html')  # Colocar para a proposal
+        context = {'proposal': proposal}
+        return render(request, 'slavaukraine/test_Porposal.html', context)
     else:
         return login_view(request)
 
 
 # voluntario remove dos favoritos
-def not_favorite_proposal(request, proposta_id):
+def not_favorite_proposal(request, proposal_id):
     if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
-        proposal = get_object_or_404(Proposal, pk=proposta_id)
+        proposal = get_object_or_404(Proposal, pk=proposal_id)
         proposal.unsubscribe(user=request.user)
-        return render(request, 'slavaukraine/home.html')  # Colocar para a proposal
+        context = {'proposal': proposal}
+        return render(request, 'slavaukraine/test_Porposal.html', context)
     else:
         return login_view(request)
 
@@ -220,3 +224,9 @@ def proposal_view(request):
     context = {}
     context["dataset"] = Proposal.objects.all()
     return render(request, 'slavaukraine/test_Porposal_List.html', context)
+
+#Só para teste
+def porposal_detail(request, proposal_id):
+    proposal = get_object_or_404(Proposal, pk=proposal_id)
+    context = {'proposal': proposal}
+    return render(request, 'slavaukraine/test_Porposal.html', context)

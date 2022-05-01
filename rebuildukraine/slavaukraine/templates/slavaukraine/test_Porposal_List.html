@@ -4,7 +4,9 @@
 
 {% for data in dataset %}.
 
-    {{ data.title }}  <br/>
+    <a href="{% url 'slavaukraine:test_Porposal' data.id %}">
+    {{ data.title }}
+    </a>  <br/>
     {{ data.description }}<br/>
     <hr/>
 
