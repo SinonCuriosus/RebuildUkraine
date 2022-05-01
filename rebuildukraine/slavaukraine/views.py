@@ -211,3 +211,12 @@ def not_favorite_proposal(request, proposta_id):
         return render(request, 'slavaukraine/home.html')  # Colocar para a proposal
     else:
         return login_view(request)
+
+def edit_volunteer_page(request):
+    return None
+
+
+def proposal_view(request):
+    context = {}
+    context["dataset"] = Proposal.objects.all()
+    return render(request, 'slavaukraine/test_Porposal_List.html', context)

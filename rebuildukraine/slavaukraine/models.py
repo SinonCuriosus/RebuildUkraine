@@ -59,7 +59,7 @@ class Person(AbstractBaseUser):
     email                       =models.EmailField(verbose_name="email", max_length=60, unique=True)
     username                    =models.CharField(max_length=30, unique=True)
     profile_image               =models.ImageField(null=True,blank=True)
-    taxnumber = models.CharField(max_length=9, unique=True)
+    taxnumber = models.CharField(max_length=9, unique=False,null=True,blank=True)
     date_joined                 =models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login                  =models.DateTimeField(verbose_name='last login', auto_now=True)
     is_admin                    =models.BooleanField(default=False)
@@ -167,10 +167,11 @@ class Proposal(models.Model):
     enterprise                  =models.ForeignKey(Person,on_delete=models.CASCADE)
     city                        =models.ForeignKey(City, on_delete=models.CASCADE)
     expertiseNeeded             =models.ForeignKey(Expertise,on_delete=models.CASCADE)
+    title                       =models.CharField(max_length=50)
     description                 =models.CharField(max_length=150)
 
     def __str__(self):
-        return self.pk
+        return self.enterprise.username
     
     def register(self, user):
         registration = Registration.objects.create(person=user, proposal=self)
@@ -195,7 +196,7 @@ class Favorites(models.Model):
     proposal                    = models.ForeignKey(Proposal,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.pk
+        return self.person.username
 
     class Meta:
         verbose_name= "Favorito"
@@ -206,7 +207,7 @@ class Registration(models.Model):
     proposal                    =models.ForeignKey(Proposal,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.pk
+        return self.person.username
 
     class Meta:
         verbose_name= "Registo em voluntariado"

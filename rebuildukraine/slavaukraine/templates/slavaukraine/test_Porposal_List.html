@@ -1,0 +1,13 @@
+{% extends "slavaukraine/template.html" %}
+{% load static %}
+{% block main %}
+
+{% for data in dataset %}.
+
+    {{ data.title }}  <br/>
+    {{ data.description }}<br/>
+    <hr/>
+
+    {% endfor %}
+
+{% endblock %}
