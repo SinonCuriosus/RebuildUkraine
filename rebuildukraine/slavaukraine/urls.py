@@ -8,11 +8,20 @@ urlpatterns = [
     #http://127.0.0.1:8000/slavaukraine
     path("",views.home_screen, name="home"),
 
-    #http://127.0.0.1:8000/slavaukraine/register
-    path("register",views.personRegistration_view, name="registerperson"),
+    #http://127.0.0.1:8000/slavaukraine/register_person
+    path("register_person",views.personRegistration_view, name="registerperson"),
 
     # http://127.0.0.1:8000/slavaukraine/register_enterprise
     path("register_enterprise", views.enterpriseRegistration_view, name="registerenterprise"),
+
+    # http://127.0.0.1:8000/slavaukraine/regist_proposal
+    path("regist_proposal/", views.proposal_create_view, name="registproposal"),
+    #path("<int:pk>/", views.proposal_create_view, name="registproposal"),
+
+    path("ajax/load-cities/", views.load_cities, name="ajax_load_cities"),   #AJAX
+
+    path("list_proposals", views.listProposals_view, name="list_proposals"),
+
 
     #http://127.0.0.1:8000/slavaukraine/login
     path("login/",views.login_view, name="login"),

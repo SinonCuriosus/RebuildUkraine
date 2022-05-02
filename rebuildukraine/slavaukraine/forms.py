@@ -1,14 +1,16 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
-from django.forms import DateInput
+from django.forms import DateInput, ModelForm
 
-from .models import Person
+from .models import Person, City, Proposal, Expertise
+
+
 #from .models import Enterprise
 
 class PersonRegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=60, help_text="Required. Add a valid email address.")
-    is_person = forms.BooleanField(initial=False,widget=forms.HiddenInput(), required=True,label="")
+    is_person = forms.BooleanField(initial=True,widget=forms.HiddenInput(), required=False,label="")
     is_enterprise = forms.BooleanField(initial=False, widget=forms.HiddenInput(), required=False,label="")
 
     class Meta:
@@ -39,7 +41,7 @@ class PersonAuthenticationForm(forms.ModelForm):
 class EnterpriseRegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=60, help_text="Required. Add a valid email address.")
     is_person = forms.BooleanField(initial=False,widget=forms.HiddenInput(), required=False,label="")
-    is_enterprise = forms.BooleanField(initial=False, widget=forms.HiddenInput(), required=True,label="")
+    is_enterprise = forms.BooleanField(initial=True, widget=forms.HiddenInput(), required=False,label="")
 
     class Meta:
         model = Person
@@ -63,3 +65,24 @@ class EnterpriseAuthenticationForm(forms.ModelForm):
                 raise forms.ValidationError("Invalid credentials.");
 
 
+class ProposalForm(forms.ModelForm):
+    #enterprise = forms.ChoiceField(widget=forms.HiddenInput(), required=False, label="")
+
+    class Meta:
+        model = Proposal
+        fields = '__all__'
+        widgets = {'enterprise': forms.HiddenInput}
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['city'].queryset= City.objects.all()
+
+        if 'country' in self.data:
+            try:
+                country_id= int(self.data.get('country'))
+                self.fields['city'].queryset = City.objects.filter(country_id=country_id).order_by('name')
+            except (ValueError, TypeError):
+                pass #Invalid input from the cliente; Ignore and fallback to empty City queryset
+        elif self.instance.pk:
+            self.fields['city'].queryset = self.instance.country.city_set.order_by('name')

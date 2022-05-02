@@ -1,0 +1,45 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>-->
+
+    {% if user.is_authenticated %}
+
+        {% if user.is_enterprise %}
+            <p>Hey! I am an ENTERPRISE with username: {{ user.username }}</p>
+            <p><a href="{% url 'slavaukraine:registproposal' %}">Regist proposal </a></p>
+
+                <div style="text-align: center">{% if list_of_proposals %}
+                    <ul>
+                        {% for proposal in list_of_proposals %}
+                            <li>
+                                <a href="{% url 'slavaukraine:list_proposals' proposal.id %}">
+                                    {{ proposal.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                        <p>Nao ha questoes disponiveis.</p>
+                    {% endif %}
+                    <br><br>
+                </div>
+
+        {% else %}
+            <p>Hey! I am an PERSON with username: {{ user.username }}</p>
+        {% endif %}
+        <p><a href="{% url 'slavaukraine:logout' %}">Logout </a></p>
+
+
+    {% else %}
+
+        <p>NOT LOGGED</p>
+        <p><a href="{% url 'slavaukraine:login' %}">Login </a></p>
+    {% endif %}
+
+<!--
+</body>
+</html>-->
