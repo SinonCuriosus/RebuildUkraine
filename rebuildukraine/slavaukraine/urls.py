@@ -31,4 +31,6 @@ urlpatterns = [
 
     #http://127.0.0.1:8000/slavaukraine/contacts
     path("contacts",views.contacts, name="contacts"),
+
+path("submitcontact",views.submitContact, name="submitcontact"),
 ]

@@ -1,3 +1,6 @@
+import smtplib
+
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 
@@ -15,6 +18,8 @@ from .models import Favorites
 from .models import Registration
 
 # Create your views here.
+from django.conf import settings
+
 
 def home_screen(request):
 
@@ -162,8 +167,17 @@ def contacts(request):
     }
     return render(request, 'slavaukraine/contacts.html')
 
-
-
+def submitContact(request):
+    #smtplib.SMTP_SSL("smtp.sapo.pt", 587,"slavaukraine@sapo.pt", timeout=120 )
+    subjet = "From:" + request.POST.get('name')
+    email = request.POST.get('email')
+    text = request.POST.get('message')
+    print(" nome " + subjet)
+    print(" email " + email)
+    print("text " + text)
+    send_mail(subjet,text,'slavaukraine@sapo.pt',[email])
+    print("enviou")
+    return home_screen(request)
 
 
 # Area reservada

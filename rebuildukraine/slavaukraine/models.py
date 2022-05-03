@@ -198,3 +198,9 @@ class Registration(models.Model):
     class Meta:
         verbose_name= "Registo em voluntariado"
         verbose_name_plural= "Registos em voluntariados"
+
+#class TopicMessage(models.Model):
+
+
+
+#class Answers(models.Model):
