@@ -1,26 +1,27 @@
 from django.urls import include, path
 from . import views
-
-
+from .views import ProposalList, ProposalUpdate
 
 app_name='slavaukraine'
 urlpatterns = [
     #http://127.0.0.1:8000/slavaukraine
     path("",views.home_screen, name="home"),
 
-    #http://127.0.0.1:8000/slavaukraine/register_person
+    #Área de Registos
     path("register_person",views.personRegistration_view, name="registerperson"),
-
-    # http://127.0.0.1:8000/slavaukraine/register_enterprise
     path("register_enterprise", views.enterpriseRegistration_view, name="registerenterprise"),
-
-    # http://127.0.0.1:8000/slavaukraine/regist_proposal
     path("regist_proposal/", views.proposal_create_view, name="registproposal"),
-    #path("<int:pk>/", views.proposal_create_view, name="registproposal"),
+    #O PATH em baixo é um auxiliar do regist_proposal, na dropdown dinâmica;
+    path("ajax/load-cities/", views.load_cities, name="ajax_load_cities"),
 
-    path("ajax/load-cities/", views.load_cities, name="ajax_load_cities"),   #AJAX
+    #Área de edição
+    path("proposal/<int:pk>/", ProposalUpdate.as_view(), name='edit_proposal'),
 
-    path("list_proposals", views.listProposals_view, name="list_proposals"),
+    #Área de Listagens
+    # http://127.0.0.1:8000/slavaukraine/listed_proposals
+    path("listed_proposals", ProposalList.as_view(), name='listed_proposals'),
+    #EM FALTA: Favoritos do User, Inscrições do User, Inscrições na Proposta X da Empresa Y
+
 
 
     #http://127.0.0.1:8000/slavaukraine/login
@@ -40,4 +41,7 @@ urlpatterns = [
 
     #http://127.0.0.1:8000/slavaukraine/contacts
     path("contacts",views.contacts, name="contacts"),
+
+
+
 ]

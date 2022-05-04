@@ -1,7 +1,10 @@
 import copy
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView
 
 from . import forms
 from .forms import PersonRegistrationForm, PersonAuthenticationForm, EnterpriseRegistrationForm, ProposalForm
@@ -88,8 +91,9 @@ def enterpriseRegistration_view(request):
     return render(request, 'slavaukraine/test_registerenterprise.html', context)
 
 def listProposals_view(request):
+
     if request.user.is_authenticated:
-        list_of_proposals = Proposal.objects.filter(enterprise__email=request.user.email)
+        list_of_proposals = Proposal.objects.filter(enterprise_id=request.user.id)
         return render(request, 'slavaukraine/test_home.html',{'list_of_proposals':list_of_proposals});
     return render(request, 'slavaukraine/test_home.html')
 
@@ -184,7 +188,6 @@ def contacts(request):
 
 
 
-
 # Area reservada
 def reserved(request):
     return render(request, 'slavaukraine/reserved.html')
@@ -196,3 +199,27 @@ def volunteer(request):
 # pagina de mais informações sobre empresa
 def enterprise(request):
     return None
+
+###############     UPDATE VIEWS   ###############
+class ProposalUpdate(UpdateView):
+    model = Proposal
+    fields = ['city', 'expertiseNeeded','title','description']
+    template_name = 'slavaukraine/edit_proposal.html'
+    success_url = '../../listed_proposals'
+
+###############     LIST VIEWS     ###############
+class ProposalList(ListView):
+    #  login_url = reverse_lazy('test_login')
+    model = Proposal
+    template_name = 'slavaukraine/listed_proposals.html'
+    #paginate_by = 10
+"""
+    def get_queryset(self):
+
+        proposal_name_inserted = self.request.POST.get('nome_do_titulo')
+        enterprise_user = self.request.user
+        if proposal_name_inserted:
+            proposals = Proposal.objects.filter(enterprise_id=enterprise_user.id).filter(title__icontains=proposal_name_inserted)
+        else:
+            proposals = Proposal.objects.all().filter()
+        return proposals"""

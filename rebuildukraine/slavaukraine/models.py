@@ -89,6 +89,8 @@ class Person(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
+
+
     def setEnterprise(self):
         self.is_enterprise=True;
         self.is_person=False;
@@ -173,7 +175,8 @@ class Proposal(models.Model):
     description                 =models.CharField(max_length=150)
 
     def __str__(self):
-        return self.enterprise.username
+        return "Empresa: "+self.enterprise.username+" | Título: "+self.title
+
 
     class Meta:
         verbose_name= "Proposta de voluntariado"

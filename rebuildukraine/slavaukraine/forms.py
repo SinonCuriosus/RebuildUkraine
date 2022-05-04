@@ -76,7 +76,7 @@ class ProposalForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['city'].queryset= City.objects.all()
+        self.fields['city'].queryset= City.objects.none()
 
         if 'country' in self.data:
             try:
