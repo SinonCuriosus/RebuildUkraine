@@ -230,8 +230,3 @@ def porposal_detail(request, proposal_id):
     proposal = get_object_or_404(Proposal, pk=proposal_id)
     context = {'proposal': proposal}
     return render(request, 'slavaukraine/test_Porposal.html', context)
-
-<<<<<<< HEAD
-
-=======
->>>>>>> paulo
