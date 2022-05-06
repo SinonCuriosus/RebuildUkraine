@@ -213,6 +213,7 @@ class ProposalList(ListView):
     model = Proposal
     template_name = 'slavaukraine/listed_proposals.html'
     #paginate_by = 10
+
 """
     def get_queryset(self):
 
@@ -223,3 +224,12 @@ class ProposalList(ListView):
         else:
             proposals = Proposal.objects.all().filter()
         return proposals"""
+
+class EnterpriseProposalList(ListView):
+    model = Proposal
+    template_name = 'slavaukraine/listed_proposals.html'
+
+    def get_queryset(self):
+        queryset = super(EnterpriseProposalList,self.get_queryset())
+        queryset = queryset.filter(user = self.request.user)
+        return queryset
