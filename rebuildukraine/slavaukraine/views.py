@@ -231,4 +231,7 @@ def porposal_detail(request, proposal_id):
     context = {'proposal': proposal}
     return render(request, 'slavaukraine/test_Porposal.html', context)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> paulo
