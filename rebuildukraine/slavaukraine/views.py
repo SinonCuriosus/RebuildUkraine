@@ -172,8 +172,8 @@ def reserved(request):
 
 # pagina de mais informações sobre ser voluntário
 def volunteer(request):
-    return render(request, 'slavaukraine/volunteers.html')
+    return None
 
 # pagina de mais informações sobre empresa
 def enterprise(request):
-    return render(request, 'slavaukraine/enterprise.html')
+    return None

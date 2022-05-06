@@ -1,0 +1,20 @@
+{% if user.is_enterprise %}
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Envia</button>
+
+    </form>
+{% elif user.is_person %}
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Envia</button>
+
+    </form>
+
+{% endif %}
