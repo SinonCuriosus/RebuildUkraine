@@ -168,10 +168,11 @@ def reserved(request):
 
 # pagina de mais informações sobre ser voluntário
 def volunteer(request):
-    return None
+    return render(request, 'slavaukraine/volunteers.html')
 
 # pagina de mais informações sobre empresa
 def enterprise(request):
+<<<<<<< HEAD
     return None
 
 #voluntario regista-se em propostas
@@ -230,3 +231,6 @@ def porposal_detail(request, proposal_id):
     proposal = get_object_or_404(Proposal, pk=proposal_id)
     context = {'proposal': proposal}
     return render(request, 'slavaukraine/test_Porposal.html', context)
+=======
+    return render(request, 'slavaukraine/enterprise.html')
+>>>>>>> 34b15632fd4d73d7a097bda638237b536376d160
