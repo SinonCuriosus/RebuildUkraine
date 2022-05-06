@@ -3,7 +3,7 @@
 {% block main %}
 
     <div class="carousel slide carrousel-dimensions" data-bs-ride="carousel" id="carousel-1">
-        <div class="carousel-inner h-100">
+        <div class="container carousel-inner h-100">
             <div class="carousel-item active h-100"><img
                     class="w-100 d-block position-absolute h-100 fit-cover carrousel-settings"
                     src="{% static "slavaukraine/assets/img/Volunteering.jpg" %}" alt="Volunteering in Ukraine">
@@ -11,11 +11,11 @@
                     <div class="row">
                         <div class="col-md-6 col-xl-4 offset-md-2">
                             <div class="carrousel-text">
-                                <h1 class="text-uppercase fw-bold">Quer ajudar?<br>Registe-se já</h1>
+                                <h1 class="text-uppercase fw-bold carrousel-text">Quer ajudar?<br>Registe-se já</h1>
                                 <p class="my-3 carrousel-subtext">Na nossa plataforma vai encontrar vários projetos para
                                     a reconstrução da Ucrânia</p><a
                                     class="btn btn-primary btn-lg me-2 carrousel-button-uk" role="button" href="#">Registar</a><a
-                                    class="btn btn-outline-primary btn-lg carrousel-button" role="button" href="#">Verificar
+                                    class="btn btn-outline-yellow btn-lg carrousel-button" role="button" href="#">Verificar
                                 Projetos</a>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                                 <p class="my-3 carrousel-subtext">Tincidunt laoreet leo, adipiscing taciti tempor.
                                     Primis senectus sapien, risus donec ad fusce augue interdum.</p><a
                                     class="btn btn-primary btn-lg me-2 carrousel-button-uk" role="button" href="#">Button</a><a
-                                    class="btn btn-outline-primary btn-lg carrousel-button" role="button" href="#">Button</a>
+                                    class="btn btn-outline-yellow btn-lg carrousel-button" role="button" href="#">Button</a>
                             </div>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                                 <p class="my-3 carrousel-subtext">Tincidunt laoreet leo, adipiscing taciti tempor.
                                     Primis senectus sapien, risus donec ad fusce augue interdum.</p><a
                                     class="btn btn-primary btn-lg me-2 carrousel-button-uk" role="button" href="#">Button</a><a
-                                    class="btn btn-outline-primary btn-lg carrousel-button" role="button" href="#">Button</a>
+                                    class="btn btn-outline-yellow btn-lg carrousel-button" role="button" href="#">Button</a>
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
         <!-- Ofertas disponiveis -->
         <div class="container py-4 py-xl-5">
             <div class="row mb-5">
-                <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <div class="col-md-8 col-xl-6 text-center mx-auto card-title">
                     <h2>Últimos Projetos</h2>
                     <p class="w-lg-50 card-subtitle">Consulte as novas entradas de projetos na nossa plataforma</p>
                 </div>
@@ -81,17 +81,17 @@
                     <div class="card"><img class="card-img-top w-100 d-block fit-cover card-size"
                                            src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                         <div class="card-body p-4">
-                            <p class="text-primary card-text mb-0">Projeto</p>
-                            <h4 class="card-title">Limpeza de Entulho</h4>
-                            <p class="card-text">Vamos necessitar de pessoas para ajudar na remoção de entulho na aldeia
+                            <p class="text-primary mb-0 card-before-text">Projeto</p>
+                            <h4 class="card-text">Limpeza de Entulho</h4>
+                            <p class="card-subtext">Vamos necessitar de pessoas para ajudar na remoção de entulho na aldeia
                                 Y que fica na cidade Z. Este trabalho terá a previsão de 12 dias seguidos. Pode ser
                                 pessoas sem nenhuma experiencia na ...</p>
                             <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                      height="50"
                                                      src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                                 <div>
-                                    <p class="fw-bold mb-0">Empresa X</p>
-                                    <p class="text-muted mb-0">Construção Civil</p>
+                                    <p class="fw-bold mb-0 card-before-text">Empresa X</p>
+                                    <p class="text-muted mb-0 card-text">Construção Civil</p>
                                 </div>
                             </div>
                         </div>
@@ -101,17 +101,17 @@
                     <div class="card"><img class="card-img-top w-100 d-block fit-cover card-size"
                                            src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                         <div class="card-body p-4">
-                            <p class="text-primary card-text mb-0">Projeto</p>
-                            <h4 class="card-title">Carpinteiro de Limpos</h4>
-                            <p class="card-text">Precisamos de uma pessoa para integrar uma equipa de 7 carpinteiros que
+                            <p class="text-primary mb-0 card-before-text">Projeto</p>
+                            <h4 class="card-text">Carpinteiro de Limpos</h4>
+                            <p class="card-subtext">Precisamos de uma pessoa para integrar uma equipa de 7 carpinteiros que
                                 terão como missão social finalizar a obra na parte das cozinhas e quartos. Será
                                 fornecido todo o material necess ....&nbsp;</p>
                             <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                      height="50"
                                                      src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                                 <div>
-                                    <p class="fw-bold mb-0">Empresa Y</p>
-                                    <p class="text-muted mb-0">Carpintaria</p>
+                                    <p class="fw-bold mb-0 card-before-text">Empresa Y</p>
+                                    <p class="text-muted mb-0 card-text">Carpintaria</p>
                                 </div>
                             </div>
                         </div>
@@ -121,17 +121,17 @@
                     <div class="card"><img class="card-img-top w-100 d-block fit-cover card-size"
                                            src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                         <div class="card-body p-4">
-                            <p class="text-primary card-text mb-0">Projeto</p>
-                            <h4 class="card-title">Isolamento de Paredes</h4>
-                            <p class="card-text">Procuramos&nbsp; voluntários para ajudar na isolação das paredes de um
+                            <p class="text-primary mb-0 card-before-text">Projeto</p>
+                            <h4 class="card-title card-text">Isolamento de Paredes</h4>
+                            <p class="card-subtext">Procuramos&nbsp; voluntários para ajudar na isolação das paredes de um
                                 edifício de 7 andares, com 3 apartamentos cada andar. A intervenção será efetuada
                                 durante cerca de 3 semanas&nbsp; e ...</p>
                             <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                      height="50"
                                                      src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                                 <div>
-                                    <p class="fw-bold mb-0">Empresa Z</p>
-                                    <p class="text-muted mb-0">Isolamentos</p>
+                                    <p class="fw-bold mb-0 card-before-text">Empresa Z</p>
+                                    <p class="text-muted mb-0 card-text">Isolamentos</p>
                                 </div>
                             </div>
                         </div>
@@ -141,30 +141,30 @@
         </div>
         <!-- Estatisticas -->
         <div class="container py-4 py-xl-5 statistics-color">
-            <div class="text-center text-white-50 bg-primary border rounded border-0 p-3">
+            <div class="text-center text-white-50 bg-warning border rounded border-0 p-3">
                 <div class="row row-cols-2 row-cols-md-4 statistics-color">
                     <div class="col">
                         <div class="p-3">
                             <h4 class="display-5 fw-bold text-white mb-0">123+</h4>
-                            <p class="mb-0">Voluntários</p>
+                            <p class="mb-0 statistics-text">Voluntários</p>
                         </div>
                     </div>
                     <div class="col">
                         <div class="p-3">
                             <h4 class="display-5 fw-bold text-white mb-0">45+</h4>
-                            <p class="mb-0">Empresas</p>
+                            <p class="mb-0 statistics-text">Empresas</p>
                         </div>
                     </div>
                     <div class="col">
                         <div class="p-3">
                             <h4 class="display-5 fw-bold text-white mb-0">67+</h4>
-                            <p class="mb-0">Projetos Criados</p>
+                            <p class="mb-0 statistics-text">Projetos Criados</p>
                         </div>
                     </div>
                     <div class="col">
                         <div class="p-3">
                             <h4 class="display-5 fw-bold text-white mb-0">89</h4>
-                            <p class="mb-0">Projetos Concluidos</p>
+                            <p class="mb-0 statistics-text">Projetos Concluidos</p>
                         </div>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
         <!-- Testemunhos -->
         <div class="container py-4 py-xl-5">
             <div class="row mb-5">
-                <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <div class="col-md-8 col-xl-6 text-center mx-auto testimonies-title">
                     <h2>Testemunhos</h2>
                 </div>
             </div>
@@ -186,8 +186,8 @@
                                                  height="50"
                                                  src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                             <div>
-                                <p class="fw-bold text-primary mb-0">Empresa X</p>
-                                <p class="text-muted mb-0">Construção Civil</p>
+                                <p class="fw-bold text-primary mb-0 testimonies-before-text">Empresa X</p>
+                                <p class="text-muted mb-0 testimonies-text">Construção Civil</p>
                             </div>
                         </div>
                     </div>
@@ -201,8 +201,8 @@
                                                  height="50"
                                                  src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                             <div>
-                                <p class="fw-bold text-primary mb-0">Pedro Mateus</p>
-                                <p class="text-muted mb-0">Voluntário</p>
+                                <p class="fw-bold text-primary mb-0 testimonies-before-text">Pedro Mateus</p>
+                                <p class="text-muted mb-0 testimonies-text">Voluntário</p>
                             </div>
                         </div>
                     </div>
@@ -216,8 +216,8 @@
                                                  height="50"
                                                  src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                             <div>
-                                <p class="fw-bold text-primary mb-0">Joana Arminda</p>
-                                <p class="text-muted mb-0">Voluntária</p>
+                                <p class="fw-bold text-primary mb-0 testimonies-before-text">Joana Arminda</p>
+                                <p class="text-muted mb-0 testimonies-text">Voluntária</p>
                             </div>
                         </div>
                     </div>
