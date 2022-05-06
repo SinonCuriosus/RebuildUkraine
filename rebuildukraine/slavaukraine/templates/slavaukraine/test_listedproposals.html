@@ -1,0 +1,41 @@
+{% block content %}
+
+<hr>
+<form action = "?" method="POST">
+    <input type="text" name="nome_do_titulo" id="" value="request.POST.nome_do_titulo" autocomplete="off" placeholder="Insira o Título">
+
+    <button type="submit">Pesquisar</button>
+
+    <a href = "">Limpar</a>
+</form>
+<hr>
+<!-- Pôr a div responsive no bootstrap que é para o preenchiment das colunas
+não exceder a largura do ecrã-->
+<div class="table-responsive">
+    <table>
+        <tr>
+            <th>Cidade</th>
+            <th>Título</th>
+            <th>Especialidade</th>
+            <th>Opções</th>
+        </tr>
+        {% for object in object_list %}
+        <tr>
+            <td>{{ object.city }}</td>
+            <td>{{ object.title }}</td>
+            <td>{{ object.expertiseNeeded }}</td>
+            <td>
+                <a href="{% url 'slavaukraine:edit_proposal' object.pk %}" title="">Editar</a>
+                <a href="{% url 'slavaukraine:delete_proposal' object.pk %}" title="Excluir">Apagar</a>
+            </td>
+        </tr>
+        {% empty %}
+            <tr>
+            <!-- Colspan porque a mensagem vai ocupar as 3 colunas-->
+                <td colspan="3"> Nenhuma proposta registada.</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

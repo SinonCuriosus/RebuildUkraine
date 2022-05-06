@@ -1,9 +1,13 @@
+import copy
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
+from django.urls import reverse_lazy
+from django.views.generic import UpdateView, ListView, DeleteView
 
 from . import forms
-from .forms import PersonRegistrationForm, PersonAuthenticationForm, EnterpriseRegistrationForm
-from django.http import HttpResponse
+from .forms import PersonRegistrationForm, PersonAuthenticationForm, EnterpriseRegistrationForm, ProposalForm
+from django.http import HttpResponse, request
 
 from .models import Person
 from .models import Country
@@ -19,34 +23,28 @@ from .models import Registration
 def home_screen(request):
 
     if request.user.is_authenticated & request.user.is_active:
-
-        #name_user = request.user.first_name + " " + request.user.last_name
         name_user=request.user.username
-#OS ATRIBUTOS DE BAIXO CONSEGUIMOS OBTER USANDO:
-    # user.is_authenticated
-    # user.is_person ou user.is_enterprise
-        #print(name_user)
-        #is_authenticated = 1
-        #Não precisamos do role_user;
-        #role_user = request.user.is_person
+        if request.user.is_enterprise:
+                list_of_proposals = Proposal.objects.filter(enterprise__email=request.user.email)
+                context = {
+                    # 'title': 'Building Ukraine - Homepage ',
+                    'name_user': name_user,
+                    # 'role_user': role_user,
+                    # 'is_authenticated': is_authenticated
+                    'list_of_proposals': list_of_proposals
+                }
+                return render(request, 'slavaukraine/test_home.html');
     else:
-        print("anonymous")
         name_user = "anonymous"
-        is_authenticated = 0
-        role_user = 0
     context = {
         #'title': 'Building Ukraine - Homepage ',
         'name_user': name_user,
         #'role_user': role_user,
         #'is_authenticated': is_authenticated
     }
-    return render(request, 'slavaukraine/home.html',context);
+    return render(request, 'slavaukraine/test_home.html', context);
 
-def login_view(request):
-    context={}
-    if request.POST:
-        return 0
-    return render(request, 'slavaukraine/login.html')
+###############     REGIST VIEWS   ###############
 
 def personRegistration_view(request):
     context={}
@@ -65,7 +63,7 @@ def personRegistration_view(request):
     else:
         form = PersonRegistrationForm()
         context['personregistration_form'] = form
-    return render(request, 'slavaukraine/register.html', context)
+    return render(request, 'slavaukraine/test_registeruser.html', context)
 
 def enterpriseRegistration_view(request):
     context={}
@@ -85,41 +83,110 @@ def enterpriseRegistration_view(request):
     else:
         form = EnterpriseRegistrationForm()
         context['enterpriseregistration_form'] = form
-    return render(request, 'slavaukraine/register_test.html', context)
+    return render(request, 'slavaukraine/test_registerenterprise.html', context)
 
+def proposal_create_view(request):
+    enterprise = get_object_or_404(Person, pk=request.user.pk)
+    form = ProposalForm(initial={'enterprise': enterprise})
+
+    if request.method == 'POST':
+        #We need to do a copy of the form data from the request, because Forms are IMMUTABLE.
+        form_data = copy.copy(request.POST)
+        form_data['enterprise'] = enterprise.id
+        form = ProposalForm(data=form_data)
+        if form.is_valid():
+            print("É VÁLIDO")
+            form.save()
+            return render(request, 'slavaukraine/test_home.html');
+    return render(request, 'slavaukraine/test_registproposal.html', {'form': form});
+
+#Do not delete, It's a helper to Create proposals; Does the adaptative dropdown in the city.
+def load_cities(request):
+    country_id = request.GET.get('country_id')
+    print("VIEWS: load_cities RESULT:")
+    print(country_id)
+    cities = City.objects.filter(country_id=country_id)
+    #return render(request, 'proposals/city_dropdown_list_options.html', {'cities':cities})
+    #Way of get to know the info we are sending: print(list(cities.values('id','name')))
+    return render(request,'slavaukraine/city_dropdown_list_options.html',{'cities':cities})
+    #return JsonResponse(list(cities.values('id','name')), safe=False)
+
+###############     UPDATE VIEWS   ###############
+class ProposalUpdate(UpdateView):
+    model = Proposal
+    fields = ['title','expertiseNeeded','description']
+    template_name = 'slavaukraine/test_edituser.html'
+    success_url = '../../listed_proposals'
+
+class PersonUpdate(UpdateView):
+    model = Person
+    fields = ['email','first_name', 'last_name','tax_number','profile_image','gender','address','birth']
+    template_name = 'slavaukraine/test_edituser.html'
+    success_url = '../../home'
+
+class EnterpriseUpdate(UpdateView):
+    model = Person
+    fields = ['email','first_name','taxnumber','profile_image','address']
+    template_name = 'slavaukraine/test_editproposal.html'
+    success_url = '../../home'
+
+
+
+###############     DELETE VIEWS   ###############
+class ProposalDelete(DeleteView):
+    model = Proposal
+    template_name = 'slavaukraine/test_deleteproposal.html'
+    success_url = '../../listed_proposals'
+
+
+###############     LIST VIEWS     ###############
+
+#All proposals
+class ProposalList(ListView):
+    #  login_url = reverse_lazy('test_login')
+    model = Proposal
+    template_name = 'slavaukraine/test_listedproposals.html'
+    paginate_by = 10
 
 """
-def newproposal(request, person_id):
-    context={}
+    def get_queryset(self):
 
-    if request.POST:
-        if request.user.is_authenticated:
-            if request.POST.get('enterprise') and request.POST.get('city') and request.POST.get('description') and request.POST.get('expertiseNeeded'):
-                enterprise = get_object_or_404(Person, pk=person_id)
-                proposal = Proposal(enterprise=enterprise,city=city,expertiseNeeded=expertiseNeeded,description=description)
-                proposal.save()
-                return render(request, 'slavaukraine/home.html', context)
-            else:
-                return render(request, 'slavaukraine/register_test.html', context)
-    else:
-        cities = City.objects.all()
-        description = request.POST.get('description')
-        expertiseNeeded = request.POST.get('expertiseNeeded')
-        context = {
-            'city': city,
-            'description': description,
-            'expertiseNeeded': expertiseNeeded
-        }
-        return render(request, 'slavaukraine/register_test.html', context)
+        proposal_name_inserted = self.request.POST.get('nome_do_titulo')
+        enterprise_user = self.request.user
+        if proposal_name_inserted:
+            proposals = Proposal.objects.filter(enterprise_id=enterprise_user.id).filter(title__icontains=proposal_name_inserted)
+        else:
+            proposals = Proposal.objects.all().filter()
+        return proposals"""
 
-        cities = City.o
-"""
+#Proposals by enterprise
+class EnterpriseProposalList(ListView):
+    model = Proposal
+    template_name = 'slavaukraine/test_listedproposals.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        enterprise = self.request.user
+        queryset = Proposal.objects.filter(enterprise_id=enterprise.id)
+        return queryset
+
+#Proposals by user
+class PersonProposalList(ListView):
+    model = Proposal
+    template_name = 'slavaukraine/test_home.html'
+
+    def get_queryset(self):
+        queryset = super(PersonProposalList, self.get_queryset())
+        queryset = queryset.filter(user=self.request.user)
+        return queryset
+
+
 def logout_view(request):
     logout(request)
     return home_screen(request)
 
 def login_view(request):
-    context = {}
+    context={}
     user = request.user
     if user.is_authenticated:
         return home_screen(request)
@@ -162,17 +229,19 @@ def contacts(request):
     }
     return render(request, 'slavaukraine/contacts.html')
 
+
+
 # Area reservada
 def reserved(request):
     return render(request, 'slavaukraine/reserved.html')
 
 # pagina de mais informações sobre ser voluntário
 def volunteer(request):
-    return render(request, 'slavaukraine/volunteers.html')
+    return None
 
 # pagina de mais informações sobre empresa
 def enterprise(request):
-    return None
+
 
 #voluntario regista-se em propostas
 def register_proposal(request, proposal_id):
