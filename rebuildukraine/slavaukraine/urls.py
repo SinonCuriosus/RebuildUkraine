@@ -1,6 +1,7 @@
 from django.urls import include, path
 from . import views
-from .views import ProposalList, ProposalUpdate, EnterpriseUpdate, EnterpriseProposalList
+#from .views import ProposalList, ProposalUpdate, EnterpriseUpdate, EnterpriseProposalList
+from .views import ProposalUpdate, EnterpriseUpdate, EnterpriseProposalList, ProposalList, PersonUpdate, ProposalDelete
 
 app_name='slavaukraine'
 urlpatterns = [
@@ -15,9 +16,13 @@ urlpatterns = [
         path("ajax/load-cities/", views.load_cities, name="ajax_load_cities"),
 
     #Área de edição
-    path("editPerson/<int:pk>/", ProposalUpdate.as_view(), name='edit_person'),
+    path("editPerson/<int:pk>/", PersonUpdate.as_view(), name='edit_person'),
     path("editEnterprise/<int:pk>/", EnterpriseUpdate.as_view(), name='edit_enterprise'),
     path("editPerson/<int:pk>/", ProposalUpdate.as_view(), name='edit_person'),
+    path("editProposal/<int:pk>/", ProposalUpdate.as_view(), name='edit_proposal'),
+
+    #Área de delete
+    path("deleteProposal/<int:pk>/", ProposalDelete.as_view(), name='delete_proposal'),
 
 
     #Área de Listagens
