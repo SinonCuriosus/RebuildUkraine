@@ -10,23 +10,12 @@
 
         {% if user.is_enterprise %}
             <p>Hey! I am an ENTERPRISE with username: {{ user.username }}</p>
-            <p><a href="{% url 'slavaukraine:registproposal' %}">Regist proposal </a></p>
+            <p><a href="{% url 'slavaukraine:registproposal' %}">Registar proposta </a></p>
+            <br>
+            <p><a href="{% url 'slavaukraine:listed_enterpriseproposals' %}">As minhas propostas </a></p>
+            <br>
+            <p><a href="{% url 'slavaukraine:edit_enterprise' user.id %}" >Editar empresa </a></p>
 
-                <div style="text-align: center">{% if list_of_proposals %}
-                    <ul>
-                        {% for proposal in list_of_proposals %}
-                            <li>
-                                <a href="{% url 'slavaukraine:list_proposals' proposal.id %}">
-                                    {{ proposal.title }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
-                        <p>Nao ha questoes disponiveis.</p>
-                    {% endif %}
-                    <br><br>
-                </div>
 
         {% else %}
             <p>Hey! I am an PERSON with username: {{ user.username }}</p>

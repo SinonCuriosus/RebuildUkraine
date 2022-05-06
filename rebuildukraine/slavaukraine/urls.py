@@ -1,6 +1,6 @@
 from django.urls import include, path
 from . import views
-from .views import ProposalList, ProposalUpdate
+from .views import ProposalList, ProposalUpdate, EnterpriseUpdate, EnterpriseProposalList
 
 app_name='slavaukraine'
 urlpatterns = [
@@ -11,15 +11,19 @@ urlpatterns = [
     path("register_person",views.personRegistration_view, name="registerperson"),
     path("register_enterprise", views.enterpriseRegistration_view, name="registerenterprise"),
     path("regist_proposal/", views.proposal_create_view, name="registproposal"),
-    #O PATH em baixo é um auxiliar do regist_proposal, na dropdown dinâmica;
-    path("ajax/load-cities/", views.load_cities, name="ajax_load_cities"),
+        #O PATH em baixo é um auxiliar do regist_proposal, na dropdown dinâmica;
+        path("ajax/load-cities/", views.load_cities, name="ajax_load_cities"),
 
     #Área de edição
-    path("proposal/<int:pk>/", ProposalUpdate.as_view(), name='edit_proposal'),
+    path("editPerson/<int:pk>/", ProposalUpdate.as_view(), name='edit_person'),
+    path("editEnterprise/<int:pk>/", EnterpriseUpdate.as_view(), name='edit_enterprise'),
+    path("editPerson/<int:pk>/", ProposalUpdate.as_view(), name='edit_person'),
+
 
     #Área de Listagens
     # http://127.0.0.1:8000/slavaukraine/listed_proposals
-    path("listed_proposals", ProposalList.as_view(), name='listed_proposals'),
+    path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='listed_enterpriseproposals'),
+    path("listed_proposals/<int:pk>/", ProposalList.as_view(), name='listed_proposals'),
     #EM FALTA: Favoritos do User, Inscrições do User, Inscrições na Proposta X da Empresa Y
 
 

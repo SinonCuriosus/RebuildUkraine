@@ -25,8 +25,8 @@ não exceder a largura do ecrã-->
             <td>{{ object.title }}</td>
             <td>{{ object.expertiseNeeded }}</td>
             <td>
-                <a href="{% url 'slavaukraine:edit_proposal' object.pk %}" title="">Editar</a>
-                <a href="{% url 'slavaukraine:edit_proposal' object.pk %}" title="Excluir">Excluir</a>
+                <a href="{% url 'slavaukraine:edit_enterprise' object.pk %}" title="">Editar</a>
+                <a href="{% url 'slavaukraine:edit_enterprise' object.pk %}" title="Excluir">Excluir</a>
             </td>
         </tr>
         {% empty %}

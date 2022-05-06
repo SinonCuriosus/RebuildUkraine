@@ -44,12 +44,8 @@ def home_screen(request):
         #'is_authenticated': is_authenticated
     }
     return render(request, 'slavaukraine/test_home.html', context);
-"""
-def login_view(request):
-    context={}
-    if request.POST:
-        return 0
-    return render(request, 'slavaukraine/login.html')"""
+
+###############     REGIST VIEWS   ###############
 
 def personRegistration_view(request):
     context={}
@@ -90,13 +86,6 @@ def enterpriseRegistration_view(request):
         context['enterpriseregistration_form'] = form
     return render(request, 'slavaukraine/test_registerenterprise.html', context)
 
-def listProposals_view(request):
-
-    if request.user.is_authenticated:
-        list_of_proposals = Proposal.objects.filter(enterprise_id=request.user.id)
-        return render(request, 'slavaukraine/test_home.html',{'list_of_proposals':list_of_proposals});
-    return render(request, 'slavaukraine/test_home.html')
-
 def proposal_create_view(request):
     enterprise = get_object_or_404(Person, pk=request.user.pk)
     form = ProposalForm(initial={'enterprise': enterprise})
@@ -112,7 +101,7 @@ def proposal_create_view(request):
             return render(request, 'slavaukraine/test_home.html');
     return render(request, 'slavaukraine/test_registproposal.html', {'form': form});
 
-
+#Do not delete, It's a helper to Create proposals; Does the adaptative dropdown in the city.
 def load_cities(request):
     country_id = request.GET.get('country_id')
     print("VIEWS: load_cities RESULT:")
@@ -122,19 +111,71 @@ def load_cities(request):
     #Way of get to know the info we are sending: print(list(cities.values('id','name')))
     return render(request,'slavaukraine/city_dropdown_list_options.html',{'cities':cities})
     #return JsonResponse(list(cities.values('id','name')), safe=False)
+
+###############     UPDATE VIEWS   ###############
+class ProposalUpdate(UpdateView):
+    model = Proposal
+    fields = ['city', 'expertiseNeeded','title','description']
+    template_name = 'slavaukraine/test_edituser.html'
+    success_url = '../../listed_proposals'
+
+class PersonUpdate(UpdateView):
+    model = Person
+    fields = ['email','first_name', 'last_name','profile_image','gender','address','birth']
+    template_name = 'slavaukraine/test_edituser.html'
+    success_url = '../../home'
+
+class EnterpriseUpdate(UpdateView):
+    model = Person
+    fields = ['email','first_name','taxnumber','profile_image','address']
+    template_name = 'slavaukraine/test_editproposal.html'
+    success_url = '../../home'
+
+
+
+###############     DELETE VIEWS   ###############
+
+
+
+###############     LIST VIEWS     ###############
+
+#All proposals
+class ProposalList(ListView):
+    #  login_url = reverse_lazy('test_login')
+    model = Proposal
+    template_name = 'slavaukraine/test_listedproposals.html'
+    #paginate_by = 10
+
 """
-def registProposal(request):
-    expertises = Expertise.objects.all();
-    if request.POST and request.user.is_enterprise:
-        enterprise = request.user;
-        city = request.POST.get('city')
-        expertise = request.POST.get('expertise')
-        description = request.POST.get('description')
-        proposal = Proposal(enterprise=enterprise,city=city,expertiseNeeded=expertise,description=description)
-        proposal.save()
-        return render(request, 'slavaukraine/test_home.html')
-    else:
-        return render(request, 'slavaukraine/test_registproposal.html')"""
+    def get_queryset(self):
+
+        proposal_name_inserted = self.request.POST.get('nome_do_titulo')
+        enterprise_user = self.request.user
+        if proposal_name_inserted:
+            proposals = Proposal.objects.filter(enterprise_id=enterprise_user.id).filter(title__icontains=proposal_name_inserted)
+        else:
+            proposals = Proposal.objects.all().filter()
+        return proposals"""
+
+#Proposals by enterprise
+class EnterpriseProposalList(ListView):
+    model = Proposal
+    template_name = 'slavaukraine/test_listedproposals.html'
+
+    def get_queryset(self):
+        enterprise = self.request.user
+        queryset = Proposal.objects.filter(enterprise_id=enterprise.id)
+        return queryset
+
+#Proposals by user
+class PersonProposalList(ListView):
+    model = Proposal
+    template_name = 'slavaukraine/test_home.html'
+
+    def get_queryset(self):
+        queryset = super(PersonProposalList, self.get_queryset())
+        queryset = queryset.filter(user=self.request.user)
+        return queryset
 
 
 def logout_view(request):
@@ -200,36 +241,3 @@ def volunteer(request):
 def enterprise(request):
     return None
 
-###############     UPDATE VIEWS   ###############
-class ProposalUpdate(UpdateView):
-    model = Proposal
-    fields = ['city', 'expertiseNeeded','title','description']
-    template_name = 'slavaukraine/edit_proposal.html'
-    success_url = '../../listed_proposals'
-
-###############     LIST VIEWS     ###############
-class ProposalList(ListView):
-    #  login_url = reverse_lazy('test_login')
-    model = Proposal
-    template_name = 'slavaukraine/listed_proposals.html'
-    #paginate_by = 10
-
-"""
-    def get_queryset(self):
-
-        proposal_name_inserted = self.request.POST.get('nome_do_titulo')
-        enterprise_user = self.request.user
-        if proposal_name_inserted:
-            proposals = Proposal.objects.filter(enterprise_id=enterprise_user.id).filter(title__icontains=proposal_name_inserted)
-        else:
-            proposals = Proposal.objects.all().filter()
-        return proposals"""
-
-class EnterpriseProposalList(ListView):
-    model = Proposal
-    template_name = 'slavaukraine/listed_proposals.html'
-
-    def get_queryset(self):
-        queryset = super(EnterpriseProposalList,self.get_queryset())
-        queryset = queryset.filter(user = self.request.user)
-        return queryset
