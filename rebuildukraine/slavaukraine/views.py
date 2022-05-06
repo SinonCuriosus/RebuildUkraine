@@ -1,8 +1,8 @@
 import copy
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-from django.urls import reverse_lazy
+from django.urls import reverse,reverse_lazy
 from django.views.generic import UpdateView, ListView, DeleteView
 
 from . import forms
@@ -116,19 +116,21 @@ class ProposalUpdate(UpdateView):
     model = Proposal
     fields = ['title','expertiseNeeded','description']
     template_name = 'slavaukraine/test_edituser.html'
-    success_url = '../../listed_proposals'
+    success_url = reverse_lazy('slavaukraine:home')
+
+
 
 class PersonUpdate(UpdateView):
     model = Person
-    fields = ['email','first_name', 'last_name','tax_number','profile_image','gender','address','birth']
+    fields = ['email','first_name', 'last_name','taxnumber','profile_image','gender','address','birth']
     template_name = 'slavaukraine/test_edituser.html'
-    success_url = '../../home'
+    success_url = reverse_lazy('slavaukraine:home')
 
 class EnterpriseUpdate(UpdateView):
     model = Person
     fields = ['email','first_name','taxnumber','profile_image','address']
     template_name = 'slavaukraine/test_editproposal.html'
-    success_url = '../../home'
+    success_url = reverse_lazy('slavaukraine:home')
 
 
 
@@ -136,7 +138,7 @@ class EnterpriseUpdate(UpdateView):
 class ProposalDelete(DeleteView):
     model = Proposal
     template_name = 'slavaukraine/test_deleteproposal.html'
-    success_url = '../../listed_proposals'
+    success_url = reverse_lazy('slavaukraine:home')
 
 
 ###############     LIST VIEWS     ###############

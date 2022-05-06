@@ -19,6 +19,8 @@
 
         {% else %}
             <p>Hey! I am an PERSON with username: {{ user.username }}</p>
+            <br>
+            <p><a href="{% url 'slavaukraine:edit_person' user.id %}" >Editar os meus dados </a></p>
         {% endif %}
         <p><a href="{% url 'slavaukraine:logout' %}">Logout </a></p>
 

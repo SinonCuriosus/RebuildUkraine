@@ -17,7 +17,7 @@ class PersonRegistrationForm(UserCreationForm):
 
     class Meta:
         model = Person
-        fields= ("email","username","first_name","last_name","birth","taxnumber", "profile_image", "gender","birth", "address","password1","password2","is_person","is_enterprise")
+        fields= ("email","username","first_name","last_name","taxnumber","birth","taxnumber", "profile_image", "gender","birth", "address","password1","password2","is_person","is_enterprise")
         widgets= {'birth': forms.DateInput(
             format=('%Y-%m-%d'),
             attrs={'class': 'form-control',
