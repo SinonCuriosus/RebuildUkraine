@@ -241,3 +241,36 @@ def volunteer(request):
 def enterprise(request):
     return None
 
+###############     UPDATE VIEWS   ###############
+class ProposalUpdate(UpdateView):
+    model = Proposal
+    fields = ['city', 'expertiseNeeded','title','description']
+    template_name = 'slavaukraine/edit_proposal.html'
+    success_url = '../../listed_proposals'
+
+###############     LIST VIEWS     ###############
+class ProposalList(ListView):
+    #  login_url = reverse_lazy('test_login')
+    model = Proposal
+    template_name = 'slavaukraine/listed_proposals.html'
+    #paginate_by = 10
+
+"""
+    def get_queryset(self):
+
+        proposal_name_inserted = self.request.POST.get('nome_do_titulo')
+        enterprise_user = self.request.user
+        if proposal_name_inserted:
+            proposals = Proposal.objects.filter(enterprise_id=enterprise_user.id).filter(title__icontains=proposal_name_inserted)
+        else:
+            proposals = Proposal.objects.all().filter()
+        return proposals"""
+
+class EnterpriseProposalList(ListView):
+    model = Proposal
+    template_name = 'slavaukraine/listed_proposals.html'
+
+    def get_queryset(self):
+        queryset = super(EnterpriseProposalList,self.get_queryset())
+        queryset = queryset.filter(user = self.request.user)
+        return queryset
