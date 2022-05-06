@@ -7,7 +7,7 @@ from .models import Person
 #from .models import Enterprise
 
 class PersonRegistrationForm(UserCreationForm):
-    email = forms.EmailField(max_length=60, help_text="Required. Add a valid email address.")
+    email = forms.EmailField(max_length=60)
     is_person = forms.BooleanField(initial=False,widget=forms.HiddenInput(), required=True,label="")
     is_enterprise = forms.BooleanField(initial=False, widget=forms.HiddenInput(), required=False,label="")
 
@@ -61,5 +61,3 @@ class EnterpriseAuthenticationForm(forms.ModelForm):
 
             if not authenticate(email=email, password=password):
                 raise forms.ValidationError("Invalid credentials.");
-
-

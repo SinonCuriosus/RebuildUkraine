@@ -32,5 +32,16 @@ urlpatterns = [
     #http://127.0.0.1:8000/slavaukraine/contacts
     path("contacts",views.contacts, name="contacts"),
 
-path("submitcontact",views.submitContact, name="submitcontact"),
+    path("submitcontact",views.submitContact, name="submitcontact"),
+
+    path("reserved/view_my_messages", views.viewMessages, name="view_my_messages"),
+
+    path("reserved/create_new_message",views.newMessage, name="create_new_message"),
+
+    ##
+    ## Adicionar o id da messagem
+    ##
+
+    path("reply_message",views.newMessage, name="reply_message"),
+
 ]

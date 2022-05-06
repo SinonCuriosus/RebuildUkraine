@@ -1,25 +1,12 @@
-import smtplib
-
+import utils
 from django.core.mail import send_mail
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 
-from . import forms
 from .forms import PersonRegistrationForm, PersonAuthenticationForm, EnterpriseRegistrationForm
-from django.http import HttpResponse
 
-from .models import Person
-from .models import Country
-from .models import City
-from .models import Expertise
-from .models import Specialization
-from .models import Proposal
-from .models import Favorites
-from .models import Registration
-
-# Create your views here.
-from django.conf import settings
-
+from .models import Person, TopicMessage
 
 def home_screen(request):
 
@@ -56,6 +43,7 @@ def login_view(request):
 def personRegistration_view(request):
     context={}
     if request.POST:
+        print("fez pedido post")
         form = PersonRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
@@ -168,7 +156,6 @@ def contacts(request):
     return render(request, 'slavaukraine/contacts.html')
 
 def submitContact(request):
-    #smtplib.SMTP_SSL("smtp.sapo.pt", 587,"slavaukraine@sapo.pt", timeout=120 )
     subjet = "From:" + request.POST.get('name')
     email = request.POST.get('email')
     text = request.POST.get('message')
@@ -191,3 +178,43 @@ def volunteer(request):
 # pagina de mais informações sobre empresa
 def enterprise(request):
     return render(request, 'slavaukraine/enterprise.html')
+
+
+# view para listar todas as mensagens
+
+def viewMessages(request):
+    if True: #getUser(request):
+        list = TopicMessage.objects.filter(Q(sender=request.user) | Q(receiver=request.user)).order_by('-date')
+        context = {
+            'list' : list
+        }
+        return render(request, 'slavaukraine/viewMessages_test.html', context)
+    else:
+        return home_screen(request)  # vai para a home
+
+
+# view da nova msg entre user
+def newMessage(request, recipient):
+    if request.POST:
+        if utils.getUser(request):
+            topic = utils.saveMessage(request, recipient) # cria o titulo ou topico da mensagem
+            utils.saveReply(request, topic, recipient) #cria a mensagem ou resposta
+            utils.send_newMessage(request,recipient) # envia email para o user
+            # return para a view dos emails
+        else:
+            return home_screen(request) # vai para a home
+    else:
+        return None # retornar a pagina
+
+
+# view da reposta as mensagens
+def replyMessage(request,recipient, topic):
+    if request.POST:
+        if utils.getUser(request):
+            utils.saveReply(request, topic, recipient) #cria a mensagem ou resposta
+            utils.send_replyMessage(request,recipient) # envia email para o user
+            # return para a view dos emails
+        else:
+            return home_screen(request) # vai para a home
+    else:
+        return None # retornar a pagina
