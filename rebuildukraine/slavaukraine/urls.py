@@ -30,8 +30,8 @@ urlpatterns = [
     path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='listed_enterpriseproposals'),
     path("listed_proposals/<int:pk>/", ProposalList.as_view(), name='listed_proposals'),
     #EM FALTA: Favoritos do User, Inscrições do User, Inscrições na Proposta X da Empresa Y
-
-
+    path("Registration_Volunteer_List", views.registration_volunteer_list, name="Registration_Volunteer_List"),
+    path("Favorites_Volunteer_List", views.favorites_volunteer_list, name="Favorites_Volunteer_List"),
 
     #http://127.0.0.1:8000/slavaukraine/login
     path("login/",views.login_view, name="login"),
@@ -54,12 +54,10 @@ urlpatterns = [
     #http://127.0.0.1:8000/slavaukraine/contacts
     path("contacts",views.contacts, name="contacts"),
 
-    #http://127.0.0.1:8000/slavaukraine/Porposal_List
-    path("test_Porposal_List",views.proposal_view, name="test_Porposal_List"),
-    
     #teste
     path('<int:proposal_id>', views.porposal_detail, name="test_Porposal"),
     
     path('<int:proposal_id>/register_porposal', views.register_proposal, name="register_porposal"),
+    path('<int:proposal_id>/favorite_porposal', views.favorite_proposal, name="favorite_porposal"),
     
 ]

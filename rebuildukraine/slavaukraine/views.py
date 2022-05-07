@@ -33,7 +33,7 @@ def home_screen(request):
                     # 'is_authenticated': is_authenticated
                     'list_of_proposals': list_of_proposals
                 }
-                return render(request, 'slavaukraine/test_home.html');
+                return render(request, 'slavaukraine/home.html');
     else:
         name_user = "anonymous"
     context = {
@@ -42,7 +42,7 @@ def home_screen(request):
         #'role_user': role_user,
         #'is_authenticated': is_authenticated
     }
-    return render(request, 'slavaukraine/test_home.html', context);
+    return render(request, 'slavaukraine/home.html', context);
 
 ###############     REGIST VIEWS   ###############
 
@@ -241,7 +241,7 @@ def volunteer(request):
 
 # pagina de mais informações sobre empresa
 def enterprise(request):
-
+    return None
 
 #voluntario regista-se em propostas
 def register_proposal(request, proposal_id):
@@ -289,10 +289,16 @@ def edit_volunteer_page(request):
     return None
 
 
-def proposal_view(request):
+def registration_volunteer_list(request):
     context = {}
-    context["dataset"] = Proposal.objects.all()
-    return render(request, 'slavaukraine/test_Porposal_List.html', context)
+    context["dataset"] = Proposal.objects.filter(registration__person__username=request.user)
+    return render(request, 'slavaukraine/test_Registration_Volunteer_List.html', context)
+
+
+def favorites_volunteer_list(request):
+    context = {}
+    context["dataset"] = Favorites.objects.filter(favorites__person__username=request.user)
+    return render(request, 'slavaukraine/test_Favorites_Volunteer_List.html', context)
 
 #Só para teste
 def porposal_detail(request, proposal_id):
