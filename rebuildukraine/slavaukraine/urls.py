@@ -17,7 +17,7 @@ urlpatterns = [
     #Área de edição
     path("editPerson/<int:pk>/", ProposalUpdate.as_view(), name='edit_person'),
     path("editEnterprise/<int:pk>/", EnterpriseUpdate.as_view(), name='edit_enterprise'),
-    path("editPerson/<int:pk>/", ProposalUpdate.as_view(), name='edit_person'),
+    path("editProposal/<int:pk>/", ProposalUpdate.as_view(), name='edit_proposal'),
 
 
     #Área de Listagens
@@ -26,6 +26,7 @@ urlpatterns = [
     path("listed_proposals/<int:pk>/", ProposalList.as_view(), name='listed_proposals'),
     #EM FALTA: Favoritos do User, Inscrições do User, Inscrições na Proposta X da Empresa Y
 
+    #Área de remoção
 
 
     #http://127.0.0.1:8000/slavaukraine/login

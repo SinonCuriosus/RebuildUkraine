@@ -60,7 +60,7 @@ class Person(AbstractBaseUser):
     email                       =models.EmailField(verbose_name="email", max_length=60, unique=True)
     username                    =models.CharField(max_length=30, unique=True)
     profile_image               =models.ImageField(null=True,blank=True)
-    taxnumber                   =models.IntegerField( unique=True, max_length=10, validators=[RegexValidator(r'^\d{1,10}$')])
+    taxnumber                   =models.CharField( unique=True, max_length=10, validators=[RegexValidator(r'^\d{1,10}$')])
     date_joined                 =models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login                  =models.DateTimeField(verbose_name='last login', auto_now=True)
     is_admin                    =models.BooleanField(default=False)

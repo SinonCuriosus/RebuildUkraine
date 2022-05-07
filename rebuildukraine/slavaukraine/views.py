@@ -117,19 +117,19 @@ class ProposalUpdate(UpdateView):
     model = Proposal
     fields = ['city', 'expertiseNeeded','title','description']
     template_name = 'slavaukraine/test_edituser.html'
-    success_url = '../../listed_proposals'
+    success_url = reverse_lazy('slavaukraine:listed_proposals')
 
 class PersonUpdate(UpdateView):
     model = Person
     fields = ['email','first_name', 'last_name','profile_image','gender','address','birth']
     template_name = 'slavaukraine/test_edituser.html'
-    success_url = '../../home'
+    success_url = reverse_lazy('slavaukraine:home')
 
 class EnterpriseUpdate(UpdateView):
     model = Person
     fields = ['email','first_name','taxnumber','profile_image','address']
     template_name = 'slavaukraine/test_editproposal.html'
-    success_url = '../../home'
+    success_url = reverse_lazy('slavaukraine:home')
 
 
 
@@ -241,37 +241,4 @@ def volunteer(request):
 def enterprise(request):
     return None
 
-
-###############     UPDATE VIEWS   ###############
-class ProposalUpdate(UpdateView):
-    model = Proposal
-    fields = ['city', 'expertiseNeeded','title','description']
-    template_name = 'slavaukraine/edit_proposal.html'
-    success_url = '../../listed_proposals'
-
-###############     LIST VIEWS     ###############
-class ProposalList(ListView):
-    #  login_url = reverse_lazy('test_login')
-    model = Proposal
-    template_name = 'slavaukraine/listed_proposals.html'
-    #paginate_by = 10
-
-    def get_queryset(self):
-
-        proposal_name_inserted = self.request.POST.get('nome_do_titulo')
-        enterprise_user = self.request.user
-        if proposal_name_inserted:
-            proposals = Proposal.objects.filter(enterprise_id=enterprise_user.id).filter(title__icontains=proposal_name_inserted)
-        else:
-            proposals = Proposal.objects.all().filter()
-        return proposals
-
-class EnterpriseProposalList(ListView):
-    model = Proposal
-    template_name = 'slavaukraine/listed_proposals.html'
-
-    def get_queryset(self):
-        queryset = super(EnterpriseProposalList,self.get_queryset())
-        queryset = queryset.filter(user = self.request.user)
-        return queryset
 
