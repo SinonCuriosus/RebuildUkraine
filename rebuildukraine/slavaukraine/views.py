@@ -3,8 +3,8 @@ import copy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from . import forms
 from .forms import PersonRegistrationForm, PersonAuthenticationForm, EnterpriseRegistrationForm, ProposalForm
 from django.http import HttpResponse, JsonResponse
@@ -117,7 +117,11 @@ class ProposalUpdate(UpdateView):
     model = Proposal
     fields = ['city', 'expertiseNeeded','title','description']
     template_name = 'slavaukraine/test_edituser.html'
-    success_url = reverse_lazy('slavaukraine:listed_proposals')
+
+    def get_success_url(self):
+        pk = self.kwargs["pk"]
+        return reverse('slavaukraine:listed_enterpriseproposals', kwargs={"pk": pk})
+
 
 class PersonUpdate(UpdateView):
     model = Person
@@ -134,14 +138,14 @@ class EnterpriseUpdate(UpdateView):
 
 
 ###############     DELETE VIEWS   ###############
-
+class ProposalDelete(DeleteView):
+    model = Proposal
 
 
 ###############     LIST VIEWS     ###############
 
 #All proposals
 class ProposalList(ListView):
-    #  login_url = reverse_lazy('test_login')
     model = Proposal
     template_name = 'slavaukraine/test_listedproposals.html'
     #paginate_by = 10

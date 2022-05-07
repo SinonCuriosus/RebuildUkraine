@@ -16,30 +16,12 @@
             <br>
             <p><a href="{% url 'slavaukraine:edit_enterprise' user.id %}" >Editar empresa </a></p>
 
-                <div style="text-align: center">{% if list_of_proposals %}
-                    <ul>
-                        {% for proposal in list_of_proposals %}
-                            <li>
-                                <a href="{% url 'slavaukraine:list_proposals' proposal.id %}">
-                                    {{ proposal.title }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
-                        <p>Nao ha questoes disponiveis.</p>
-                    {% endif %}
-                    <br><br>
-                </div>
-
         {% else %}
             <p>Hey! I am an PERSON with username: {{ user.username }}</p>
             <br>
             <p><a href="{% url 'slavaukraine:edit_person' user.id %}" >Editar os meus dados </a></p>
         {% endif %}
         <p><a href="{% url 'slavaukraine:logout' %}">Logout </a></p>
-
-
     {% else %}
 
         <p>NOT LOGGED</p>
