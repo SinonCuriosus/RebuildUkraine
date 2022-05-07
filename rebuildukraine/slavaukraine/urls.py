@@ -1,6 +1,6 @@
 from django.urls import include, path
 from . import views
-from .views import ProposalList, ProposalUpdate
+from .views import ProposalList, ProposalUpdate, EnterpriseProposalList, EnterpriseUpdate
 
 app_name='slavaukraine'
 urlpatterns = [
