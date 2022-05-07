@@ -1,6 +1,8 @@
 from django.urls import include, path
+from django.views.generic import DeleteView
+
 from . import views
-from .views import ProposalList, ProposalUpdate, EnterpriseProposalList, EnterpriseUpdate
+from .views import ProposalList, ProposalUpdate, EnterpriseProposalList, EnterpriseUpdate, ProposalDelete
 
 app_name='slavaukraine'
 urlpatterns = [
@@ -19,6 +21,8 @@ urlpatterns = [
     path("editEnterprise/<int:pk>/", EnterpriseUpdate.as_view(), name='edit_enterprise'),
     path("editProposal/<int:pk>/", ProposalUpdate.as_view(), name='edit_proposal'),
 
+    #Área para apagar instâncias
+    path("deleteProposal/<int:pk>/", ProposalDelete.as_view(), name='delete_proposal'),
 
     #Área de Listagens
     # http://127.0.0.1:8000/slavaukraine/listed_proposals
@@ -40,13 +44,22 @@ urlpatterns = [
 
     #http://127.0.0.1:8000/slavaukraine/volunteer
     path("volunteer",views.volunteer, name="volunteer"),
+    
+    #http://127.0.0.1:8000/slavaukraine/volunteer/edit_volunteer_page
+    path("volunteer/edit_volunteer_page",views.edit_volunteer_page, name="edit_volunteer_page"),
 
     #http://127.0.0.1:8000/slavaukraine/enterprise
-    path("enterprise",views.enterprise, name="enterprise"),
+#    path("enterprise",views.enterprise, name="enterprise"),
 
     #http://127.0.0.1:8000/slavaukraine/contacts
     path("contacts",views.contacts, name="contacts"),
 
-
-
+    #http://127.0.0.1:8000/slavaukraine/Porposal_List
+    path("test_Porposal_List",views.proposal_view, name="test_Porposal_List"),
+    
+    #teste
+    path('<int:proposal_id>', views.porposal_detail, name="test_Porposal"),
+    
+    path('<int:proposal_id>/register_porposal', views.register_proposal, name="register_porposal"),
+    
 ]

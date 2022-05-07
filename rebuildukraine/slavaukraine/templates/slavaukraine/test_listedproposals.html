@@ -3,14 +3,10 @@
 <hr>
 <form action = "?" method="POST">
     <input type="text" name="nome_do_titulo" id="" value="request.POST.nome_do_titulo" autocomplete="off" placeholder="Insira o Título">
-
     <button type="submit">Pesquisar</button>
-
     <a href = "">Limpar</a>
 </form>
 <hr>
-<!-- Pôr a div responsive no bootstrap que é para o preenchiment das colunas
-não exceder a largura do ecrã-->
 <div class="table-responsive">
     <table>
         <tr>
@@ -27,7 +23,7 @@ não exceder a largura do ecrã-->
             <td>
                 <a href="" title="Excluir">Ver inscrições</a>
                 <a href="{% url 'slavaukraine:edit_proposal' object.pk %}" title="">Editar</a>
-                <a href="" title="Excluir">Apagar</a>
+                <a href="{% url 'slavaukraine:delete_proposal' object.pk %}" title="Excluir">Apagar</a>
             </td>
 
         </tr>
