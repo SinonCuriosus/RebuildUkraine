@@ -1,0 +1,46 @@
+{% extends "slavaukraine/template.html" %}
+{% load static %}
+{% block main %}
+        <div>
+        <section class="position-relative py-4 py-xl-5">
+            <div class="mb-5">
+                    <div class="col-md-8 col-xl-6 text-center mx-auto">
+                        <p class="w-lg-50"></p>
+                    </div>
+                </div>
+            <div class="container position-relative contacts-page-card">
+                <div class="row mb-5 contacts-margin-title">
+                    <div class="col-md-8 col-xl-6 text-center mx-auto">
+                        <br>
+                        <h2>Contactos</h2>
+                        <p class="w-lg-50 contacts-subtext">Utilize os nosso canais de contacto ou utilize o nosso formulário de pedido de contactos</p>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center">
+
+                    <div class="col-md-12 col-lg-12 col-xl-12">
+                        <div>
+                            <form class="p-3 p-xl-4" method="post" action="{% url 'slavaukraine:create_new_message' recipient %}">
+                                {% csrf_token %}
+                                <div class="mb-3"><input class="form-control" type="text" id="sender" name="sender" placeholder="{{ request.user.first_name }}"></div>
+                                <div class="mb-3"><input class="form-control" type="text" id="receiver" name="receiver" placeholder="{{ to_name.first_name }}"></div>
+                                <div class="mb-3"><input class="form-control" type="text" id="subjet" name="subjet" placeholder="Texto"></div>
+                                <div class="mb-3"><textarea class="form-control" id="message" name="message" rows="6" placeholder="Message"></textarea></div>
+                                <div><button class="btn btn-primary d-block w-100" type="submit">Enviar</button></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-5">
+                    <div class="col-md-8 col-xl-6 text-center mx-auto">
+                        <p class="w-lg-50"></p>
+                    </div>
+                </div>
+
+
+
+
+        </section>
+    </div>
+{% endblock %}
