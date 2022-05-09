@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db.models import Model
@@ -59,7 +60,7 @@ class Person(AbstractBaseUser):
     email                       =models.EmailField(verbose_name="email", max_length=60, unique=True)
     username                    =models.CharField(max_length=30, unique=True)
     profile_image               =models.ImageField(null=True,blank=True)
-    taxnumber = models.CharField(max_length=9, unique=True)
+    taxnumber                   =models.CharField( unique=True, max_length=10, validators=[RegexValidator(r'^\d{1,10}$')])
     date_joined                 =models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login                  =models.DateTimeField(verbose_name='last login', auto_now=True)
     is_admin                    =models.BooleanField(default=False)
@@ -73,7 +74,6 @@ class Person(AbstractBaseUser):
     gender                      = models.CharField(max_length=10,choices=GENDER,null=True, blank=True)
     address                     = models.CharField(max_length=150,null=True, blank=True)
     birth                       = models.DateField(null=True, blank=True)
-
 #Se quisermos o login com o username invés do e-mail é substituir aqui
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', ]
@@ -88,6 +88,8 @@ class Person(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+
+
 
     def setEnterprise(self):
         self.is_enterprise=True;
@@ -107,11 +109,11 @@ class Person(AbstractBaseUser):
 #para acrescentar países, criamos um método para adicionar campos e retiramos o tuplo;
 
 class Country(models.Model):
-    UKRAINI='Ucrânia'
+    """UKRAINI='Ucrânia'
     COUNTRIES = [
         (UKRAINI,'Ucrânia'),
-    ]
-    name                     =models.CharField(max_length=25,choices=COUNTRIES)
+    ]"""
+    name                     =models.CharField(max_length=25)#,choices=COUNTRIES
 
     def __str__(self):
         return self.name
@@ -123,16 +125,16 @@ class Country(models.Model):
 
 
 class City(models.Model):
-    KIEV='Kiev'
+    """KIEV='Kiev'
     KHARKIV='Kharkiv'
     MARIUPOL='Mariupol'
     CITIES = [
         (KIEV,'Kiev'),
         (KHARKIV,'Kharkiv'),
         (MARIUPOL,'Mariupol'),
-    ]
+    ]"""
     country                     =models.ForeignKey(Country, on_delete=models.CASCADE)
-    name                        =models.CharField(max_length=25,choices=CITIES)
+    name                        =models.CharField(max_length=25)#choices=CITIES
 
     def __str__(self):
         return self.name
@@ -157,7 +159,7 @@ class Specialization(models.Model):
     person                      = models.ForeignKey(Person,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.pk
+        return self.person.username
 
     class Meta:
         verbose_name= "Voluntário especialista"
@@ -165,14 +167,31 @@ class Specialization(models.Model):
 
 #Rever se acham que vale a pena só a cidade
 class Proposal(models.Model):
-    enterprise                  =models.ForeignKey(Person,on_delete=models.CASCADE)
-    city                        =models.ForeignKey(City, on_delete=models.CASCADE)
-    expertiseNeeded             =models.ForeignKey(Expertise,on_delete=models.CASCADE)
+    enterprise                  =models.ForeignKey(Person, on_delete=models.CASCADE)
+    country                     =models.ForeignKey(Country, on_delete=models.CASCADE, blank=True, null=True)
+    city                        =models.ForeignKey(City, on_delete=models.CASCADE, blank=True, null=True)
+    expertiseNeeded             =models.ForeignKey(Expertise,on_delete=models.CASCADE, blank=True, null=True)
+    title                       =models.CharField(max_length=50)
     description                 =models.CharField(max_length=150)
 
     def __str__(self):
-        return self.pk
+        return self.enterprise.username
+    
+    def register(self, user):
+        registration = Registration.objects.create(person=user, proposal=self)
+        return "Empresa: "+self.enterprise.username+" | Título: "+self.title
 
+    def unregister(self, user):
+        registration = Registration.objects.get(person=user, proposal=self)
+        registration.delete()
+        
+    def subscribe(self, user):
+        registration = Favorites.objects.create(person=user, proposal=self)
+
+    def unsubscribe(self, user):
+        registration = Favorites.objects.get(person=user, proposal=self)
+        registration.delete()
+        
     class Meta:
         verbose_name= "Proposta de voluntariado"
         verbose_name_plural= "Propostas de voluntariado"
@@ -182,7 +201,7 @@ class Favorites(models.Model):
     proposal                    = models.ForeignKey(Proposal,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.pk
+        return self.person.username
 
     class Meta:
         verbose_name= "Favorito"
@@ -193,7 +212,7 @@ class Registration(models.Model):
     proposal                    =models.ForeignKey(Proposal,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.pk
+        return self.person.username
 
     class Meta:
         verbose_name= "Registo em voluntariado"

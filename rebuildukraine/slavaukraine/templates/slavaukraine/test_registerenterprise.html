@@ -1,0 +1,25 @@
+{% block content %}
+
+<h2>Register</h2>
+<form action="{% url 'slavaukraine:registerenterprise' %}" method="post">
+    {% csrf_token %}
+
+    user = request.user;
+    {% for field in enterpriseregistration_form %}
+        <p>
+            {{ field.label_tag }}
+            {{ field }}
+
+            {% if field.help_text %}
+                <small style="color: grey;">{{field.help_text}}</small>
+            {% endif %}
+
+        {% for error in field.errors %}
+            <small style="color: red;">{{error}}</small>
+        {% endfor %}
+        </p>
+    {% endfor %}
+    <button type="submit">Register</button>
+</form>
+
+{% endblock content %}

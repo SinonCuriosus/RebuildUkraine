@@ -1,49 +1,55 @@
-import utils
-from django.core.mail import send_mail
-from django.db.models import Q
+import copy
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from . import forms
+from .forms import PersonRegistrationForm, PersonAuthenticationForm, EnterpriseRegistrationForm, ProposalForm
+from django.http import HttpResponse, JsonResponse
 
-from .forms import PersonRegistrationForm, PersonAuthenticationForm, EnterpriseRegistrationForm
+from .models import Person
+from .models import Country
+from .models import City
+from .models import Expertise
+from .models import Specialization
+from .models import Proposal
+from .models import Favorites
+from .models import Registration
 
-from .models import Person, TopicMessage
+# Create your views here.
 
 def home_screen(request):
 
     if request.user.is_authenticated & request.user.is_active:
-
-        #name_user = request.user.first_name + " " + request.user.last_name
         name_user=request.user.username
-#OS ATRIBUTOS DE BAIXO CONSEGUIMOS OBTER USANDO:
-    # user.is_authenticated
-    # user.is_person ou user.is_enterprise
-        #print(name_user)
-        #is_authenticated = 1
-        #Não precisamos do role_user;
-        #role_user = request.user.is_person
+        if request.user.is_enterprise:
+                list_of_proposals = Proposal.objects.filter(enterprise__email=request.user.email)
+                context = {
+                    # 'title': 'Building Ukraine - Homepage ',
+                    'name_user': name_user,
+                    # 'role_user': role_user,
+                    # 'is_authenticated': is_authenticated
+                    'list_of_proposals': list_of_proposals
+                }
+                return render(request, 'slavaukraine/test_home.html');
     else:
-        print("anonymous")
         name_user = "anonymous"
-        is_authenticated = 0
-        role_user = 0
     context = {
         #'title': 'Building Ukraine - Homepage ',
         'name_user': name_user,
         #'role_user': role_user,
         #'is_authenticated': is_authenticated
     }
-    return render(request, 'slavaukraine/home.html',context);
+    return render(request, 'slavaukraine/test_home.html', context);
 
-def login_view(request):
-    context={}
-    if request.POST:
-        return 0
-    return render(request, 'slavaukraine/login.html')
+###############     REGIST VIEWS   ###############
 
 def personRegistration_view(request):
     context={}
     if request.POST:
-        print("fez pedido post")
         form = PersonRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
@@ -58,7 +64,7 @@ def personRegistration_view(request):
     else:
         form = PersonRegistrationForm()
         context['personregistration_form'] = form
-    return render(request, 'slavaukraine/register.html', context)
+    return render(request, 'slavaukraine/test_registeruser.html', context)
 
 def enterpriseRegistration_view(request):
     context={}
@@ -78,41 +84,116 @@ def enterpriseRegistration_view(request):
     else:
         form = EnterpriseRegistrationForm()
         context['enterpriseregistration_form'] = form
-    return render(request, 'slavaukraine/register_test.html', context)
+    return render(request, 'slavaukraine/test_registerenterprise.html', context)
 
+
+
+def proposal_create_view(request):
+    enterprise = get_object_or_404(Person, pk=request.user.pk)
+    form = ProposalForm(initial={'enterprise': enterprise})
+
+    if request.method == 'POST':
+        #We need to do a copy of the form data from the request, because Forms are IMMUTABLE.
+        form_data = copy.copy(request.POST)
+        form_data['enterprise'] = enterprise.id
+        form = ProposalForm(data=form_data)
+        if form.is_valid():
+            print("É VÁLIDO")
+            form.save()
+            return render(request, 'slavaukraine/test_home.html');
+    return render(request, 'slavaukraine/test_registproposal.html', {'form': form});
+
+#Do not delete, It's a helper to Create proposals; Does the adaptative dropdown in the city.
+def load_cities(request):
+    country_id = request.GET.get('country_id')
+    print("VIEWS: load_cities RESULT:")
+    print(country_id)
+    cities = City.objects.filter(country_id=country_id)
+    #return render(request, 'proposals/city_dropdown_list_options.html', {'cities':cities})
+    #Way of get to know the info we are sending: print(list(cities.values('id','name')))
+    return render(request,'slavaukraine/city_dropdown_list_options.html',{'cities':cities})
+    #return JsonResponse(list(cities.values('id','name')), safe=False)
+
+###############     UPDATE VIEWS   ###############
+class ProposalUpdate(UpdateView):
+    model = Proposal
+    fields = ['title','expertiseNeeded','description']
+    template_name = 'slavaukraine/test_edituser.html'
+
+    def get_success_url(self):
+        pk = self.kwargs["pk"]
+        return reverse('slavaukraine:listed_enterpriseproposals', kwargs={"pk": pk})
+
+
+class PersonUpdate(UpdateView):
+    model = Person
+    fields = ['email','first_name', 'last_name','profile_image','gender','address','birth']
+    template_name = 'slavaukraine/test_edituser.html'
+    success_url = reverse_lazy('slavaukraine:home')
+
+class EnterpriseUpdate(UpdateView):
+    model = Person
+    fields = ['email','first_name','taxnumber','profile_image','address']
+    template_name = 'slavaukraine/test_editproposal.html'
+    success_url = reverse_lazy('slavaukraine:home')
+
+
+
+###############     DELETE VIEWS   ###############
+class ProposalDelete(DeleteView):
+    model = Proposal
+    template_name = 'slavaukraine/test_deleteproposal.html'
+    success_url = '../../listed_proposals'
+
+
+###############     LIST VIEWS     ###############
+
+#All proposals
+class ProposalList(ListView):
+    #  login_url = reverse_lazy('test_login')
+    model = Proposal
+    template_name = 'slavaukraine/test_listedproposals.html'
+    paginate_by = 10
 
 """
-def newproposal(request, person_id):
-    context={}
+    def get_queryset(self):
 
-    if request.POST:
-        if request.user.is_authenticated:
-            if request.POST.get('enterprise') and request.POST.get('city') and request.POST.get('description') and request.POST.get('expertiseNeeded'):
-                enterprise = get_object_or_404(Person, pk=person_id)
-                proposal = Proposal(enterprise=enterprise,city=city,expertiseNeeded=expertiseNeeded,description=description)
-                proposal.save()
-                return render(request, 'slavaukraine/home.html', context)
-            else:
-                return render(request, 'slavaukraine/register_test.html', context)
-    else:
-        cities = City.objects.all()
-        description = request.POST.get('description')
-        expertiseNeeded = request.POST.get('expertiseNeeded')
-        context = {
-            'city': city,
-            'description': description,
-            'expertiseNeeded': expertiseNeeded
-        }
-        return render(request, 'slavaukraine/register_test.html', context)
+        proposal_name_inserted = self.request.POST.get('nome_do_titulo')
+        enterprise_user = self.request.user
+        if proposal_name_inserted:
+            proposals = Proposal.objects.filter(enterprise_id=enterprise_user.id).filter(title__icontains=proposal_name_inserted)
+        else:
+            proposals = Proposal.objects.all().filter()
+        return proposals"""
 
-        cities = City.o
-"""
+#Proposals by enterprise
+class EnterpriseProposalList(ListView):
+    model = Proposal
+    template_name = 'slavaukraine/test_listedproposals.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        enterprise = self.request.user
+        queryset = Proposal.objects.filter(enterprise_id=enterprise.id)
+        return queryset
+
+#Proposals by user
+class PersonProposalList(ListView):
+    model = Proposal
+    template_name = 'slavaukraine/test_home.html'
+
+    def get_queryset(self):
+        queryset = super(PersonProposalList, self.get_queryset())
+        queryset = queryset.filter(user=self.request.user)
+        return queryset
+
+
 def logout_view(request):
     logout(request)
     return home_screen(request)
 
 def login_view(request):
-    context = {}
+    context={}
     user = request.user
     if user.is_authenticated:
         return home_screen(request)
@@ -155,16 +236,7 @@ def contacts(request):
     }
     return render(request, 'slavaukraine/contacts.html')
 
-def submitContact(request):
-    subjet = "From:" + request.POST.get('name')
-    email = request.POST.get('email')
-    text = request.POST.get('message')
-    print(" nome " + subjet)
-    print(" email " + email)
-    print("text " + text)
-    send_mail(subjet,text,'slavaukraine@sapo.pt',[email])
-    print("enviou")
-    return home_screen(request)
+
 
 
 # Area reservada
@@ -173,48 +245,65 @@ def reserved(request):
 
 # pagina de mais informações sobre ser voluntário
 def volunteer(request):
-    return render(request, 'slavaukraine/volunteers.html')
+    return None
 
 # pagina de mais informações sobre empresa
-def enterprise(request):
-    return render(request, 'slavaukraine/enterprise.html')
+#def enterprise(request):
 
 
-# view para listar todas as mensagens
-
-def viewMessages(request):
-    if True: #getUser(request):
-        list = TopicMessage.objects.filter(Q(sender=request.user) | Q(receiver=request.user)).order_by('-date')
-        context = {
-            'list' : list
-        }
-        return render(request, 'slavaukraine/viewMessages_test.html', context)
+#voluntario regista-se em propostas
+def register_proposal(request, proposal_id):
+    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
+        proposal = get_object_or_404(Proposal, pk=proposal_id)
+        proposal.register(user=request.user)
+        context = {'proposal': proposal}
+        return render(request, 'slavaukraine/test_Porposal.html', context)
     else:
-        return home_screen(request)  # vai para a home
+        return login_view(request)
 
 
-# view da nova msg entre user
-def newMessage(request, recipient):
-    if request.POST:
-        if utils.getUser(request):
-            topic = utils.saveMessage(request, recipient) # cria o titulo ou topico da mensagem
-            utils.saveReply(request, topic, recipient) #cria a mensagem ou resposta
-            utils.send_newMessage(request,recipient) # envia email para o user
-            # return para a view dos emails
-        else:
-            return home_screen(request) # vai para a home
+# voluntario remove proposta
+def unregister_proposal(request, proposal_id):
+    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
+        proposal = get_object_or_404(Proposal, pk=proposal_id)
+        proposal.unregister(user=request.user)
+        context = {'proposal': proposal}
+        return render(request, 'slavaukraine/test_Porposal.html', context)
     else:
-        return None # retornar a pagina
+        return login_view(request)
 
-
-# view da reposta as mensagens
-def replyMessage(request,recipient, topic):
-    if request.POST:
-        if utils.getUser(request):
-            utils.saveReply(request, topic, recipient) #cria a mensagem ou resposta
-            utils.send_replyMessage(request,recipient) # envia email para o user
-            # return para a view dos emails
-        else:
-            return home_screen(request) # vai para a home
+#voluntario coloca proposta nos favoritos
+def favorite_proposal(request, proposal_id):
+    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
+        proposal = get_object_or_404(Proposal, pk=proposal_id)
+        proposal.subscribe(user=request.user)
+        context = {'proposal': proposal}
+        return render(request, 'slavaukraine/test_Porposal.html', context)
     else:
-        return None # retornar a pagina
+        return login_view(request)
+
+
+# voluntario remove dos favoritos
+def not_favorite_proposal(request, proposal_id):
+    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
+        proposal = get_object_or_404(Proposal, pk=proposal_id)
+        proposal.unsubscribe(user=request.user)
+        context = {'proposal': proposal}
+        return render(request, 'slavaukraine/test_Porposal.html', context)
+    else:
+        return login_view(request)
+
+def edit_volunteer_page(request):
+    return None
+
+
+def proposal_view(request):
+    context = {}
+    context["dataset"] = Proposal.objects.all()
+    return render(request, 'slavaukraine/test_Porposal_List.html', context)
+
+#Só para teste
+def porposal_detail(request, proposal_id):
+    proposal = get_object_or_404(Proposal, pk=proposal_id)
+    context = {'proposal': proposal}
+    return render(request, 'slavaukraine/test_Porposal.html', context)

@@ -1,0 +1,13 @@
+
+<body>
+<form action="" method="POST">
+
+    <p class="lead">
+        Deseja apagar definitivamente a proposta <strong>"{{ object.title }}"</strong> em <strong>{{ object.city }}</strong>?
+    </p>
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-danger">Apagar</button>
+
+</form>
