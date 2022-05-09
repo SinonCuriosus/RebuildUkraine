@@ -1,7 +1,6 @@
 import copy
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse_lazy, reverse
@@ -127,7 +126,7 @@ class ProposalUpdate(UpdateView):
 
 class PersonUpdate(UpdateView):
     model = Person
-    fields = ['email','first_name', 'last_name','profile_image','gender','address','birth']
+    fields = ['first_name', 'last_name','profile_image','gender','address','birth']
     template_name = 'slavaukraine/test_edituser.html'
     success_url = reverse_lazy('slavaukraine:home')
 
@@ -152,7 +151,6 @@ class ProposalDelete(DeleteView):
 
 #All proposals
 class ProposalList(ListView):
-    #  login_url = reverse_lazy('test_login')
     model = Proposal
     template_name = 'slavaukraine/test_listedproposals.html'
     paginate_by = 10
@@ -248,7 +246,6 @@ def reserved(request):
 # pagina de mais informações sobre ser voluntário
 def volunteer(request):
     return None
-
 # pagina de mais informações sobre empresa
 #def enterprise(request):
 

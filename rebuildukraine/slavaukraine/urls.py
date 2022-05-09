@@ -2,7 +2,7 @@ from django.urls import include, path
 from django.views.generic import DeleteView
 
 from . import views
-from .views import ProposalList, ProposalUpdate, EnterpriseProposalList, EnterpriseUpdate, ProposalDelete
+from .views import ProposalList, ProposalUpdate, EnterpriseProposalList, EnterpriseUpdate, ProposalDelete, PersonUpdate
 
 app_name='slavaukraine'
 urlpatterns = [
@@ -17,7 +17,7 @@ urlpatterns = [
         path("ajax/load-cities/", views.load_cities, name="ajax_load_cities"),
 
     #Área de edição
-    path("editPerson/<int:pk>/", ProposalUpdate.as_view(), name='edit_person'),
+    path("editPerson/<int:pk>/", PersonUpdate.as_view(), name='edit_person'),
     path("editEnterprise/<int:pk>/", EnterpriseUpdate.as_view(), name='edit_enterprise'),
     path("editProposal/<int:pk>/", ProposalUpdate.as_view(), name='edit_proposal'),
 

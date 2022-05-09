@@ -57,10 +57,10 @@ class Person(AbstractBaseUser):
         (NONBINARY,'Nonbinary'),
         (OTHER,'Other'),
     ]
-    email                       =models.EmailField(verbose_name="email", max_length=60, unique=True)
-    username                    =models.CharField(max_length=30, unique=True)
-    profile_image               =models.ImageField(null=True,blank=True)
-    taxnumber                   =models.CharField( unique=True, max_length=10, validators=[RegexValidator(r'^\d{1,10}$')])
+    email                       =models.EmailField(verbose_name="email", max_length=60, unique=True, label="E-mail")
+    username                    =models.CharField(max_length=30, unique=True,label="Nome de utilizador")
+    profile_image               =models.ImageField(null=True,blank=True,label="Imagem de perfil")
+    taxnumber                   =models.CharField( unique=True, max_length=10, validators=[RegexValidator(r'^\d{1,10}$')],label="Número de contribuinte")
     date_joined                 =models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login                  =models.DateTimeField(verbose_name='last login', auto_now=True)
     is_admin                    =models.BooleanField(default=False)
@@ -109,10 +109,6 @@ class Person(AbstractBaseUser):
 #para acrescentar países, criamos um método para adicionar campos e retiramos o tuplo;
 
 class Country(models.Model):
-    """UKRAINI='Ucrânia'
-    COUNTRIES = [
-        (UKRAINI,'Ucrânia'),
-    ]"""
     name                     =models.CharField(max_length=25)#,choices=COUNTRIES
 
     def __str__(self):
@@ -125,14 +121,6 @@ class Country(models.Model):
 
 
 class City(models.Model):
-    """KIEV='Kiev'
-    KHARKIV='Kharkiv'
-    MARIUPOL='Mariupol'
-    CITIES = [
-        (KIEV,'Kiev'),
-        (KHARKIV,'Kharkiv'),
-        (MARIUPOL,'Mariupol'),
-    ]"""
     country                     =models.ForeignKey(Country, on_delete=models.CASCADE)
     name                        =models.CharField(max_length=25)#choices=CITIES
 

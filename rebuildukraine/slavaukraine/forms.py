@@ -79,6 +79,14 @@ class ProposalForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['city'].queryset= City.objects.none()
+        self.fields['country'].required=True
+        self.fields['country'].label = 'País'
+        self.fields['city'].required = True
+        self.fields['city'].label = 'Cidade'
+        self.fields['expertiseNeeded'].required = True
+        self.fields['expertiseNeeded'].label = 'Especialização'
+        self.fields['description'].required = True
+        self.fields['description'].label = 'Descrição'
 
         if 'country' in self.data:
             try:
