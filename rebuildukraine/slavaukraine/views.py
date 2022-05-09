@@ -2,24 +2,20 @@ import copy
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+import utils
+from django.core.mail import send_mail
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
+
+from .forms import PersonRegistrationForm, PersonAuthenticationForm, EnterpriseRegistrationForm
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from . import forms
 from .forms import PersonRegistrationForm, PersonAuthenticationForm, EnterpriseRegistrationForm, ProposalForm
 from django.http import HttpResponse, JsonResponse
 
-from .models import Person
-from .models import Country
-from .models import City
-from .models import Expertise
-from .models import Specialization
-from .models import Proposal
-from .models import Favorites
-from .models import Registration
-
-# Create your views here.
+from .models import Person, TopicMessage
 
 def home_screen(request):
 
@@ -193,7 +189,7 @@ def logout_view(request):
     return home_screen(request)
 
 def login_view(request):
-    context={}
+    context = {}
     user = request.user
     if user.is_authenticated:
         return home_screen(request)
@@ -236,7 +232,16 @@ def contacts(request):
     }
     return render(request, 'slavaukraine/contacts.html')
 
-
+def submitContact(request):
+    subjet = "From:" + request.POST.get('name')
+    email = request.POST.get('email')
+    text = request.POST.get('message')
+    print(" nome " + subjet)
+    print(" email " + email)
+    print("text " + text)
+    send_mail(subjet,text,'slavaukraine@sapo.pt',[email])
+    print("enviou")
+    return home_screen(request)
 
 
 # Area reservada
@@ -307,3 +312,46 @@ def porposal_detail(request, proposal_id):
     proposal = get_object_or_404(Proposal, pk=proposal_id)
     context = {'proposal': proposal}
     return render(request, 'slavaukraine/test_Porposal.html', context)
+
+def enterprise(request):
+    return render(request, 'slavaukraine/enterprise.html')
+
+
+# view para listar todas as mensagens
+
+def viewMessages(request):
+    if True: #getUser(request):
+        list = TopicMessage.objects.filter(Q(sender=request.user) | Q(receiver=request.user)).order_by('-date')
+        context = {
+            'list' : list
+        }
+        return render(request, 'slavaukraine/viewMessages_test.html', context)
+    else:
+        return home_screen(request)  # vai para a home
+
+
+# view da nova msg entre user
+def newMessage(request, recipient):
+    if request.POST:
+        if utils.getUser(request):
+            topic = utils.saveMessage(request, recipient) # cria o titulo ou topico da mensagem
+            utils.saveReply(request, topic, recipient) #cria a mensagem ou resposta
+            utils.send_newMessage(request,recipient) # envia email para o user
+            # return para a view dos emails
+        else:
+            return home_screen(request) # vai para a home
+    else:
+        return None # retornar a pagina
+
+
+# view da reposta as mensagens
+def replyMessage(request,recipient, topic):
+    if request.POST:
+        if utils.getUser(request):
+            utils.saveReply(request, topic, recipient) #cria a mensagem ou resposta
+            utils.send_replyMessage(request,recipient) # envia email para o user
+            # return para a view dos emails
+        else:
+            return home_screen(request) # vai para a home
+    else:
+        return None # retornar a pagina

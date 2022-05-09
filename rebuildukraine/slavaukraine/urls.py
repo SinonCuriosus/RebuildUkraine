@@ -1,6 +1,7 @@
 from django.urls import include, path
 from . import views
-from .views import ProposalList, ProposalUpdate, EnterpriseProposalList, EnterpriseUpdate
+
+
 
 app_name='slavaukraine'
 urlpatterns = [
@@ -40,7 +41,7 @@ urlpatterns = [
 
     #http://127.0.0.1:8000/slavaukraine/volunteer
     path("volunteer",views.volunteer, name="volunteer"),
-    
+
     #http://127.0.0.1:8000/slavaukraine/volunteer/edit_volunteer_page
     path("volunteer/edit_volunteer_page",views.edit_volunteer_page, name="edit_volunteer_page"),
 
@@ -52,10 +53,23 @@ urlpatterns = [
 
     #http://127.0.0.1:8000/slavaukraine/Porposal_List
     path("test_Porposal_List",views.proposal_view, name="test_Porposal_List"),
-    
+
     #teste
     path('<int:proposal_id>', views.porposal_detail, name="test_Porposal"),
-    
+
     path('<int:proposal_id>/register_porposal', views.register_proposal, name="register_porposal"),
-    
+
+
+    path("submitcontact",views.submitContact, name="submitcontact"),
+
+    path("reserved/view_my_messages", views.viewMessages, name="view_my_messages"),
+
+    path("reserved/create_new_message",views.newMessage, name="create_new_message"),
+
+    ##
+    ## Adicionar o id da messagem
+    ##
+
+    path("reply_message",views.newMessage, name="reply_message"),
+
 ]
