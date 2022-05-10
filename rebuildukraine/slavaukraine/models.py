@@ -205,3 +205,32 @@ class Registration(models.Model):
     class Meta:
         verbose_name= "Registo em voluntariado"
         verbose_name_plural= "Registos em voluntariados"
+
+class TopicMessage(models.Model):
+    subjet = models.CharField(max_length=150)
+    sender = models.ForeignKey(Person,on_delete=models.CASCADE,related_name='sender_top')
+    receiver = models.ForeignKey(Person,on_delete=models.CASCADE,related_name='receiver_top')
+    isRead = models.BooleanField(null=False, blank=False)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.pk
+
+    class Meta:
+        verbose_name= "Mensage"
+        verbose_name_plural= "Mensagens"
+
+
+class Answers(models.Model):
+    topic = models.ForeignKey(TopicMessage,on_delete=models.CASCADE)
+    message = models.CharField(max_length=250)
+    sender = models.ForeignKey(Person,on_delete=models.CASCADE,related_name='sender_ans')
+    receiver = models.ForeignKey(Person, on_delete=models.CASCADE,related_name='receiver_ans' )
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.pk
+
+    class Meta:
+        verbose_name= "Resposta"
+        verbose_name_plural= "Respostas"

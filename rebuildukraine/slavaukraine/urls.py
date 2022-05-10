@@ -39,8 +39,8 @@ urlpatterns = [
     #http://127.0.0.1:8000/slavaukraine/logout
     path("logout/",views.logout_view, name="logout"),
 
-    #http://127.0.0.1:8000/slavaukraine/logout
-    path("reserved",views.reserved, name="reserved"),
+    #http://127.0.0.1:8000/slavaukraine/reserved
+    path("reserved_area",views.reserved, name="reserved_area"),
 
     #http://127.0.0.1:8000/slavaukraine/volunteer
     path("volunteer",views.volunteer, name="volunteer"),
@@ -54,12 +54,31 @@ urlpatterns = [
     #http://127.0.0.1:8000/slavaukraine/contacts
     path("contacts",views.contacts, name="contacts"),
 
+    path("submitcontact",views.submitContact, name="submitcontact"),
+
     #http://127.0.0.1:8000/slavaukraine/Porposal_List
     path("test_Porposal_List",views.proposal_view, name="test_Porposal_List"),
-    
+
+
+    #
+    path("reserved/view_my_messages", views.viewMessages, name="view_my_messages"),
+    #
+    path("reserved/create_new_message/<int:recipient>", views.newMessage, name="create_new_message"),
+
+    ##
+    ## Adicionar o id da messagem
+    ##
+
+    path("reply_message", views.newMessage, name="reply_message"),
+
+
+
     #teste
     path('<int:proposal_id>', views.porposal_detail, name="test_Porposal"),
     
     path('<int:proposal_id>/register_porposal', views.register_proposal, name="register_porposal"),
-    
+
+
+
+
 ]

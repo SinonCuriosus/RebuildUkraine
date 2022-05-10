@@ -135,5 +135,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'slavaukraine/static/slavaukraine/profile_im
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sapo.pt'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'slavaukraine@sapo.pt'
+EMAIL_HOST_PASSWORD = 'slavaukraine1A'
+DEFAULT_FROM_EMAIL = 'slavaukraine@sapo.pt'
 #Crispy Forms import :)
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
