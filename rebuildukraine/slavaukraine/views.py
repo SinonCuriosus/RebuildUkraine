@@ -26,17 +26,7 @@ from .models import Registration
 def home_screen(request):
 
     if request.user.is_authenticated & request.user.is_active:
-        name_user=request.user.username
-        if request.user.is_enterprise:
-                list_of_proposals = Proposal.objects.filter(enterprise__email=request.user.email)
-                context = {
-                    # 'title': 'Building Ukraine - Homepage ',
-                    'name_user': name_user,
-                    # 'role_user': role_user,
-                    # 'is_authenticated': is_authenticated
-                    'list_of_proposals': list_of_proposals
-                }
-                return render(request, 'slavaukraine/home.html');
+                return render(request, 'slavaukraine/reserved.html');
     else:
         name_user = "anonymous"
     context = {
@@ -66,7 +56,7 @@ def personRegistration_view(request):
     else:
         form = PersonRegistrationForm()
         context['personregistration_form'] = form
-    return render(request, 'slavaukraine/test_registeruser.html', context)
+    return render(request, 'slavaukraine/Regists/register_person.html', context)
 
 def enterpriseRegistration_view(request):
     context={}
@@ -86,7 +76,7 @@ def enterpriseRegistration_view(request):
     else:
         form = EnterpriseRegistrationForm()
         context['enterpriseregistration_form'] = form
-    return render(request, 'slavaukraine/test_registerenterprise.html', context)
+    return render(request, 'slavaukraine/Regists/register_enterprise.html', context)
 
 
 
@@ -130,7 +120,7 @@ class ProposalUpdate(UpdateView):
 class PersonUpdate(UpdateView):
     model = Person
     fields = ['first_name', 'last_name','profile_image','gender','address','birth']
-    template_name = 'slavaukraine/test_edituser.html'
+    template_name = 'slavaukraine/reserved.html'
     success_url = reverse_lazy('slavaukraine:home')
 
 class EnterpriseUpdate(UpdateView):
@@ -208,12 +198,19 @@ def login_view(request):
             user = authenticate(email=email, password=password)
             if user:
                 login(request, user)
-                return home_screen(request)
+                return view_profile(request)
     #If they are not authenticated and they didnt try to loggin yet...
     else:
         form = PersonAuthenticationForm
+    print("Chegou aqui!")
     context['login_form'] = form
     return render(request, 'slavaukraine/login.html',context)
+
+def view_profile(request):
+    context = {
+        'user': request.user
+    }
+    return render(request, 'slavaukraine/reserved.html', context)
 
 
 
@@ -260,7 +257,7 @@ def reserved(request):
 
 # pagina de mais informações sobre ser voluntário
 def volunteer(request):
-    return None
+    return render(request, 'slavaukraine/reserved.html')
 
 # pagina de mais informações sobre empresa
 def enterprise(request):

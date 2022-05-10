@@ -40,7 +40,7 @@ urlpatterns = [
     path("logout/",views.logout_view, name="logout"),
 
     #http://127.0.0.1:8000/slavaukraine/reserved
-    path("reserved_area",views.reserved, name="reserved_area"),
+    #path("reserved_area",views.reserved, name="reserved_area"),
 
     #http://127.0.0.1:8000/slavaukraine/volunteer
     path("volunteer",views.volunteer, name="volunteer"),

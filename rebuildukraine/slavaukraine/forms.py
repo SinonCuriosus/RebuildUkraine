@@ -2,7 +2,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
-from django.forms import DateInput, ModelForm
+from django.core.validators import RegexValidator
+from django.forms import DateInput, ModelForm, TextInput
 
 from .models import Person, City, Proposal, Expertise
 
@@ -13,7 +14,8 @@ class PersonRegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=60, help_text="Required. Add a valid email address.")
     is_person = forms.BooleanField(initial=True,widget=forms.HiddenInput(), required=False,label="")
     is_enterprise = forms.BooleanField(initial=False, widget=forms.HiddenInput(), required=False,label="")
-    taxnumber = forms.IntegerField(required=True, max_value=999999999)
+    profile_image = forms.ImageField(required=False)
+
 
     class Meta:
         model = Person
@@ -23,7 +25,17 @@ class PersonRegistrationForm(UserCreationForm):
             attrs={'class': 'form-control',
                    'placeholder': 'Select a date',
                    'type': 'date',
-        }),}
+        }), }
+        labels={
+            'birth':"Data de nascimento",
+            'username': "Nome de Utilizador",
+            'first_name': "Primeiro Nome",
+            'last_name': "Último Nome",
+            'taxnumber':"Número de contribuinte",
+            'profile_image':"Imagem de Perfil",
+            'password2': "Confirmação de password",
+            'address': "Morada"
+        }
 
 class PersonAuthenticationForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -41,13 +53,22 @@ class PersonAuthenticationForm(forms.ModelForm):
                 raise forms.ValidationError("Invalid credentials.");
 
 class EnterpriseRegistrationForm(UserCreationForm):
-    email = forms.EmailField(max_length=60, help_text="Required. Add a valid email address.")
+    email = forms.EmailField(max_length=60, help_text="Required. Add a valid email address.", label="Email")
     is_person = forms.BooleanField(initial=False,widget=forms.HiddenInput(), required=False,label="")
     is_enterprise = forms.BooleanField(initial=True, widget=forms.HiddenInput(), required=False,label="")
+    profile_image = forms.ImageField(required=False,label="Imagem de Perfil")
+
 
     class Meta:
         model = Person
         fields= ("email","username","profile_image","taxnumber", "address","password1","password2","is_person","is_enterprise")
+        labels={
+            'username': "Nome da empresa",
+            'taxnumber':"Número de contribuinte",
+            'profile_image':"Imagem de Perfil",
+            'password2': "Confirmação de password",
+            'address': "Morada"
+        }
 
 
 
