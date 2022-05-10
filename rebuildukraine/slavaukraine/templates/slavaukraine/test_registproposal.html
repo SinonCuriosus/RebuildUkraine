@@ -1,10 +1,12 @@
+{% load crispy_forms_tags %}
+
 {% block content %}
 
     <h2>Create Proposal</h2>
 <!---->
     <form method="post" id="proposalForm" data-cities-url="{% url 'slavaukraine:ajax_load_cities' %}" >
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
         <input type="submit" value="Submit">
     </form>
 

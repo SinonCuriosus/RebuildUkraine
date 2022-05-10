@@ -30,19 +30,25 @@
                     class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse color-uk" id="navcol-1">
                 <ul class="navbar-nav me-auto">
-                    <!-- fazer if para aparece a area reservada apenas a users registados -->
-                    {% if is_authenticated == 1 %}
-                        <li class="nav-item"><a class="nav-link active color-uk-w" href="{% url 'slavaukraine:reserved' %}">Area Reservada</a></li>
+
+                <br>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link active color-uk-w-b" href="#">    Welcome {{ user.username }}!     </a></li>
+                        <!--Faz sentido ter esta área estando o utilizador já com acesso a tudo nesta página? Apagamos ou mantemos?
+                        <li class="nav-item"><a class="nav-link active color-uk-w" href="">Area Reservada</a></li>-->
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link active color-uk-w"
+                                                href="{% url 'slavaukraine:registerperson' %}">Seja Voluntário</a></li>
+                        <li class="nav-item"><a class="nav-link active color-uk-w" href="{% url 'slavaukraine:registerenterprise' %}">A minha empresa quer ajudar!</a></li>
                     {% endif %}
-                    <!-- end if -->
                     <li class="nav-item"><a class="nav-link active color-uk-w" href="#">Projetos Disponíveis</a></li>
-                    <li class="nav-item"><a class="nav-link active color-uk-w" href="{% url 'slavaukraine:volunteer' %}">Seja Voluntário</a></li>
-                    <li class="nav-item"><a class="nav-link active color-uk-w" href="{% url 'slavaukraine:enterprise' %}">Tenho Projetos</a></li>
-                    <li class="nav-item"><a class="nav-link active color-uk-w" href="{%  url 'slavaukraine:contacts' %}">Contactos</a></li>
+                    <!--<li class="nav-item"><a class="nav-link active color-uk-w" href="">Tenho Projetos</a></li>-->
+                    <li class="nav-item"><a class="nav-link active color-uk-w" href="{% url 'slavaukraine:contacts' %}">Contactos</a>
+                    </li>
                 </ul>
                 <!-- fazer if para aparece a area reservada apenas a users registados -->
-                {% if is_authenticated == 1 %}
-                    <a class="color-uk-w" href="{% url 'slavaukraine:reserved' %}">{{ name_user }}</a>
+                {% if user.is_authenticated %}
+                    <a class="color-uk-w" href="{% url 'slavaukraine:logout' %}">Logout</a>
                 {% else %}
                     <a class="color-uk-w" href="{% url 'slavaukraine:login' %}">Login</a> |
                     <a class="color-uk-w" href="{% url 'slavaukraine:registerperson' %}">Registo</a>
@@ -53,7 +59,7 @@
     </nav>
 {% endblock %}
 {% block main %}
-    <!-- bloco a ser preenchido por cada pagina -->
+
 {% endblock %}
 {% block footer %}
     <footer class="text-center footer-configurations">

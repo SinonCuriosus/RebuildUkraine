@@ -1,36 +1,32 @@
 import copy
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-import utils
 from django.core.mail import send_mail
 from django.db.models import Q
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-
-from .forms import PersonRegistrationForm, PersonAuthenticationForm, EnterpriseRegistrationForm
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from . import forms
+from . import forms, utils
 from .forms import PersonRegistrationForm, PersonAuthenticationForm, EnterpriseRegistrationForm, ProposalForm
 from django.http import HttpResponse, JsonResponse
 
 from .models import Person, TopicMessage
+from .models import Country
+from .models import City
+from .models import Expertise
+from .models import Specialization
+from .models import Proposal
+from .models import Favorites
+from .models import Registration
+
+# Create your views here.
 
 def home_screen(request):
 
     if request.user.is_authenticated & request.user.is_active:
-        name_user=request.user.username
-        if request.user.is_enterprise:
-                list_of_proposals = Proposal.objects.filter(enterprise__email=request.user.email)
-                context = {
-                    # 'title': 'Building Ukraine - Homepage ',
-                    'name_user': name_user,
-                    # 'role_user': role_user,
-                    # 'is_authenticated': is_authenticated
-                    'list_of_proposals': list_of_proposals
-                }
-                return render(request, 'slavaukraine/test_home.html');
+                return render(request, 'slavaukraine/reserved.html');
     else:
         name_user = "anonymous"
     context = {
@@ -39,7 +35,7 @@ def home_screen(request):
         #'role_user': role_user,
         #'is_authenticated': is_authenticated
     }
-    return render(request, 'slavaukraine/test_home.html', context);
+    return render(request, 'slavaukraine/home.html', context);
 
 ###############     REGIST VIEWS   ###############
 
@@ -60,7 +56,7 @@ def personRegistration_view(request):
     else:
         form = PersonRegistrationForm()
         context['personregistration_form'] = form
-    return render(request, 'slavaukraine/test_registeruser.html', context)
+    return render(request, 'slavaukraine/Regists/register_person.html', context)
 
 def enterpriseRegistration_view(request):
     context={}
@@ -80,7 +76,7 @@ def enterpriseRegistration_view(request):
     else:
         form = EnterpriseRegistrationForm()
         context['enterpriseregistration_form'] = form
-    return render(request, 'slavaukraine/test_registerenterprise.html', context)
+    return render(request, 'slavaukraine/Regists/register_enterprise.html', context)
 
 
 
@@ -123,8 +119,8 @@ class ProposalUpdate(UpdateView):
 
 class PersonUpdate(UpdateView):
     model = Person
-    fields = ['email','first_name', 'last_name','profile_image','gender','address','birth']
-    template_name = 'slavaukraine/test_edituser.html'
+    fields = ['first_name', 'last_name','profile_image','gender','address','birth']
+    template_name = 'slavaukraine/reserved.html'
     success_url = reverse_lazy('slavaukraine:home')
 
 class EnterpriseUpdate(UpdateView):
@@ -139,14 +135,15 @@ class EnterpriseUpdate(UpdateView):
 class ProposalDelete(DeleteView):
     model = Proposal
     template_name = 'slavaukraine/test_deleteproposal.html'
-    success_url = '../../listed_proposals'
+    #success_url = reverse_lazy('slavaukraine:listed_proposals')
 
+    def get_success_url(self, **kwargs):
+        return reverse('slavaukraine:listed_proposals', kwargs = {'pk' : self.request.user.id, })
 
 ###############     LIST VIEWS     ###############
 
 #All proposals
 class ProposalList(ListView):
-    #  login_url = reverse_lazy('test_login')
     model = Proposal
     template_name = 'slavaukraine/test_listedproposals.html'
     paginate_by = 10
@@ -189,7 +186,7 @@ def logout_view(request):
     return home_screen(request)
 
 def login_view(request):
-    context = {}
+    context={}
     user = request.user
     if user.is_authenticated:
         return home_screen(request)
@@ -201,16 +198,24 @@ def login_view(request):
             user = authenticate(email=email, password=password)
             if user:
                 login(request, user)
-                return home_screen(request)
+                return view_profile(request)
     #If they are not authenticated and they didnt try to loggin yet...
     else:
         form = PersonAuthenticationForm
+    print("Chegou aqui!")
     context['login_form'] = form
     return render(request, 'slavaukraine/login.html',context)
 
+def view_profile(request):
+    context = {
+        'user': request.user
+    }
+    return render(request, 'slavaukraine/reserved.html', context)
 
 
 
+
+#pagina de contactos
 #pagina de contactos
 def contacts(request):
     if request.user.is_authenticated & request.user.is_active:
@@ -244,17 +249,19 @@ def submitContact(request):
     return home_screen(request)
 
 
+
+
 # Area reservada
 def reserved(request):
     return render(request, 'slavaukraine/reserved.html')
 
 # pagina de mais informações sobre ser voluntário
 def volunteer(request):
-    return None
+    return render(request, 'slavaukraine/reserved.html')
 
 # pagina de mais informações sobre empresa
-#def enterprise(request):
-
+def enterprise(request):
+    return None
 
 #voluntario regista-se em propostas
 def register_proposal(request, proposal_id):
@@ -313,9 +320,6 @@ def porposal_detail(request, proposal_id):
     context = {'proposal': proposal}
     return render(request, 'slavaukraine/test_Porposal.html', context)
 
-def enterprise(request):
-    return render(request, 'slavaukraine/enterprise.html')
-
 
 # view para listar todas as mensagens
 
@@ -325,23 +329,32 @@ def viewMessages(request):
         context = {
             'list' : list
         }
+        print("chegou")
         return render(request, 'slavaukraine/viewMessages_test.html', context)
     else:
         return home_screen(request)  # vai para a home
 
 
 # view da nova msg entre user
-def newMessage(request, recipient):
+def newMessage(request,recipient):
     if request.POST:
+        print("entrou 2")
         if utils.getUser(request):
             topic = utils.saveMessage(request, recipient) # cria o titulo ou topico da mensagem
-            utils.saveReply(request, topic, recipient) #cria a mensagem ou resposta
-            utils.send_newMessage(request,recipient) # envia email para o user
-            # return para a view dos emails
+            utils.saveReply(request, topic, Person.objects.get(id=recipient)) #cria a mensagem ou resposta
+            utils.send_newMessage(request,Person.objects.get(id=recipient)) # envia email para o user
+            context={
+                'recipient': recipient
+            }
+            return render(request, 'slavaukraine/create_new_message.html',context)
         else:
             return home_screen(request) # vai para a home
     else:
-        return None # retornar a pagina
+        context = {
+            'recipient': recipient,
+            'to_name': Person.objects.get(id=recipient)
+        }
+        return render(request,'slavaukraine/create_new_message.html',context)
 
 
 # view da reposta as mensagens

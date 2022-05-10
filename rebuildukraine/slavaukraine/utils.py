@@ -1,8 +1,9 @@
+import _datetime
 import datetime
 
 from django.core.mail import send_mail
 
-from .models import TopicMessage, Answers
+from .models import TopicMessage, Answers, Person
 
 
 def send_email(subjet,text,email):
@@ -24,10 +25,17 @@ def getUser(request):
 
 def saveMessage(request, recipient):
     topic = TopicMessage()
+    print("subjet " + request.POST['subjet'])
     topic.subjet = request.POST['subjet']
+    print("sender " + request.user.first_name)
     topic.sender = request.user
-    topic.receiver = recipient
+    print("receiver " + Person.objects.get(id=recipient).first_name)
+    topic.receiver = Person.objects.get(id=recipient)
+    print("salvar")
+   # topic.date = _datetime.date.today()
+    topic.isRead = True
     topic.save()
+    return topic
     return topic
 
 
@@ -35,10 +43,10 @@ def saveMessage(request, recipient):
 def saveReply(request, topic, recipient):
     reply = Answers()
     reply.topic = topic
-    reply.message = request.POST['mesage']
+    reply.message = request.POST['message']
     reply.sender = request.user
     reply.receiver = recipient
-    reply.topic.date = datetime.now()
+    #reply.topic.date = datetime.now()
     reply.topic.isRead = True
     reply.save()
 

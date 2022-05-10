@@ -109,10 +109,6 @@ class Person(AbstractBaseUser):
 #para acrescentar países, criamos um método para adicionar campos e retiramos o tuplo;
 
 class Country(models.Model):
-    """UKRAINI='Ucrânia'
-    COUNTRIES = [
-        (UKRAINI,'Ucrânia'),
-    ]"""
     name                     =models.CharField(max_length=25)#,choices=COUNTRIES
 
     def __str__(self):
@@ -125,14 +121,6 @@ class Country(models.Model):
 
 
 class City(models.Model):
-    """KIEV='Kiev'
-    KHARKIV='Kharkiv'
-    MARIUPOL='Mariupol'
-    CITIES = [
-        (KIEV,'Kiev'),
-        (KHARKIV,'Kharkiv'),
-        (MARIUPOL,'Mariupol'),
-    ]"""
     country                     =models.ForeignKey(Country, on_delete=models.CASCADE)
     name                        =models.CharField(max_length=25)#choices=CITIES
 

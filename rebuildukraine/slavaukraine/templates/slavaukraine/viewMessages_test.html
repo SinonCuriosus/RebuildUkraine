@@ -3,8 +3,11 @@
 {% block main %}
 
     {% for message in list %}
+<p>
+    {{ message.subjet }}
 
-
+        {{ message.sender.first_name }}
+    {{ message.receiver.first_name }} </p>
 
 
 
