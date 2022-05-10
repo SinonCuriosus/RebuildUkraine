@@ -12,7 +12,7 @@
             <p>Hey! I am an ENTERPRISE with username: {{ user.username }}</p>
             <p><a href="{% url 'slavaukraine:registproposal' %}">Registar proposta </a></p>
             <br>
-            <p><a href="{% url 'slavaukraine:listed_enterpriseproposals' %}">As minhas propostas </a></p>
+            <p><a href="{% url 'slavaukraine:listed_enterpriseproposals' user.id %}">As minhas propostas </a></p>
             <br>
             <p><a href="{% url 'slavaukraine:edit_enterprise' user.id %}" >Editar empresa </a></p>
 

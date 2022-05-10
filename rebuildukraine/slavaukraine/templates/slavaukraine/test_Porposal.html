@@ -1,0 +1,20 @@
+{% extends "slavaukraine/template.html" %}
+{% load static %}
+{% block main %}
+
+
+    {{ proposal.title }}<br/>
+    {{ proposal.enterprise }}<br/>
+    {{ proposal.description }}<br/>
+    <br>
+     <form action="{% url 'slavaukraine:register_porposal' proposal.id %}" method="post" id="reg">
+     {% csrf_token %}
+        <button type="submit" form="reg" value="Registar">Registar</button>
+     </form>
+    <br>
+    <form action="{% url 'slavaukraine:favorite_porposal' proposal.id %}" method="post" id="fav">
+     {% csrf_token %}
+        <button type="submit" form="fav" value="Favorito">Favorito</button>
+     </form>
+
+{% endblock %}

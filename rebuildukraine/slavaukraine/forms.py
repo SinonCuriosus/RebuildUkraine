@@ -1,3 +1,4 @@
+import self as self
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
@@ -12,10 +13,11 @@ class PersonRegistrationForm(UserCreationForm):
     email = forms.EmailField(max_length=60, help_text="Required. Add a valid email address.")
     is_person = forms.BooleanField(initial=True,widget=forms.HiddenInput(), required=False,label="")
     is_enterprise = forms.BooleanField(initial=False, widget=forms.HiddenInput(), required=False,label="")
+    taxnumber = forms.IntegerField(required=True, max_value=999999999)
 
     class Meta:
         model = Person
-        fields= ("email","username","first_name","last_name","birth", "profile_image", "gender","birth", "address","password1","password2","is_person","is_enterprise")
+        fields= ("email","username","first_name","last_name","birth","taxnumber", "profile_image", "gender","birth", "address","password1","password2","is_person","is_enterprise")
         widgets= {'birth': forms.DateInput(
             format=('%Y-%m-%d'),
             attrs={'class': 'form-control',

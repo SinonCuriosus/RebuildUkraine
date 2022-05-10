@@ -1,14 +1,13 @@
 import copy
 
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import UpdateView, ListView, DeleteView
 
 from . import forms
 from .forms import PersonRegistrationForm, PersonAuthenticationForm, EnterpriseRegistrationForm, ProposalForm
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, request
 
 from .models import Person
 from .models import Country
@@ -34,7 +33,7 @@ def home_screen(request):
                     # 'is_authenticated': is_authenticated
                     'list_of_proposals': list_of_proposals
                 }
-                return render(request, 'slavaukraine/test_home.html', context);
+                return render(request, 'slavaukraine/home.html');
     else:
         name_user = "anonymous"
     context = {
@@ -43,7 +42,7 @@ def home_screen(request):
         #'role_user': role_user,
         #'is_authenticated': is_authenticated
     }
-    return render(request, 'slavaukraine/test_home.html', context);
+    return render(request, 'slavaukraine/home.html', context);
 
 ###############     REGIST VIEWS   ###############
 
@@ -115,13 +114,13 @@ def load_cities(request):
 ###############     UPDATE VIEWS   ###############
 class ProposalUpdate(UpdateView):
     model = Proposal
-    fields = ['city', 'expertiseNeeded','title','description']
+    fields = ['title','expertiseNeeded','description']
     template_name = 'slavaukraine/test_edituser.html'
     success_url = '../../listed_proposals'
 
 class PersonUpdate(UpdateView):
     model = Person
-    fields = ['email','first_name', 'last_name','profile_image','gender','address','birth']
+    fields = ['email','first_name', 'last_name','tax_number','profile_image','gender','address','birth']
     template_name = 'slavaukraine/test_edituser.html'
     success_url = '../../home'
 
@@ -134,7 +133,10 @@ class EnterpriseUpdate(UpdateView):
 
 
 ###############     DELETE VIEWS   ###############
-
+class ProposalDelete(DeleteView):
+    model = Proposal
+    template_name = 'slavaukraine/test_deleteproposal.html'
+    success_url = '../../listed_proposals'
 
 
 ###############     LIST VIEWS     ###############
@@ -144,7 +146,7 @@ class ProposalList(ListView):
     #  login_url = reverse_lazy('test_login')
     model = Proposal
     template_name = 'slavaukraine/test_listedproposals.html'
-    #paginate_by = 10
+    paginate_by = 10
 
 """
     def get_queryset(self):
@@ -161,6 +163,7 @@ class ProposalList(ListView):
 class EnterpriseProposalList(ListView):
     model = Proposal
     template_name = 'slavaukraine/test_listedproposals.html'
+    paginate_by = 10
 
     def get_queryset(self):
         enterprise = self.request.user
@@ -228,7 +231,6 @@ def contacts(request):
 
 
 
-
 # Area reservada
 def reserved(request):
     return render(request, 'slavaukraine/reserved.html')
@@ -241,3 +243,65 @@ def volunteer(request):
 def enterprise(request):
     return None
 
+#voluntario regista-se em propostas
+def register_proposal(request, proposal_id):
+    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
+        proposal = get_object_or_404(Proposal, pk=proposal_id)
+        proposal.register(user=request.user)
+        context = {'proposal': proposal}
+        return render(request, 'slavaukraine/test_Porposal.html', context)
+    else:
+        return login_view(request)
+
+
+# voluntario remove proposta
+def unregister_proposal(request, proposal_id):
+    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
+        proposal = get_object_or_404(Proposal, pk=proposal_id)
+        proposal.unregister(user=request.user)
+        context = {'proposal': proposal}
+        return render(request, 'slavaukraine/test_Porposal.html', context)
+    else:
+        return login_view(request)
+
+#voluntario coloca proposta nos favoritos
+def favorite_proposal(request, proposal_id):
+    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
+        proposal = get_object_or_404(Proposal, pk=proposal_id)
+        proposal.subscribe(user=request.user)
+        context = {'proposal': proposal}
+        return render(request, 'slavaukraine/test_Porposal.html', context)
+    else:
+        return login_view(request)
+
+
+# voluntario remove dos favoritos
+def not_favorite_proposal(request, proposal_id):
+    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
+        proposal = get_object_or_404(Proposal, pk=proposal_id)
+        proposal.unsubscribe(user=request.user)
+        context = {'proposal': proposal}
+        return render(request, 'slavaukraine/test_Porposal.html', context)
+    else:
+        return login_view(request)
+
+def edit_volunteer_page(request):
+    return None
+
+
+def registration_volunteer_list(request):
+    context = {}
+    context["dataset"] = Proposal.objects.filter(registration__person__username=request.user)
+    return render(request, 'slavaukraine/test_Registration_Volunteer_List.html', context)
+
+
+def favorites_volunteer_list(request):
+    context = {}
+    context["dataset"] = Favorites.objects.filter(favorites__person__username=request.user)
+    return render(request, 'slavaukraine/test_Favorites_Volunteer_List.html', context)
+
+#Só para teste
+def porposal_detail(request, proposal_id):
+    proposal = get_object_or_404(Proposal, pk=proposal_id)
+    context = {'proposal': proposal}
+    return render(request, 'slavaukraine/test_Porposal.html', context)

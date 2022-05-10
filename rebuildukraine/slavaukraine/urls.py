@@ -1,6 +1,7 @@
 from django.urls import include, path
 from . import views
-from .views import ProposalList, ProposalUpdate, EnterpriseUpdate, EnterpriseProposalList
+#from .views import ProposalList, ProposalUpdate, EnterpriseUpdate, EnterpriseProposalList
+from .views import ProposalUpdate, EnterpriseUpdate, EnterpriseProposalList, ProposalList, PersonUpdate, ProposalDelete
 
 app_name='slavaukraine'
 urlpatterns = [
@@ -15,9 +16,13 @@ urlpatterns = [
         path("ajax/load-cities/", views.load_cities, name="ajax_load_cities"),
 
     #Área de edição
-    path("editPerson/<int:pk>/", ProposalUpdate.as_view(), name='edit_person'),
+    path("editPerson/<int:pk>/", PersonUpdate.as_view(), name='edit_person'),
     path("editEnterprise/<int:pk>/", EnterpriseUpdate.as_view(), name='edit_enterprise'),
     path("editPerson/<int:pk>/", ProposalUpdate.as_view(), name='edit_person'),
+    path("editProposal/<int:pk>/", ProposalUpdate.as_view(), name='edit_proposal'),
+
+    #Área de delete
+    path("deleteProposal/<int:pk>/", ProposalDelete.as_view(), name='delete_proposal'),
 
 
     #Área de Listagens
@@ -25,8 +30,8 @@ urlpatterns = [
     path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='listed_enterpriseproposals'),
     path("listed_proposals/<int:pk>/", ProposalList.as_view(), name='listed_proposals'),
     #EM FALTA: Favoritos do User, Inscrições do User, Inscrições na Proposta X da Empresa Y
-
-
+    path("Registration_Volunteer_List", views.registration_volunteer_list, name="Registration_Volunteer_List"),
+    path("Favorites_Volunteer_List", views.favorites_volunteer_list, name="Favorites_Volunteer_List"),
 
     #http://127.0.0.1:8000/slavaukraine/login
     path("login/",views.login_view, name="login"),
@@ -39,6 +44,9 @@ urlpatterns = [
 
     #http://127.0.0.1:8000/slavaukraine/volunteer
     path("volunteer",views.volunteer, name="volunteer"),
+    
+    #http://127.0.0.1:8000/slavaukraine/volunteer/edit_volunteer_page
+    path("volunteer/edit_volunteer_page",views.edit_volunteer_page, name="edit_volunteer_page"),
 
     #http://127.0.0.1:8000/slavaukraine/enterprise
     path("enterprise",views.enterprise, name="enterprise"),
@@ -46,6 +54,10 @@ urlpatterns = [
     #http://127.0.0.1:8000/slavaukraine/contacts
     path("contacts",views.contacts, name="contacts"),
 
-
-
+    #teste
+    path('<int:proposal_id>', views.porposal_detail, name="test_Porposal"),
+    
+    path('<int:proposal_id>/register_porposal', views.register_proposal, name="register_porposal"),
+    path('<int:proposal_id>/favorite_porposal', views.favorite_proposal, name="favorite_porposal"),
+    
 ]
