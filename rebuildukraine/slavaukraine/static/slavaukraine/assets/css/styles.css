@@ -266,3 +266,27 @@ nav{
     color: grey;
     padding: 1rem !important;
 }
+
+
+/* Messages */
+
+.messages-page-box {
+   padding: 5% !important;
+}
+
+.message-page-title {
+    color: white;
+}
+
+.message-page-mtitle {
+    color: #ffc400;
+}
+
+.message-page-stitle {
+    color: #005BBB;
+}
+
+.message-page-mreceiv {
+    color: crimson !important;
+
+}

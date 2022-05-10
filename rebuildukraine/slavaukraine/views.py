@@ -26,7 +26,7 @@ from .models import Registration
 def home_screen(request):
 
     if request.user.is_authenticated & request.user.is_active:
-                return render(request, 'slavaukraine/reserved.html');
+                return render(request, 'slavaukraine/home.html');
     else:
         name_user = "anonymous"
     context = {
@@ -330,7 +330,7 @@ def viewMessages(request):
             'list' : list
         }
         print("chegou")
-        return render(request, 'slavaukraine/viewMessages_test.html', context)
+        return render(request, 'slavaukraine/viewMessages.html', context)
     else:
         return home_screen(request)  # vai para a home
 
