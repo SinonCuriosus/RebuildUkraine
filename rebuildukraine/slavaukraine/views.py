@@ -56,7 +56,7 @@ def personRegistration_view(request):
     else:
         form = PersonRegistrationForm()
         context['personregistration_form'] = form
-    return render(request, 'slavaukraine/Regists/register_person.html', context)
+    return render(request, 'slavaukraine/register_person.html', context)
 
 def enterpriseRegistration_view(request):
     context={}
@@ -76,7 +76,7 @@ def enterpriseRegistration_view(request):
     else:
         form = EnterpriseRegistrationForm()
         context['enterpriseregistration_form'] = form
-    return render(request, 'slavaukraine/Regists/register_enterprise.html', context)
+    return render(request, 'slavaukraine/register_enterprise.html', context)
 
 
 
@@ -145,19 +145,16 @@ class ProposalDelete(DeleteView):
 #All proposals
 class ProposalList(ListView):
     model = Proposal
-    template_name = 'slavaukraine/test_listedproposals.html'
+    template_name = 'slavaukraine/listproposals.html'
     paginate_by = 10
 
-"""
     def get_queryset(self):
-
-        proposal_name_inserted = self.request.POST.get('nome_do_titulo')
-        enterprise_user = self.request.user
-        if proposal_name_inserted:
-            proposals = Proposal.objects.filter(enterprise_id=enterprise_user.id).filter(title__icontains=proposal_name_inserted)
+        proposal_title_inserted = self.request.GET.get('nome_do_titulo')
+        if proposal_title_inserted:
+            proposals = Proposal.objects.filter(title__icontains=proposal_title_inserted)
         else:
-            proposals = Proposal.objects.all().filter()
-        return proposals"""
+            proposals = Proposal.objects.all()
+        return proposals
 
 #Proposals by enterprise
 class EnterpriseProposalList(ListView):
@@ -257,11 +254,11 @@ def reserved(request):
 
 # pagina de mais informações sobre ser voluntário
 def volunteer(request):
-    return render(request, 'slavaukraine/reserved.html')
+    return render(request, 'slavaukraine/volunteers.html')
 
 # pagina de mais informações sobre empresa
 def enterprise(request):
-    return None
+    return render(request, 'slavaukraine/enterprise.html')
 
 #voluntario regista-se em propostas
 def register_proposal(request, proposal_id):

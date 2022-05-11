@@ -38,10 +38,10 @@
                         <li class="nav-item"><a class="nav-link active color-uk-w" href="">Area Reservada</a></li>-->
                     {% else %}
                         <li class="nav-item"><a class="nav-link active color-uk-w"
-                                                href="{% url 'slavaukraine:registerperson' %}">Seja Voluntário</a></li>
-                        <li class="nav-item"><a class="nav-link active color-uk-w" href="{% url 'slavaukraine:registerenterprise' %}">A minha empresa quer ajudar!</a></li>
+                                                href="{% url 'slavaukraine:volunteer' %}">Seja Voluntário</a></li>
+                        <li class="nav-item"><a class="nav-link active color-uk-w" href="{% url 'slavaukraine:enterprise' %}">A minha empresa quer ajudar</a></li>
                     {% endif %}
-                    <li class="nav-item"><a class="nav-link active color-uk-w" href="#">Projetos Disponíveis</a></li>
+                    <li class="nav-item"><a class="nav-link active color-uk-w" href="{% url 'slavaukraine:listproposals'%}">Projetos Disponíveis</a></li>
                     <!--<li class="nav-item"><a class="nav-link active color-uk-w" href="">Tenho Projetos</a></li>-->
                     <li class="nav-item"><a class="nav-link active color-uk-w" href="{% url 'slavaukraine:contacts' %}">Contactos</a>
                     </li>

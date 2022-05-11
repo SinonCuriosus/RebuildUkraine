@@ -62,7 +62,7 @@ urlpatterns = [
     #Área de Listagens
     # http://127.0.0.1:8000/slavaukraine/listed_proposals
     path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='listed_enterpriseproposals'),
-    path("listed_proposals/<int:pk>/", ProposalList.as_view(), name='listed_proposals'),
+    path("listproposals/", ProposalList.as_view(), name='listproposals'),
     #EM FALTA: Favoritos do User, Inscrições do User, Inscrições na Proposta X da Empresa Y
 
     #Área de remoção
