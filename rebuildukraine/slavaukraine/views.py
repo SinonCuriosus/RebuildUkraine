@@ -26,7 +26,7 @@ from .models import Registration
 def home_screen(request):
 
     if request.user.is_authenticated & request.user.is_active:
-                return render(request, 'slavaukraine/home.html');
+                return render(request, 'slavaukraine/reserved.html');
     else:
         name_user = "anonymous"
     context = {
@@ -92,7 +92,7 @@ def proposal_create_view(request):
         if form.is_valid():
             print("É VÁLIDO")
             form.save()
-            return render(request, 'slavaukraine/test_home.html');
+            return render(request, 'slavaukraine/reserved.html');
     return render(request, 'slavaukraine/test_registproposal.html', {'form': form});
 
 #Do not delete, It's a helper to Create proposals; Does the adaptative dropdown in the city.
@@ -110,11 +110,10 @@ def load_cities(request):
 class ProposalUpdate(UpdateView):
     model = Proposal
     fields = ['title','expertiseNeeded','description']
-    template_name = 'slavaukraine/test_edituser.html'
+    template_name = 'slavaukraine/edituser.html'
 
     def get_success_url(self):
-        pk = self.kwargs["pk"]
-        return reverse('slavaukraine:listed_enterpriseproposals', kwargs={"pk": pk})
+        return reverse('slavaukraine:home')
 
 
 class PersonUpdate(UpdateView):
@@ -126,7 +125,7 @@ class PersonUpdate(UpdateView):
 class EnterpriseUpdate(UpdateView):
     model = Person
     fields = ['email','first_name','taxnumber','profile_image','address']
-    template_name = 'slavaukraine/test_editproposal.html'
+    template_name = 'slavaukraine/edituser.html'
     success_url = reverse_lazy('slavaukraine:home')
 
 
@@ -134,15 +133,14 @@ class EnterpriseUpdate(UpdateView):
 ###############     DELETE VIEWS   ###############
 class ProposalDelete(DeleteView):
     model = Proposal
-    template_name = 'slavaukraine/test_deleteproposal.html'
+    template_name = 'slavaukraine/deleteproposal.html'
     #success_url = reverse_lazy('slavaukraine:listed_proposals')
 
     def get_success_url(self, **kwargs):
-        return reverse('slavaukraine:listed_proposals', kwargs = {'pk' : self.request.user.id, })
+        return reverse('slavaukraine:home')
 
 ###############     LIST VIEWS     ###############
 
-#All proposals
 class ProposalList(ListView):
     model = Proposal
     template_name = 'slavaukraine/listproposals.html'
@@ -156,16 +154,22 @@ class ProposalList(ListView):
             proposals = Proposal.objects.all()
         return proposals
 
-#Proposals by enterprise
 class EnterpriseProposalList(ListView):
     model = Proposal
-    template_name = 'slavaukraine/test_listedproposals.html'
+    template_name = 'slavaukraine/reserved.html'
+    #slavaukraine / listed_proposals / 3
     paginate_by = 10
+
 
     def get_queryset(self):
         enterprise = self.request.user
-        queryset = Proposal.objects.filter(enterprise_id=enterprise.id)
-        return queryset
+        proposal_title_inserted = self.request.GET.get('nome_do_titulo')
+        if proposal_title_inserted:
+            proposals = Proposal.objects.filter(enterprise_id=enterprise.id).filter(title__icontains=proposal_title_inserted)
+        else:
+            proposals = Proposal.objects.filter(enterprise_id=enterprise.id)
+        return proposals
+
 
 #Proposals by user
 class PersonProposalList(ListView):

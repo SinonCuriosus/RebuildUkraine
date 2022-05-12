@@ -32,7 +32,7 @@
                                 <hr>
 
                                 <div class="table-responsive" style="margin-left:auto;margin-right:auto;">
-                                    <table>
+                                    <table class="table-striped">
                                         <tr >
                                             <th>Cidade</th>
                                             <th>Título</th>
@@ -65,7 +65,7 @@
 
                                     <span class="volunteer-subtext-blue">Página {{ page_obj.number }}</span>
 
-                                        {% if page_obj.has_nexts %}
+                                        {% if page_obj.has_next %}
                                             <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
                                         {% endif %}
                                     </div>
