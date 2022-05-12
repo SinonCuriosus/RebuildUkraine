@@ -56,7 +56,7 @@
 
                             <div class="tab-pane fade reserved-page-information" id="pills-profile" role="tabpanel"
                                  aria-labelledby="pills-profile-tab" >
-                                <hr>
+                                <hr >
                                 <form action="?" method="GET" style="margin-left:auto;margin-right:auto;" >
                                     <input type="text" name="nome_do_titulo" id="pills-profile"
                                            value="{{ request.GET.nome_do_titulo }}" autocomplete="off"
@@ -65,7 +65,11 @@
                                     <button type="submit" class="btn btn-group-sm">Pesquisar</button>
 
                                     <a href="{% url 'slavaukraine:list_enterpriseproposals' user.pk %}"
-                                       class="btn btn-group-sm">Limpar</a>
+                                       class="btn btn-group-sm" >Limpar</a>
+
+                                    <a href="{% url 'slavaukraine:registproposal' %}"
+                                        class="btn btn-group-sm" style="margin-left:auto;margin-right:auto;">Registar nova vaga</a>
+
                                 </form>
 
                                 <hr>
@@ -111,7 +115,7 @@
                                             <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
                                         {% endif %}
                                     </div>
-                                    <a href="{% url 'slavaukraine:registproposal' %}">Registar nova vaga</a>
+
                                 </div>
 
                             </div>

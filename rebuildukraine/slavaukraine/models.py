@@ -109,7 +109,7 @@ class Person(AbstractBaseUser):
 #para acrescentar países, criamos um método para adicionar campos e retiramos o tuplo;
 
 class Country(models.Model):
-    name                     =models.CharField(max_length=25)#,choices=COUNTRIES
+    name                     =models.CharField(max_length=25, verbose_name='País')#,choices=COUNTRIES
 
     def __str__(self):
         return self.name
@@ -121,8 +121,8 @@ class Country(models.Model):
 
 
 class City(models.Model):
-    country                     =models.ForeignKey(Country, on_delete=models.CASCADE)
-    name                        =models.CharField(max_length=25)#choices=CITIES
+    country                     =models.ForeignKey(Country, on_delete=models.CASCADE, verbose_name='País')
+    name                        =models.CharField(max_length=25, verbose_name='Cidade')#choices=CITIES
 
     def __str__(self):
         return self.name
@@ -133,7 +133,7 @@ class City(models.Model):
 
 
 class Expertise(models.Model):
-    name            =models.CharField(max_length=250)
+    name            =models.CharField(max_length=250, verbose_name='Especialidade')
 
     def __str__(self):
         return self.name
@@ -143,8 +143,8 @@ class Expertise(models.Model):
         verbose_name_plural= "Especializações"
 
 class Specialization(models.Model):
-    expertise                   = models.ForeignKey(Expertise,on_delete=models.CASCADE)
-    person                      = models.ForeignKey(Person,on_delete=models.CASCADE)
+    expertise                   = models.ForeignKey(Expertise,on_delete=models.CASCADE, verbose_name='Especialidade')
+    person                      = models.ForeignKey(Person,on_delete=models.CASCADE, verbose_name='Voluntário')
 
     def __str__(self):
         return self.person.username
@@ -158,9 +158,9 @@ class Proposal(models.Model):
     enterprise                  =models.ForeignKey(Person, on_delete=models.CASCADE)
     country                     =models.ForeignKey(Country, on_delete=models.CASCADE, blank=True, null=True)
     city                        =models.ForeignKey(City, on_delete=models.CASCADE, blank=True, null=True)
-    expertiseNeeded             =models.ForeignKey(Expertise,on_delete=models.CASCADE, blank=True, null=True)
-    title                       =models.CharField(max_length=50)
-    description                 =models.CharField(max_length=150)
+    expertiseNeeded             =models.ForeignKey(Expertise,on_delete=models.CASCADE, blank=True, null=True, verbose_name='Especialidade')
+    title                       =models.CharField(max_length=50,verbose_name='Título')
+    description                 =models.CharField(max_length=150,verbose_name='Descrição')
 
     def __str__(self):
         return self.enterprise.username
@@ -185,8 +185,8 @@ class Proposal(models.Model):
         verbose_name_plural= "Propostas de voluntariado"
 
 class Favorites(models.Model):
-    person                      = models.ForeignKey(Person,on_delete=models.CASCADE)
-    proposal                    = models.ForeignKey(Proposal,on_delete=models.CASCADE)
+    person                      = models.ForeignKey(Person,on_delete=models.CASCADE, verbose_name='Voluntário')
+    proposal                    = models.ForeignKey(Proposal,on_delete=models.CASCADE, verbose_name='Proposta')
 
     def __str__(self):
         return self.person.username

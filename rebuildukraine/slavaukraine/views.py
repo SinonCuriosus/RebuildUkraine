@@ -93,7 +93,7 @@ def proposal_create_view(request):
             print("É VÁLIDO")
             form.save()
             return render(request, 'slavaukraine/reserved.html');
-    return render(request, 'slavaukraine/test_registproposal.html', {'form': form});
+    return render(request, 'slavaukraine/registproposal.html', {'form': form});
 
 #Do not delete, It's a helper to Create proposals; Does the adaptative dropdown in the city.
 def load_cities(request):

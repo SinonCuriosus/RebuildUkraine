@@ -56,16 +56,16 @@ urlpatterns = [
     path("editEnterprise/<int:pk>/", EnterpriseUpdate.as_view(), name='enterprise'),
     # Edição proposta da empresa
     path("editProposal/<int:pk>/", ProposalUpdate.as_view(), name='edit_proposal'),
-    # Eliminação da proposta
-    path("deleteProposal/<int:pk>/", ProposalDelete.as_view(), name='delete_proposal'),
+
 
     #Área de Listagens
-    # http://127.0.0.1:8000/slavaukraine/listed_proposals
     path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='list_enterpriseproposals'),
     path("listproposals/", ProposalList.as_view(), name='listproposals'),
     #EM FALTA: Favoritos do User, Inscrições do User, Inscrições na Proposta X da Empresa Y
 
     #Área de remoção
+
+    path("deleteProposal/<int:pk>/", ProposalDelete.as_view(), name='delete_proposal'),
 
     # --------------------------------------------------------------------------------
 

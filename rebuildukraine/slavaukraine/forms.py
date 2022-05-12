@@ -53,7 +53,7 @@ class PersonAuthenticationForm(forms.ModelForm):
                 raise forms.ValidationError("Invalid credentials.");
 
 class EnterpriseRegistrationForm(UserCreationForm):
-    email = forms.EmailField(max_length=60, help_text="Required. Add a valid email address.", label="Email")
+    email = forms.EmailField(max_length=60, help_text="Required. Add a valid email address.")
     is_person = forms.BooleanField(initial=False,widget=forms.HiddenInput(), required=False,label="")
     is_enterprise = forms.BooleanField(initial=True, widget=forms.HiddenInput(), required=False,label="")
     profile_image = forms.ImageField(required=False,label="Imagem de Perfil")

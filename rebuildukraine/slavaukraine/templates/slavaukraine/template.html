@@ -33,7 +33,7 @@
 
                 <br>
                     {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link active color-uk-w-b" href="#">    Welcome {{ user.username }}!     </a></li>
+                        <li class="nav-item"><a class="nav-link active color-uk-w-b" href="{% url 'slavaukraine:home' %}">    Welcome {{ user.username }}!     </a></li>
                         <!--Faz sentido ter esta área estando o utilizador já com acesso a tudo nesta página? Apagamos ou mantemos?
                         <li class="nav-item"><a class="nav-link active color-uk-w" href="">Area Reservada</a></li>-->
                     {% else %}
