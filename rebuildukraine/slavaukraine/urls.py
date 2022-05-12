@@ -14,14 +14,12 @@ urlpatterns = [
     path("enterprise",views.enterprise, name="enterprise"),
     # Contactos
     path("contacts",views.contacts, name="contacts"),
-    path("submitcontact",views.submitContact, name="submitcontact"),
     # Login
     path("login/",views.login_view, name="login"),
     # Logout
     path("logout/",views.logout_view, name="logout"),
-
-    #http://127.0.0.1:8000/slavaukraine/reserved
-    #path("reserved_area",views.reserved, name="reserved_area"),
+    #area reservada
+    path("reserved_area",views.reserved, name="reserved_area"),
 
 
     # --------------------------------------------------------------------------------

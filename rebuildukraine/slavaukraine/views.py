@@ -23,17 +23,10 @@ from .models import Registration
 
 # Create your views here.
 
+#Pagina inicial -RR visto
 def home_screen(request):
-
-    if request.user.is_authenticated & request.user.is_active:
-                return render(request, 'slavaukraine/reserved.html');
-    else:
-        name_user = "anonymous"
     context = {
-        #'title': 'Building Ukraine - Homepage ',
-        'name_user': name_user,
-        #'role_user': role_user,
-        #'is_authenticated': is_authenticated
+        'title': 'Building Ukraine - Homepage',
     }
     return render(request, 'slavaukraine/home.html', context);
 
@@ -175,94 +168,93 @@ class EnterpriseProposalList(ListView):
 class PersonProposalList(ListView):
     model = Proposal
     template_name = 'slavaukraine/test_home.html'
-
     def get_queryset(self):
         queryset = super(PersonProposalList, self.get_queryset())
         queryset = queryset.filter(user=self.request.user)
         return queryset
 
-
+# Logout -RR visto
 def logout_view(request):
     logout(request)
     return home_screen(request)
 
+# Login -RR visto
 def login_view(request):
-    context={}
-    user = request.user
-    if user.is_authenticated:
-        return home_screen(request)
     if request.POST:
         form = PersonAuthenticationForm(request.POST)
+        context = {
+            'title': 'Building Ukraine - Login',
+            'login_form': form
+        }
         if form.is_valid():
             email = request.POST['email']
             password = request.POST['password']
             user = authenticate(email=email, password=password)
             if user:
                 login(request, user)
-                return view_profile(request)
-    #If they are not authenticated and they didnt try to loggin yet...
+                return home_screen(request)
+            else:
+                return render(request, 'slavaukraine/login.html', context)
+        else:
+            return render(request, 'slavaukraine/login.html', context)
     else:
-        form = PersonAuthenticationForm
-    print("Chegou aqui!")
-    context['login_form'] = form
-    return render(request, 'slavaukraine/login.html',context)
-
-def view_profile(request):
-    context = {
-        'user': request.user
-    }
-    return render(request, 'slavaukraine/reserved.html', context)
-
+        if utils.verifyUser(request):
+            return home_screen(request)
+        else:
+            form = PersonAuthenticationForm
+            context = {
+                'title': 'Building Ukraine - Login',
+                'login_form': form
+            }
+            return render(request, 'slavaukraine/login.html',context)
 
 
 
-#pagina de contactos
-#pagina de contactos
+#pagina de contactos-RR visto
 def contacts(request):
-    if request.user.is_authenticated & request.user.is_active:
-        #name_user = request.user.first_name + " " + request.user.last_name
-        name_user = request.user.username
-        is_authenticated = 1
-        role_user = request.user.is_person
+    if request.POST:
+        subjet = "From:" + request.POST.get('name')
+        email = request.POST.get('email')
+        text = request.POST.get('message')
+        send_mail(subjet, text, 'slavaukraine@sapo.pt', [email])
+        context = {
+            'title': 'Building Ukraine - Contactos',
+            'enviado': 1
+        }
+        return render(request, 'slavaukraine/contacts.html',context)
     else:
-
-        print("anonymous")
-        name_user = "anonymous"
-        is_authenticated = 0
-        role_user = 0
-    context = {
-        'title': 'Building Ukraine - Contactos',
-        'name_user': name_user,
-        'role_user': role_user,
-        'is_authenticated': is_authenticated
-    }
-    return render(request, 'slavaukraine/contacts.html')
-
-def submitContact(request):
-    subjet = "From:" + request.POST.get('name')
-    email = request.POST.get('email')
-    text = request.POST.get('message')
-    print(" nome " + subjet)
-    print(" email " + email)
-    print("text " + text)
-    send_mail(subjet,text,'slavaukraine@sapo.pt',[email])
-    print("enviou")
-    return home_screen(request)
+        context = {
+            'title': 'Building Ukraine - Contactos',
+            'enviado': 0
+        }
+        return render(request, 'slavaukraine/contacts.html',context)
 
 
 
 
 # Area reservada
 def reserved(request):
-    return render(request, 'slavaukraine/reserved.html')
+    list = utils.getUserMEssages(request)
+    context = {
+        'title': 'Building Ukraine - Área Reservada',
+        'list': list
+    }
+    return render(request, 'slavaukraine/reserved.html',context)
 
-# pagina de mais informações sobre ser voluntário
+# pagina de mais informações sobre ser voluntário -RR visto
 def volunteer(request):
-    return render(request, 'slavaukraine/volunteers.html')
+    context = {
+        'title': 'Building Ukraine - Ser Voluntário',
+    }
+    return render(request, 'slavaukraine/volunteers.html', context)
 
-# pagina de mais informações sobre empresa
+# pagina de mais informações sobre empresa -RR visto
 def enterprise(request):
+    context = {
+        'title': 'Building Ukraine - Apresentar Projetos',
+    }
     return render(request, 'slavaukraine/enterprise.html')
+
 
 #voluntario regista-se em propostas
 def register_proposal(request, proposal_id):
@@ -322,25 +314,24 @@ def porposal_detail(request, proposal_id):
     return render(request, 'slavaukraine/test_Porposal.html', context)
 
 
-# view para listar todas as mensagens
-
+# view para listar todas as mensagens - Possivelmente para remover
 def viewMessages(request):
     if True: #getUser(request):
         list = TopicMessage.objects.filter(Q(sender=request.user) | Q(receiver=request.user)).order_by('-date')
         context = {
+            'title': 'Building Ukraine - Homepage',
             'list' : list
         }
-        print("chegou")
         return render(request, 'slavaukraine/viewMessages.html', context)
     else:
-        return home_screen(request)  # vai para a home
+        return home_screen(request)
 
 
 # view da nova msg entre user
 def newMessage(request,recipient):
     if request.POST:
         print("entrou 2")
-        if utils.getUser(request):
+        if utils.verifyUser(request):
             topic = utils.saveMessage(request, recipient) # cria o titulo ou topico da mensagem
             utils.saveReply(request, topic, Person.objects.get(id=recipient)) #cria a mensagem ou resposta
             utils.send_newMessage(request,Person.objects.get(id=recipient)) # envia email para o user

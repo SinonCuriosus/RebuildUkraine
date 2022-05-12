@@ -14,6 +14,9 @@
                         <br>
                         <h2>Contactos</h2>
                         <p class="w-lg-50 contacts-subtext">Utilize os nosso canais de contacto ou utilize o nosso formulário de pedido de contactos</p>
+                        {% if enviado == 1 %}
+                        <h6> Obrigado por nos enviar a mensagem. Brevemente será contactado</h6>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center">
@@ -50,7 +53,7 @@
                     </div>
                     <div class="col-md-8 col-lg-6 col-xl-6">
                         <div>
-                            <form class="p-3 p-xl-4" method="post" action="{% url 'slavaukraine:submitcontact' %}">
+                            <form class="p-3 p-xl-4" method="post" action="{% url 'slavaukraine:contacts' %}">
                                 {% csrf_token %}
                                 <div class="mb-3"><input class="form-control" type="text" id="name-1" name="name" placeholder="Name"></div>
                                 <div class="mb-3"><input class="form-control" type="email" id="email-1" name="email" placeholder="Email"></div>

@@ -1,216 +1,176 @@
-{% extends "slavaukraine/template.html" %}
+{% extends "slavaukraine/template_box.html" %}
 {% load static %}
-{% block main %}
+{% block box %}
+<br>
+<ul class="nav nav-pills mb-3 reserved-page-buttons" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                aria-selected="true">Dados Pessoais
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-messages-tab" data-bs-toggle="pill"
+                data-bs-target="#pills-messages" type="button" role="tab"
+                aria-controls="pills-messages" aria-selected="false">Mensagens
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-projects-tab" data-bs-toggle="pill"
+                data-bs-target="#pills-projects" type="button" role="tab"
+                aria-controls="pills-projects" aria-selected="false">Inscrições
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-saved-tab" data-bs-toggle="pill"
+                data-bs-target="#pills-saved" type="button" role="tab"
+                aria-controls="pills-saved" aria-selected="false">Favoritos
+        </button>
+    </li>
+</ul>
 
-<!-- Enterprise reserved area-->
-
-{% if user.is_enterprise %}
-    <div>
-        <section class="position-relative py-4 py-xl-5">
-            <div class="mb-5">
-                <div class="col-md-8 col-xl-6 text-center mx-auto">
-                    <p class="w-lg-50"></p>
-                </div>
-            </div>
-            <div class="container position-relative reserved-page-card">
-
-                <div class="row d-flex justify-content-center reserved-page-card">
-
-                    <div class="col-md-12 col-lg-12 col-xl-12">
-                        <ul class="nav nav-pills mb-4 reserved-page-buttons" id="pills-tab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-home" type="button" role="tab"
-                                        aria-controls="pills-home"
-                                        aria-selected="true">O meu Perfil
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-profile" type="button" role="tab"
-                                        aria-controls="pills-profile" aria-selected="false">Propostas criadas
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-contact" type="button" role="tab"
-                                        aria-controls="pills-contact" aria-selected="false">Projetos Guardados
-                                </button>
-                            </li>
-                        </ul>
-                        <div class="tab-content reserved-page-information" id="pills-tabContent">
-                            <div class="tab-pane fade show active reserved-page-information" id="pills-home"
-                                 role="tabpanel"
-                                 aria-labelledby="pills-home-tab">
-                                <p>{{ user.profile_image }}</p>
-                                {% if user.first_name %}
-                                    <p>Nome: {{ user.first_name }} {{ user.profile_image }}</p>
-                                {% endif %}
-                                <p>Email: {{ user.email }}</p>
-                                <p>Número de contribuinte: {{ user.taxnumber }}</p>
-                                <p>Morada: {{ user.address }}</p>
-                                <p>Date joined: {{ user.date_joined }}</p>
-                                <a href="{% url 'slavaukraine:enterprise' user.pk %}" class="btn btn-link">Editar os
-                                    meus dados</a>
-                            </div>
-
-                            <div class="tab-pane fade reserved-page-information" id="pills-profile" role="tabpanel"
-                                 aria-labelledby="pills-profile-tab" >
-                                <hr >
-                                <form action="?" method="GET" style="margin-left:auto;margin-right:auto;" >
-                                    <input type="text" name="nome_do_titulo" id="pills-profile"
-                                           value="{{ request.GET.nome_do_titulo }}" autocomplete="off"
-                                           placeholder="Nome do título">
-
-                                    <button type="submit" class="btn btn-group-sm">Pesquisar</button>
-
-                                    <a href="{% url 'slavaukraine:list_enterpriseproposals' user.pk %}"
-                                       class="btn btn-group-sm" >Limpar</a>
-
-                                    <a href="{% url 'slavaukraine:registproposal' %}"
-                                        class="btn btn-group-sm" style="margin-left:auto;margin-right:auto;">Registar nova vaga</a>
-
-                                </form>
-
-                                <hr>
-
-                                <div class="table-responsive" >
-                                    <table class="table-striped" >
-                                        <tr>
-                                            <th>Cidade</th>
-                                            <th>Título</th>
-                                            <th>Especialidade</th>
-                                            <th>Opções</th>
-                                        </tr>
-
-                                        {% for object in object_list %}
-                                            <tr class="text-start">
-                                                <td>{{ object.city }}</td>
-                                                <td>{{ object.title }}</td>
-                                                <td>{{ object.expertiseNeeded }}</td>
-                                                <td>
-
-                                                    <a href="{% url 'slavaukraine:edit_proposal' object.pk %}" title="edit_proposal">Editar</a>
-                                                    <a href="#" title="Excluir">Ver inscritos</a>
-                                                    <a href="{% url 'slavaukraine:delete_proposal' object.pk %}" title="delete_proposal">Apagar</a>
-                                                </td>
-
-                                            </tr>
-                                            <br>
-                                        {% empty %}
-                                            <tr>
-                                                <!-- Colspan porque a mensagem vai ocupar as 3 colunas-->
-                                                <td colspan="3"> Nenhuma proposta registada.</td>
-                                            </tr>
-                                        {% endfor %}
-                                    </table>
-                                    <div class="text-center">
-                                        {% if page_obj.has_previous %}
-                                            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-                                        {% endif %}
-
-                                        <span class="volunteer-subtext-blue">Página {{ page_obj.number }}</span>
-
-                                        {% if page_obj.has_next %}
-                                            <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
-                                        {% endif %}
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="tab-pane fade reserved-page-information" id="pills-contact" role="tabpanel"
-                                 aria-labelledby="pills-contact-tab">Aqui projetos guardados
-                            </div>
-                        </div>
+<div class="tab-content reserved-page-information" id="pills-tabContent">
+    <div class="tab-pane fade show active reserved-page-information" id="pills-home" role="tabpanel"
+         aria-labelledby="pills-home-tab">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-3 col-lg-3 col-xl-3">
+                <div class="d-flex flex-column justify-content-center align-items-start h-100 contacts-contacts">
+                    <div class="d-flex align-items-center p-3 ">
+                        <p>{{ user.profile_image }}</p>
                     </div>
                 </div>
             </div>
-            <div class="mb-5">
-                <div class="col-md-8 col-xl-6 text-center mx-auto">
-                    <p class="w-lg-50"></p>
-                </div>
-            </div>
-        </section>
-    </div>
-{% endif %}
-
-<!-- Person reserved area-->
-
-{% if user.is_person %}
-    <div>
-        <section class="position-relative py-4 py-xl-5">
-            <div class="mb-5">
-                <div class="col-md-8 col-xl-6 text-center mx-auto">
-                    <p class="w-lg-50"></p>
-                </div>
-            </div>
-            <div class="container position-relative reserved-page-card">
-
-                <div class="row d-flex justify-content-center reserved-page-card">
-
-                    <div class="col-md-12 col-lg-12 col-xl-12">
-                        <ul class="nav nav-pills mb-4 reserved-page-buttons" id="pills-tab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                                        aria-selected="true">Os meu Perfil
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-edit" type="button" role="tab" aria-controls="pills-home"
-                                        aria-selected="true">Editar de Perfil
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-profile" type="button" role="tab"
-                                        aria-controls="pills-profile" aria-selected="false">Projetos Inscritos
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-contact" type="button" role="tab"
-                                        aria-controls="pills-contact" aria-selected="false">Projetos Guardados
-                                </button>
-                            </li>
-                        </ul>
-                        <div class="tab-content reserved-page-information" id="pills-tabContent">
-                            <div class="tab-pane fade show active reserved-page-information" id="pills-home"
-                                 role="tabpanel"
-                                 aria-labelledby="pills-home-tab">
-                                <p>{{ user.profile_image }}</p>
-                                {% if user.first_name %}
-                                    <p>Nome: {{ user.first_name }} {{ user.profile_image }}</p>
-                                {% endif %}
-                                <p>Email: {{ user.email }}</p>
-                                <p>Número de contribuinte: {{ user.taxnumber }}</p>
-                                <p>Morada: {{ user.address }}</p>
-                                <p>Data de nascimento: {{ user.birth }}</p>
-                                <p>Date joined: {{ user.date_joined }}</p>
-                                <a href="{% url 'slavaukraine:enterprise' user.pk %}" >Editar os meus dados</a>
-                            </div>
-                            <div class="tab-pane fade show active reserved-page-information" id="pills-home"
-                                 role="tabpanel"
-                                 aria-labelledby="pills-edit-tab">
-                            </div>
-                            <div class="tab-pane fade reserved-page-information" id="pills-profile" role="tabpanel"
-                                 aria-labelledby="pills-profile-tab">Aqui projetos inscritos
-                            </div>
-                            <div class="tab-pane fade reserved-page-information" id="pills-contact" role="tabpanel"
-                                 aria-labelledby="pills-contact-tab">Aqui projetos guardados
-                            </div>
-                        </div>
+            <div class="col-md-8 col-lg-9 col-xl-9">
+                <div>
+                    {% if user.is_enterprise %}
+                    <div class="mb-3"> Dados Cliente
+                        {% if user.first_name %}
+                        <p>Nome: {{ user.first_name }} {{ user.profile_image }}</p>
+                        {% endif %}
+                        <p>Email: {{ user.email }}</p>
+                        <p>Número de contribuinte: {{ user.taxnumber }}</p>
+                        <p>Morada: {{ user.address }}</p>
+                        <p>Data de nascimento: {{ user.birth }}</p>
+                        <p>Date joined: {{ user.date_joined }}</p>
+                    <br>
                     </div>
+                    <div>
+                        <a class="btn btn-primary text-right carrousel-button-uk" role="button"
+                           href="{% url 'slavaukraine:enterprise' user.pk %}">Editar</a>
+                    </div>
+                    {% endif %}
+
+                    {% if user.is_person %}
+                    <div>
+                        {% if user.first_name %}
+                        <p>Nome Pessoa: {{ user.first_name }} {{ user.profile_image }}</p>
+                        {% endif %}
+                        <p>Email: {{ user.email }}</p>
+                        <p>Número de contribuinte: {{ user.taxnumber }}</p>
+                        <p>Morada: {{ user.address }}</p>
+                        <p>Data de nascimento: {{ user.birth }}</p>
+                        <p>Date joined: {{ user.date_joined }}</p>
+                        <br>
+                    </div>
+                    <div>
+                        <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
+                           href="{% url 'slavaukraine:enterprise' user.pk %}">Editar</a>
+                    </div>
+                    {% endif %}
+
                 </div>
             </div>
-            <div class="mb-5">
-                <div class="col-md-8 col-xl-6 text-center mx-auto">
-                    <p class="w-lg-50"></p>
-                </div>
-            </div>
-        </section>
+        </div>
+
+
     </div>
-{% endif %}
+    <div class="tab-pane fade reserved-page-information" id="pills-messages" role="tabpanel"
+         aria-labelledby="pills-messages-tab">
+        <div class="list-group">
+            {% for message in list %}
+            <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1 message-page-mtitle">{{ message.subjet }}</h5>
+                    <small class="message-page-stitle">{{ message.date }}</small>
+                </div>
+                <p class="mb-1 message-page-stitle">Criado por: {{ message.sender.first_name }}</p>
+                {% if message.isRead == True %}
+                <small class="text-muted">&nbsp;&nbsp;&nbsp; S/ Novas Mensagens</small>
+                {% else %}
+                <small class="message-page-mreceiv">
+                    &nbsp;&nbsp;&nbsp; Tem Novas Mensagens</small>
+                {% endif %}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="tab-pane fade reserved-page-information" id="pills-projects" role="tabpanel"
+         aria-labelledby="pills-projects-tab">
+
+
+        <form action="?" method="GET" style="margin-left:auto;margin-right:auto;">
+            <input type="text" name="nome_do_titulo" id="pills-profile"
+                   value="{{ request.GET.nome_do_titulo }}" autocomplete="off"
+                   placeholder="Nome do título">
+
+            <button type="submit" class="btn btn-group-sm">Pesquisar</button>
+
+            <a href="{% url 'slavaukraine:list_enterpriseproposals' user.pk %}"
+               class="btn btn-group-sm">Limpar</a>
+
+            <a href="{% url 'slavaukraine:registproposal' %}"
+               class="btn btn-group-sm" style="margin-left:auto;margin-right:auto;">Registar nova vaga</a>
+
+        </form>
+
+        <hr>
+
+        <div class="table-responsive">
+            <table class="table-striped">
+                <tr>
+                    <th>Cidade</th>
+                    <th>Título</th>
+                    <th>Especialidade</th>
+                    <th>Opções</th>
+                </tr>
+
+                {% for object in object_list %}
+                <tr class="text-start">
+                    <td>{{ object.city }}</td>
+                    <td>{{ object.title }}</td>
+                    <td>{{ object.expertiseNeeded }}</td>
+                    <td>
+                        <a href="{% url 'slavaukraine:edit_proposal' object.pk %}" title="edit_proposal">Editar</a>
+                        <a href="#" title="Excluir">Ver inscritos</a>
+                        <a href="{% url 'slavaukraine:delete_proposal' object.pk %}" title="delete_proposal">Apagar</a>
+                    </td>
+                </tr>
+                <br>
+                {% empty %}
+                <tr>
+                    <!-- Colspan porque a mensagem vai ocupar as 3 colunas-->
+                    <td colspan="3"> Nenhuma proposta registada.</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="text-center">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                {% endif %}
+
+                <span class="volunteer-subtext-blue">Página {{ page_obj.number }}</span>
+
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+                {% endif %}
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="tab-pane fade reserved-page-information" id="pills-saved" role="tabpanel"
+         aria-labelledby="pills-saved-tab">Aqui projetos guardados
+    </div>
+</div>
 {% endblock %}
