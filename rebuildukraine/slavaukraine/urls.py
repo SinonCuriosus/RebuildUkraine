@@ -20,7 +20,7 @@ urlpatterns = [
     # Logout
     path("logout/",views.logout_view, name="logout"),
     #area reservada
-    path("reserved_area",views.reserved, name="reserved_area"),
+    path("reserved_area", views.reserved, name="reserved_area"),
 
 
     # --------------------------------------------------------------------------------

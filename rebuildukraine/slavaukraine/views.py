@@ -173,13 +173,10 @@ class PersonProposalList(ListView):
     def get_queryset(self):
         person = self.request.user
         proposal_title_inserted = self.request.GET.get('nome_do_titulo')
-        print("Antes do if")
         if proposal_title_inserted:
             proposals = Proposal.objects.filter(person_id=person.id).filter(title__icontains=proposal_title_inserted)
-            print("Entrou no if")
         else:
             proposals = Proposal.objects.filter(person_id=person.id)
-            print("Entrou no else")
         return proposals
 
 # Logout -RR visto
@@ -238,14 +235,16 @@ def contacts(request):
         return render(request, 'slavaukraine/contacts.html',context)
 
 
-
-
 # Area reservada
 def reserved(request):
     list = utils.getUserMEssages(request)
+    proposals = utils.getProposals(request)
+    favorites = utils.getFavorites(request)
     context = {
         'title': 'Building Ukraine - Área Reservada',
         'list': list,
+        'proposals': proposals,
+        'favorites': favorites
     }
     return render(request, 'slavaukraine/reserved.html',context)
 
@@ -270,7 +269,7 @@ def register_proposal(request, proposal_id):
         proposal = get_object_or_404(Proposal, pk=proposal_id)
         proposal.register(user=request.user)
         context = {'proposal': proposal}
-        return render(request, 'slavaukraine/reserved.html', context)
+        return render(request, 'slavaukraine/proposal.html', context)
     else:
         return login_view(request)
 
