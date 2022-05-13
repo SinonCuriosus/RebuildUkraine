@@ -4,7 +4,7 @@ import datetime
 from django.core.mail import send_mail
 from django.db.models import Q
 
-from .models import TopicMessage, Answers, Person
+from .models import TopicMessage, Answers, Person, Registration
 
 
 def send_email(subjet,text,email):
@@ -17,6 +17,14 @@ def verifyUser(request):
     else:
         return False
 
+def isEnterprise(request):
+    if verifyUser(request):
+        if request.user.is_enterprise:
+            return True
+        else:
+            return False
+    else:
+        return False
 
 def getUser(request):
     if verifyUser(request):
@@ -70,4 +78,11 @@ def getUserMEssages(request):
 
     return TopicMessage.objects.filter(Q(sender=request.user) | Q(receiver=request.user)).order_by('-date')
 
+
+def isRegisted(request,proposal_id):
+    registed = Registration.objects.filter(Q(proposal=proposal_id) | Q(person=request.user.id))
+    if registed is None:
+        return 0
+    else:
+        return 1
 

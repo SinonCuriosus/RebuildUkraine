@@ -24,33 +24,91 @@ from .models import Registration
 # Create your views here.
 
 #Pagina inicial -RR visto
-def home_screen(request):
+def home(request):
     context = {
         'title': 'Building Ukraine - Homepage',
     }
     return render(request, 'slavaukraine/home.html', context);
 
-###############     REGIST VIEWS   ###############
+# pagina de mais informações sobre ser voluntário -RR visto
+def volunteer(request):
+    context = {
+        'title': 'Building Ukraine - Ser Voluntário',
+    }
+    return render(request, 'slavaukraine/volunteers.html', context)
 
-def personRegistration_view(request):
-    context={}
+# pagina de mais informações sobre empresa -RR visto
+def enterprise(request):
+    context = {
+        'title': 'Building Ukraine - Apresentar Projetos',
+    }
+    return render(request, 'slavaukraine/enterprise.html')
+
+#pagina de contactos-RR visto
+def contacts(request):
     if request.POST:
-        form = PersonRegistrationForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            email= form.cleaned_data.get('email')
-            raw_password = form.cleaned_data.get('password1')
-            person = authenticate(email=email, password=raw_password)
-            person.setPerson()
-            login(request,person)
-            return home_screen(request)
-        else:
-            context['personregistration_form'] = form
+        subjet = "From:" + request.POST.get('name')
+        email = request.POST.get('email')
+        text = request.POST.get('message')
+        send_mail(subjet, text, 'slavaukraine@sapo.pt', [email])
+        context = {
+            'title': 'Building Ukraine - Contactos',
+            'enviado': 1
+        }
+        return render(request, 'slavaukraine/contacts.html',context)
     else:
-        form = PersonRegistrationForm()
-        context['personregistration_form'] = form
-    return render(request, 'slavaukraine/register_person.html', context)
+        context = {
+            'title': 'Building Ukraine - Contactos',
+            'enviado': 0
+        }
+        return render(request, 'slavaukraine/contacts.html',context)
 
+
+# Logout -RR visto
+def logout_view(request):
+    logout(request)
+    return home(request)
+
+# Login -RR visto
+def login_view(request):
+    if request.POST:
+        form = PersonAuthenticationForm(request.POST)
+        context = {
+            'title': 'Building Ukraine - Login',
+            'login_form': form
+        }
+        if form.is_valid():
+            email = request.POST['email']
+            password = request.POST['password']
+            user = authenticate(email=email, password=password)
+            if user:
+                login(request, user)
+                return home(request)
+            else:
+                return render(request, 'slavaukraine/login.html', context)
+        else:
+            return render(request, 'slavaukraine/login.html', context)
+    else:
+        if utils.verifyUser(request):
+            return home(request)
+        else:
+            form = PersonAuthenticationForm
+            context = {
+                'title': 'Building Ukraine - Login',
+                'login_form': form
+            }
+            return render(request, 'slavaukraine/login.html',context)
+
+# Area reservada
+def reserved(request):
+    list = utils.getUserMEssages(request)
+    context = {
+        'title': 'Building Ukraine - Área Reservada',
+        'list': list,
+    }
+    return render(request, 'slavaukraine/reserved.html',context)
+
+# Registo de Empresa
 def enterpriseRegistration_view(request):
     context={}
     if request.POST:
@@ -62,7 +120,7 @@ def enterpriseRegistration_view(request):
             person = authenticate(email=email, password=raw_password)
             #person.setEnterprise()
             login(request,person)
-            return home_screen(request)
+            return home(request)
         else:
 
             context['enterpriseregistration_form'] = form
@@ -72,32 +130,75 @@ def enterpriseRegistration_view(request):
     return render(request, 'slavaukraine/register_enterprise.html', context)
 
 
-
-def proposal_create_view(request):
-    enterprise = get_object_or_404(Person, pk=request.user.pk)
-    form = ProposalForm(initial={'enterprise': enterprise})
-
-    if request.method == 'POST':
-        #We need to do a copy of the form data from the request, because Forms are IMMUTABLE.
-        form_data = copy.copy(request.POST)
-        form_data['enterprise'] = enterprise.id
-        form = ProposalForm(data=form_data)
+# Registo de Voluntarios
+def volunteerRegistration_view(request):
+    context={}
+    if request.POST:
+        form = PersonRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
-            print("É VÁLIDO")
             form.save()
-            return render(request, 'slavaukraine/reserved.html');
-    return render(request, 'slavaukraine/registproposal.html', {'form': form});
+            email= form.cleaned_data.get('email')
+            raw_password = form.cleaned_data.get('password1')
+            person = authenticate(email=email, password=raw_password)
+            person.setPerson()
+            login(request,person)
+            return home(request)
+        else:
+            context['personregistration_form'] = form
+    else:
+        form = PersonRegistrationForm()
+        context['personregistration_form'] = form
+    return render(request, 'slavaukraine/register_person.html', context)
 
-#Do not delete, It's a helper to Create proposals; Does the adaptative dropdown in the city.
+
+# Pagina de registo de proposta
+def proposal_create_view(request):
+    if utils.isEnterprise(request):
+        enterprise = get_object_or_404(Person, pk=request.user.pk)
+        form = ProposalForm(initial={'enterprise': enterprise})
+        if request.method == 'POST':
+        #We need to do a copy of the form data from the request, because Forms are IMMUTABLE.
+            form_data = copy.copy(request.POST)
+            form_data['enterprise'] = enterprise.id
+            form = ProposalForm(data=form_data)
+            if form.is_valid():
+                form.save()
+                return render(request, 'slavaukraine/reserved.html');
+        else:
+            context = {
+                'title': 'Building Ukraine - Registo de Proposta',
+                'form': form
+            }
+            return render(request, 'slavaukraine/regist_proposal.html', context);
+    else:
+        return render(request, 'slavaukraine/home.html')
+
+
+#aux para alimentar a pagina de criaçao de propostas
 def load_cities(request):
     country_id = request.GET.get('country_id')
-    print("VIEWS: load_cities RESULT:")
-    print(country_id)
     cities = City.objects.filter(country_id=country_id)
-    #return render(request, 'proposals/city_dropdown_list_options.html', {'cities':cities})
-    #Way of get to know the info we are sending: print(list(cities.values('id','name')))
     return render(request,'slavaukraine/city_dropdown_list_options.html',{'cities':cities})
-    #return JsonResponse(list(cities.values('id','name')), safe=False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ###############     UPDATE VIEWS   ###############
 class ProposalUpdate(UpdateView):
@@ -138,7 +239,6 @@ class ProposalList(ListView):
     model = Proposal
     template_name = 'slavaukraine/listproposals.html'
     paginate_by = 10
-
     def get_queryset(self):
         proposal_title_inserted = self.request.GET.get('nome_do_titulo')
         if proposal_title_inserted:
@@ -182,60 +282,8 @@ class PersonProposalList(ListView):
             print("Entrou no else")
         return proposals
 
-# Logout -RR visto
-def logout_view(request):
-    logout(request)
-    return home_screen(request)
-
-# Login -RR visto
-def login_view(request):
-    if request.POST:
-        form = PersonAuthenticationForm(request.POST)
-        context = {
-            'title': 'Building Ukraine - Login',
-            'login_form': form
-        }
-        if form.is_valid():
-            email = request.POST['email']
-            password = request.POST['password']
-            user = authenticate(email=email, password=password)
-            if user:
-                login(request, user)
-                return home_screen(request)
-            else:
-                return render(request, 'slavaukraine/login.html', context)
-        else:
-            return render(request, 'slavaukraine/login.html', context)
-    else:
-        if utils.verifyUser(request):
-            return home_screen(request)
-        else:
-            form = PersonAuthenticationForm
-            context = {
-                'title': 'Building Ukraine - Login',
-                'login_form': form
-            }
-            return render(request, 'slavaukraine/login.html',context)
 
 
-#pagina de contactos-RR visto
-def contacts(request):
-    if request.POST:
-        subjet = "From:" + request.POST.get('name')
-        email = request.POST.get('email')
-        text = request.POST.get('message')
-        send_mail(subjet, text, 'slavaukraine@sapo.pt', [email])
-        context = {
-            'title': 'Building Ukraine - Contactos',
-            'enviado': 1
-        }
-        return render(request, 'slavaukraine/contacts.html',context)
-    else:
-        context = {
-            'title': 'Building Ukraine - Contactos',
-            'enviado': 0
-        }
-        return render(request, 'slavaukraine/contacts.html',context)
 
 
 
@@ -249,30 +297,36 @@ def reserved(request):
     }
     return render(request, 'slavaukraine/reserved.html',context)
 
-# pagina de mais informações sobre ser voluntário -RR visto
-def volunteer(request):
-    context = {
-        'title': 'Building Ukraine - Ser Voluntário',
-    }
-    return render(request, 'slavaukraine/volunteers.html', context)
 
-# pagina de mais informações sobre empresa -RR visto
-def enterprise(request):
-    context = {
-        'title': 'Building Ukraine - Apresentar Projetos',
-    }
-    return render(request, 'slavaukraine/enterprise.html')
-
-
-#voluntario regista-se em propostas
-def register_proposal(request, proposal_id):
-    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
-        proposal = get_object_or_404(Proposal, pk=proposal_id)
-        proposal.register(user=request.user)
-        context = {'proposal': proposal}
-        return render(request, 'slavaukraine/reserved.html', context)
+# Visualização da proposta
+def viewProposal(request,proposal_id):
+    print("proposal")
+    proposal = get_object_or_404(Proposal, pk=proposal_id)
+    if request.POST:
+        print("post")
+        if utils.verifyUser(request):
+            print("verificado")
+            regist = Registration()
+            regist.proposal_id = proposal_id
+            print(proposal_id)
+            regist.person_id=request.user.id
+            print(request.user.id)
+            regist.save()
+            registed = 1
+        else:
+            registed = 0
     else:
-        return login_view(request)
+        registed = utils.isRegisted(request, proposal_id)
+    context = {
+            'title': 'Building Ukraine - Visualização Proposta',
+            'proposal': proposal,
+            'registed': registed,
+    }
+    return render(request,'slavaukraine/proposal.html', context)
+
+
+
+
 
 
 # voluntario remove propostaw
@@ -339,7 +393,7 @@ def viewMessages(request):
         }
         return render(request, 'slavaukraine/viewMessages.html', context)
     else:
-        return home_screen(request)
+        return home(request)
 
 
 # view da nova msg entre user
@@ -355,7 +409,7 @@ def newMessage(request,recipient):
             }
             return render(request, 'slavaukraine/create_new_message.html',context)
         else:
-            return home_screen(request) # vai para a home
+            return home(request) # vai para a home
     else:
         context = {
             'recipient': recipient,
@@ -372,6 +426,6 @@ def replyMessage(request,recipient, topic):
             utils.send_replyMessage(request,recipient) # envia email para o user
             # return para a view dos emails
         else:
-            return home_screen(request) # vai para a home
+            return home(request) # vai para a home
     else:
         return None # retornar a pagina

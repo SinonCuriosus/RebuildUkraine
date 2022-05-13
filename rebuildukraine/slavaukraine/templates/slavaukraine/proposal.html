@@ -1,20 +1,32 @@
-{% extends "slavaukraine/template.html" %}
+{% extends "slavaukraine/template_box.html" %}
 {% load static %}
-{% block main %}
+
+{% block box %}
+<div class="container">
+
+    <div class="row mb-5 contacts-margin-title">
+        <div class="col-md-8 col-xl-6 text-center mx-auto">
+            <br>
+            <h2>Título: {{ proposal.title }}</h2>
+            <p class="w-lg-50 contacts-subtext">Empresa: {{ proposal.enterprise }}</p>
+        </div>
+    </div>
+    <div class="container">
+        <p>Descrição: {{ proposal.description }}<br/>
+
+        <form action="{% url 'slavaukraine:proposal' proposal.id %}" method="post" id="reg">
+            {% csrf_token %}
+            <button type="submit" form="reg" value="Registar" class="btn btn-primary btn-sm me-2 carrousel-button-uk">Inscrever-me</button>
+        </form>
 
 
-    <p>Título: {{ proposal.title }} </p><br/>
-    <p>Empresa: {{ proposal.enterprise }}</p><br/>
-    <p>Descrição: {{ proposal.description }}<br/>
 
-     <form action="{% url 'slavaukraine:register_porposal' proposal.id %}" method="post" id="reg">
-     {% csrf_token %}
-        <button type="submit" form="reg" value="Registar">Registar</button>
-     </form>
 
-    <form action="{% url 'slavaukraine:favorite_proposal' proposal.id %}" method="post" id="fav">
-     {% csrf_token %}
-        <button type="submit" form="fav" value="Guardar">Guardar</button>
-     </form>
+        <form action="{% url 'slavaukraine:favorite_proposal' proposal.id %}" method="post" id="fav">
+            {% csrf_token %}
+            <button type="submit" form="fav" value="Guardar" class="btn btn-outline-yellow btn-sm carrousel-button">Guardar</button>
 
+        </form>
+    </div>
+</div>
 {% endblock %}
