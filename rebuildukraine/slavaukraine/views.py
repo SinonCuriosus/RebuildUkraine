@@ -149,7 +149,7 @@ class ProposalList(ListView):
 
 class EnterpriseProposalList(ListView):
     model = Proposal
-    template_name = 'slavaukraine/reserved.html'
+    template_name = 'slavaukraine/test_datatable.html'
     #slavaukraine / listed_proposals / 3
     paginate_by = 10
 

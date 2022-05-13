@@ -1,5 +1,9 @@
 {% extends "slavaukraine/template_box.html" %}
 {% load static %}
+
+
+
+
 {% block box %}
 <br>
 <ul class="nav nav-pills mb-3 reserved-page-buttons" id="pills-tab" role="tablist">
@@ -58,6 +62,11 @@
                         <a class="btn btn-primary text-right carrousel-button-uk" role="button"
                            href="{% url 'slavaukraine:enterprise' user.pk %}">Editar</a>
                     </div>
+
+                        <div>
+                            <a class="btn btn-primary text-right carrousel-button-uk" role="button"
+                               href="{% url 'slavaukraine:test_datatable' user.pk %}">DataTable</a>
+                        </div>
                     {% endif %}
 
                     {% if user.is_person %}
@@ -125,52 +134,57 @@
 
         <hr>
 
-        <div class="table-responsive">
-            <table class="table-striped">
-                <tr>
-                    <th>Cidade</th>
-                    <th>Título</th>
-                    <th>Especialidade</th>
-                    <th>Opções</th>
-                </tr>
+                <div class="table-responsive">
+                    <table id="table_id" >
+                        <thead>
+                        <tr>
+                            <th>Cidade</th>
+                            <th>Título</th>
+                            <th>Especialidade</th>
+                            <th>Opções</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for object in object_list %}
+                            <tr class="text-start">
+                                <td>{{ object.city }}</td>
+                                <td>{{ object.title }}</td>
+                                <td>{{ object.expertiseNeeded }}</td>
+                                <td>
+                                    <a href="{% url 'slavaukraine:edit_proposal' object.pk %}" title="edit_proposal">Editar</a>
+                                    <a href="#" title="Excluir">Ver inscritos</a>
+                                    <a href="{% url 'slavaukraine:delete_proposal' object.pk %}"
+                                       title="delete_proposal">Apagar</a>
+                                </td>
+                            </tr>
+                            <br>
+                        {% empty %}
+                            <tr>
+                                <!-- Colspan porque a mensagem vai ocupar as 3 colunas-->
+                                <td colspan="3"> Nenhuma proposta registada.</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
 
-                {% for object in object_list %}
-                <tr class="text-start">
-                    <td>{{ object.city }}</td>
-                    <td>{{ object.title }}</td>
-                    <td>{{ object.expertiseNeeded }}</td>
-                    <td>
-                        <a href="{% url 'slavaukraine:edit_proposal' object.pk %}" title="edit_proposal">Editar</a>
-                        <a href="#" title="Excluir">Ver inscritos</a>
-                        <a href="{% url 'slavaukraine:delete_proposal' object.pk %}" title="delete_proposal">Apagar</a>
-                    </td>
-                </tr>
-                <br>
-                {% empty %}
-                <tr>
-                    <!-- Colspan porque a mensagem vai ocupar as 3 colunas-->
-                    <td colspan="3"> Nenhuma proposta registada.</td>
-                </tr>
-                {% endfor %}
-            </table>
-            <div class="text-center">
-                {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-                {% endif %}
+                    <hr>
+                    <div class="text-center">
+                        {% if page_obj.has_previous %}
+                            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                        {% endif %}
 
-                <span class="volunteer-subtext-blue">Página {{ page_obj.number }}</span>
+                        <span class="volunteer-subtext-blue">Página {{ page_obj.number }}</span>
 
-                {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
-                {% endif %}
-            </div>
-
-        </div>
-
-
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+                        {% endif %}
+                    </div>
+                    <hr>
+                </div>
     </div>
     <div class="tab-pane fade reserved-page-information" id="pills-saved" role="tabpanel"
          aria-labelledby="pills-saved-tab">Aqui projetos guardados
     </div>
 </div>
 {% endblock %}
+
