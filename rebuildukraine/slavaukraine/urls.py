@@ -2,7 +2,8 @@ from django.urls import include, path
 from django.views.generic import DeleteView
 
 from . import views
-from .views import ProposalList, ProposalUpdate, EnterpriseProposalList, EnterpriseUpdate, ProposalDelete, PersonUpdate
+from .views import ProposalList, ProposalUpdate, EnterpriseProposalList, EnterpriseUpdate, ProposalDelete, PersonUpdate, \
+    PersonProposalList
 
 app_name='slavaukraine'
 urlpatterns = [
@@ -55,6 +56,7 @@ urlpatterns = [
 
     #Área de Listagens
     path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='list_enterpriseproposals'),
+    path("listed_proposals/<int:pk>/", PersonProposalList.as_view(), name='list_personproposals'),
     path("listproposals/", ProposalList.as_view(), name='listproposals'),
     path("Registration_Volunteer_List", views.registration_volunteer_list, name="Registration_Volunteer_List"),
     path("Favorites_Volunteer_List", views.favorites_volunteer_list, name="Favorites_Volunteer_List"),

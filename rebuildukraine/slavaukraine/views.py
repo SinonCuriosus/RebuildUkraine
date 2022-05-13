@@ -167,11 +167,20 @@ class EnterpriseProposalList(ListView):
 #Proposals by user
 class PersonProposalList(ListView):
     model = Proposal
-    template_name = 'slavaukraine/test_home.html'
+    template_name = 'slavaukraine/reserved.html'
+    paginate_by = 10
+    
     def get_queryset(self):
-        queryset = super(PersonProposalList, self.get_queryset())
-        queryset = queryset.filter(user=self.request.user)
-        return queryset
+        person = self.request.user
+        proposal_title_inserted = self.request.GET.get('nome_do_titulo')
+        print("Antes do if")
+        if proposal_title_inserted:
+            proposals = Proposal.objects.filter(person_id=person.id).filter(title__icontains=proposal_title_inserted)
+            print("Entrou no if")
+        else:
+            proposals = Proposal.objects.filter(person_id=person.id)
+            print("Entrou no else")
+        return proposals
 
 # Logout -RR visto
 def logout_view(request):
@@ -236,7 +245,7 @@ def reserved(request):
     list = utils.getUserMEssages(request)
     context = {
         'title': 'Building Ukraine - Área Reservada',
-        'list': list
+        'list': list,
     }
     return render(request, 'slavaukraine/reserved.html',context)
 
@@ -299,9 +308,7 @@ def not_favorite_proposal(request, proposal_id):
 
 def registration_volunteer_list(request):
     context = {}
-    print("Antes do filter")
     context["dataset"] = Proposal.objects.filter(registration__person__username=request.user)
-    print(context)
     return render(request, 'slavaukraine/reserved.html', context)
 
 
