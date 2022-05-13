@@ -1,11 +1,6 @@
-import _datetime
-import datetime
-
 from django.core.mail import send_mail
 from django.db.models import Q
-
-from .models import TopicMessage, Answers, Person, Proposal, Favorites
-from .models import TopicMessage, Answers, Person, Registration
+from .models import TopicMessage, Answers, Person, Proposal, Registration
 
 
 def send_email(subjet,text,email):
@@ -35,14 +30,9 @@ def getUser(request):
 
 def saveMessage(request, recipient):
     topic = TopicMessage()
-    print("subjet " + request.POST['subjet'])
     topic.subjet = request.POST['subjet']
-    print("sender " + request.user.first_name)
     topic.sender = request.user
-    print("receiver " + Person.objects.get(id=recipient).first_name)
     topic.receiver = Person.objects.get(id=recipient)
-    print("salvar")
-   # topic.date = _datetime.date.today()
     topic.isRead = True
     topic.save()
     return topic
@@ -79,13 +69,17 @@ def getUserMEssages(request):
 
     return TopicMessage.objects.filter(Q(sender=request.user) | Q(receiver=request.user)).order_by('-date')
 
+# obtem as propostas
 def getProposals(request):
     return  Proposal.objects.filter(registration__person__username=request.user.username)
 
+# Obtem os favoritos
 def getFavorites(request):
     return Proposal.objects.filter(favorites__person__username=request.user.username)
+
+# verifica se está registado na proposta
 def isRegisted(request,proposal_id):
-    registed = Registration.objects.filter(Q(proposal=proposal_id) | Q(person=request.user.id))
+    registed = Registration.objects.filter((Q(proposal=proposal_id) & Q(person=request.user.id)))
     if registed is None:
         return 0
     else:

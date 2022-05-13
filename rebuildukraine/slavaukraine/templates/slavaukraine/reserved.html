@@ -6,7 +6,7 @@
     <li class="nav-item" role="presentation">
         <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
                 data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                aria-selected="true">Dados Pessoais
+                aria-selected="true">Conta
         </button>
     </li>
     <li class="nav-item" role="presentation">
@@ -18,7 +18,10 @@
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="pills-projects-tab" data-bs-toggle="pill"
                 data-bs-target="#pills-projects" type="button" role="tab"
-                aria-controls="pills-projects" aria-selected="false">Inscrições
+                aria-controls="pills-projects" aria-selected="false">
+            {% if user.is_person %} Projectos Inscritos
+            {% else %} Projetos Registados
+            {% endif %}
         </button>
     </li>
     {% if user.is_person %}
@@ -54,7 +57,7 @@
                         <p>Morada: {{ user.address }}</p>
                         <p>Data de nascimento: {{ user.birth }}</p>
                         <p>Date joined: {{ user.date_joined }}</p>
-                    <br>
+                        <br>
                     </div>
                     <div>
                         <a class="btn btn-primary text-right carrousel-button-uk" role="button"
@@ -110,7 +113,7 @@
          aria-labelledby="pills-projects-tab">
 
         <form action="?" method="GET" style="margin-left:auto;margin-right:auto;">
-            <input type="text" name="nome_do_titulo" id="pills-profile"
+            <input type="text" name="nome_do_titulo"
                    value="{{ request.GET.nome_do_titulo }}" autocomplete="off"
                    placeholder="Nome do título">
 
@@ -141,7 +144,8 @@
                     <td>
                         <a href="{% url 'slavaukraine:edit_proposal' proposal.pk %}" title="edit_proposal">Editar</a>
                         <a href="#" title="Excluir">Ver inscritos</a>
-                        <a href="{% url 'slavaukraine:delete_proposal' proposal.pk %}" title="delete_proposal">Apagar</a>
+                        <a href="{% url 'slavaukraine:delete_proposal' proposal.pk %}"
+                           title="delete_proposal">Apagar</a>
                     </td>
                 </tr>
                 <br>
@@ -168,62 +172,44 @@
 
 
     </div>
-
     {% if user.is_person %}
     <div class="tab-pane fade reserved-page-information" id="pills-saved" role="tabpanel"
          aria-labelledby="pills-saved-tab">Aqui projetos guardados
-
-        <form action="?" method="GET" style="margin-left:auto;margin-right:auto;">
-            <input type="text" name="nome_do_titulo" id="pills-profile"
+        <form action="?" method="GET">
+            <input type="text" name="nome_do_titulo" id=""
                    value="{{ request.GET.nome_do_titulo }}" autocomplete="off"
                    placeholder="Nome do título">
-
-            <button type="submit" class="btn btn-group-sm">Pesquisar</button>
+            <button type="submit" class="btn btn-primary btn-sm me-2 carrousel-button-uk">Pesquisar</button>
 
             <a href="{% url 'slavaukraine:list_personproposals' user.pk %}"
-               class="btn btn-group-sm">Limpar</a>
-
+               class="btn btn-outline-yellow btn-sm carrousel-button">Limpar</a>
         </form>
-        <hr>
-        <div class="table-responsive">
-            <table class="table-striped">
-                <tr>
-                    <th>Cidade</th>
-                    <th>Título</th>
-                    <th>Especialidade</th>
-                    <th>Opções</th>
-                </tr>
+        <br>
+        <div class="list-group">
+            {% for favorite in favorites %}
+            <a href="{% url 'slavaukraine:proposal' favorite.id %}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1 message-page-mtitle">{{ favorite.title }}</h5>
+                    <small class="message-page-stitle"> + Informação</small>
+                </div>
+                <p class="mb-1 message-page-stitle">{{ favorite.expertiseNeeded }}</p>
+                <small class="text-muted">&nbsp; {{ favorite.city }}</small>
+            </a>
+            {% endfor %}
+        </div>
+        <br>
+        <div class="text-center">
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+            {% endif %}
 
-                {% for favorite in favorites %}
-                <tr class="text-start">
-                    <td>{{ favorite.city }}</td>
-                    <td>{{ favorite.title }}</td>
-                    <td>{{ favorite.expertiseNeeded }}</td>
-                    <td>
-                        <a href="{% url 'slavaukraine:edit_proposal' favorite.pk %}" title="edit_proposal">Editar</a>
-                        <a href="#" title="Excluir">Ver inscritos</a>
-                        <a href="{% url 'slavaukraine:delete_proposal' favorite.pk %}" title="delete_proposal">Apagar</a>
-                    </td>
-                </tr>
-                <br>
-                {% empty %}
-                <tr>
-                    <!-- Colspan porque a mensagem vai ocupar as 3 colunas-->
-                    <td colspan="3"> Nenhuma proposta registada.</td>
-                </tr>
-                {% endfor %}
-            </table>
-            <div class="text-center">
-                {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-                {% endif %}
+            <span class="volunteer-subtext-blue">Página {{ page_obj.number }}</span>
 
-                <span class="volunteer-subtext-blue">Página {{ page_obj.number }}</span>
-
-                {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
-                {% endif %}
-
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+            {% endif %}
+        </div>
+        <br>
     </div>
     {% endif %}
 </div>

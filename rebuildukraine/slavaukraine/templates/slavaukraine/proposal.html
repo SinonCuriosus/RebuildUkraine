@@ -13,20 +13,27 @@
     </div>
     <div class="container">
         <p>Descrição: {{ proposal.description }}<br/>
-
+            {% if user.is_person %}
         <form action="{% url 'slavaukraine:proposal' proposal.id %}" method="post" id="reg">
             {% csrf_token %}
-            <button type="submit" form="reg" value="Registar" class="btn btn-primary btn-sm me-2 carrousel-button-uk">Inscrever-me</button>
+
+            {% if registed == '0' %}
+            <button type="submit" form="reg" value="Registar" class="btn btn-primary btn-sm me-2 carrousel-button-uk">
+                Inscrever-me
+            </button>
+
         </form>
-
-
 
 
         <form action="{% url 'slavaukraine:favorite_proposal' proposal.id %}" method="post" id="fav">
             {% csrf_token %}
-            <button type="submit" form="fav" value="Guardar" class="btn btn-outline-yellow btn-sm carrousel-button">Guardar</button>
+            <button type="submit" form="fav" value="Guardar" class="btn btn-outline-yellow btn-sm carrousel-button">
+                Guardar
+            </button>
 
         </form>
+        {% endif %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}
