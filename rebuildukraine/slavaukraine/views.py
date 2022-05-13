@@ -209,7 +209,8 @@ def login_view(request):
 
 def view_profile(request):
     context = {
-        'user': request.user
+        'user': request.user,
+        'dataset': Proposal.objects.filter(favorites__person__username=request.user)
     }
     return render(request, 'slavaukraine/reserved.html', context)
 
@@ -270,18 +271,18 @@ def register_proposal(request, proposal_id):
         proposal = get_object_or_404(Proposal, pk=proposal_id)
         proposal.register(user=request.user)
         context = {'proposal': proposal}
-        return render(request, 'slavaukraine/test_Porposal.html', context)
+        return render(request, 'slavaukraine/reserved.html', context)
     else:
         return login_view(request)
 
 
-# voluntario remove proposta
+# voluntario remove propostaw
 def unregister_proposal(request, proposal_id):
     if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
         proposal = get_object_or_404(Proposal, pk=proposal_id)
         proposal.unregister(user=request.user)
         context = {'proposal': proposal}
-        return render(request, 'slavaukraine/test_Porposal.html', context)
+        return render(request, 'slavaukraine/reserved.html', context)
     else:
         return login_view(request)
 
@@ -291,7 +292,7 @@ def favorite_proposal(request, proposal_id):
         proposal = get_object_or_404(Proposal, pk=proposal_id)
         proposal.subscribe(user=request.user)
         context = {'proposal': proposal}
-        return render(request, 'slavaukraine/test_Porposal.html', context)
+        return render(request, 'slavaukraine/reserved.html', context)
     else:
         return login_view(request)
 
@@ -302,13 +303,22 @@ def not_favorite_proposal(request, proposal_id):
         proposal = get_object_or_404(Proposal, pk=proposal_id)
         proposal.unsubscribe(user=request.user)
         context = {'proposal': proposal}
-        return render(request, 'slavaukraine/test_Porposal.html', context)
+        return render(request, 'slavaukraine/reserved.html', context)
     else:
         return login_view(request)
 
-def edit_volunteer_page(request):
-    return None
+def registration_volunteer_list(request):
+    context = {}
+    print("Antes do filter")
+    context["dataset"] = Proposal.objects.filter(registration__person__username=request.user)
+    print(context)
+    return render(request, 'slavaukraine/reserved.html', context)
 
+
+def favorites_volunteer_list(request):
+    context = {}
+    context["dataset"] = Favorites.objects.filter(favorites__person__username=request.user)
+    return render(request, 'slavaukraine/reserved.html', context)
 
 def proposal_view(request):
     context = {}
@@ -316,10 +326,10 @@ def proposal_view(request):
     return render(request, 'slavaukraine/test_Porposal_List.html', context)
 
 #Só para teste
-def porposal_detail(request, proposal_id):
+def proposal_detail(request, proposal_id):
     proposal = get_object_or_404(Proposal, pk=proposal_id)
     context = {'proposal': proposal}
-    return render(request, 'slavaukraine/test_Porposal.html', context)
+    return render(request, 'slavaukraine/proposal.html', context)
 
 
 # view para listar todas as mensagens

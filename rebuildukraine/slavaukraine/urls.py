@@ -36,9 +36,6 @@ urlpatterns = [
     # Área de edição
     path("editPerson/<int:pk>/", PersonUpdate.as_view(), name='edit_person'),
 
-    # http://127.0.0.1:8000/slavaukraine/volunteer/edit_volunteer_page
-    path("volunteer/edit_volunteer_page", views.edit_volunteer_page, name="edit_volunteer_page"),
-
     # --------------------------------------------------------------------------------
 
     # -------------------------------- Empresas ---------------------------------------
@@ -61,7 +58,9 @@ urlpatterns = [
     #Área de Listagens
     path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='list_enterpriseproposals'),
     path("listproposals/", ProposalList.as_view(), name='listproposals'),
-    #EM FALTA: Favoritos do User, Inscrições do User, Inscrições na Proposta X da Empresa Y
+    path("Registration_Volunteer_List", views.registration_volunteer_list, name="Registration_Volunteer_List"),
+    path("Favorites_Volunteer_List", views.favorites_volunteer_list, name="Favorites_Volunteer_List"),
+    #EM FALTA: Inscrições na Proposta X da Empresa Y
 
     #Área de remoção
 
@@ -90,11 +89,14 @@ urlpatterns = [
 
 
 
-    #teste
-    path('<int:proposal_id>', views.porposal_detail, name="test_Porposal"),
-
+    #Proposta detalhe
+    path('<int:proposal_id>', views.proposal_detail, name="proposal"),
+    
+    #Registar em proposta
     path('<int:proposal_id>/register_porposal', views.register_proposal, name="register_porposal"),
-
+    
+    #Adicionar aos favoritos
+    path('<int:proposal_id>/favorite_proposal', views.favorite_proposal, name="favorite_proposal"),
 
 
 

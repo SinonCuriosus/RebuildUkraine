@@ -154,13 +154,7 @@
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
                                         data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                                        aria-selected="true">Os meu Perfil
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-edit" type="button" role="tab" aria-controls="pills-home"
-                                        aria-selected="true">Editar de Perfil
+                                        aria-selected="true">O meu Perfil
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
@@ -191,12 +185,15 @@
                                 <p>Date joined: {{ user.date_joined }}</p>
                                 <a href="{% url 'slavaukraine:enterprise' user.pk %}" >Editar os meus dados</a>
                             </div>
-                            <div class="tab-pane fade show active reserved-page-information" id="pills-home"
-                                 role="tabpanel"
-                                 aria-labelledby="pills-edit-tab">
-                            </div>
                             <div class="tab-pane fade reserved-page-information" id="pills-profile" role="tabpanel"
-                                 aria-labelledby="pills-profile-tab">Aqui projetos inscritos
+                                 aria-labelledby="pills-profile-tab">
+
+                                {% for data in dataset %}
+                                    <tr>
+                                        <td> {{ data.title }}</td>
+                                        <td> {{ data.description }}</td>
+                                    </tr>
+                                {% endfor %}
                             </div>
                             <div class="tab-pane fade reserved-page-information" id="pills-contact" role="tabpanel"
                                  aria-labelledby="pills-contact-tab">Aqui projetos guardados
