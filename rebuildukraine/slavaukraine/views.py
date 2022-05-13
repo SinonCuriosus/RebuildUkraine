@@ -239,6 +239,7 @@ class ProposalList(ListView):
     model = Proposal
     template_name = 'slavaukraine/listproposals.html'
     paginate_by = 10
+
     def get_queryset(self):
         proposal_title_inserted = self.request.GET.get('nome_do_titulo')
         if proposal_title_inserted:
@@ -273,13 +274,10 @@ class PersonProposalList(ListView):
     def get_queryset(self):
         person = self.request.user
         proposal_title_inserted = self.request.GET.get('nome_do_titulo')
-        print("Antes do if")
         if proposal_title_inserted:
             proposals = Proposal.objects.filter(person_id=person.id).filter(title__icontains=proposal_title_inserted)
-            print("Entrou no if")
         else:
             proposals = Proposal.objects.filter(person_id=person.id)
-            print("Entrou no else")
         return proposals
 
 
@@ -291,12 +289,29 @@ class PersonProposalList(ListView):
 # Area reservada
 def reserved(request):
     list = utils.getUserMEssages(request)
+    proposals = utils.getProposals(request)
+    favorites = utils.getFavorites(request)
     context = {
         'title': 'Building Ukraine - Área Reservada',
         'list': list,
+        'proposals': proposals,
+        'favorites': favorites
     }
     return render(request, 'slavaukraine/reserved.html',context)
 
+# pagina de mais informações sobre ser voluntário -RR visto
+def volunteer(request):
+    context = {
+        'title': 'Building Ukraine - Ser Voluntário',
+    }
+    return render(request, 'slavaukraine/volunteers.html', context)
+
+# pagina de mais informações sobre empresa -RR visto
+def enterprise(request):
+    context = {
+        'title': 'Building Ukraine - Apresentar Projetos',
+    }
+    return render(request, 'slavaukraine/enterprise.html')
 
 # Visualização da proposta
 def viewProposal(request,proposal_id):
