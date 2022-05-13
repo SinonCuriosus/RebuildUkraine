@@ -2,6 +2,7 @@ import _datetime
 import datetime
 
 from django.core.mail import send_mail
+from django.db.models import Q
 
 from .models import TopicMessage, Answers, Person
 
@@ -36,7 +37,6 @@ def saveMessage(request, recipient):
     topic.isRead = True
     topic.save()
     return topic
-    return topic
 
 
 # Cria a resposta
@@ -63,3 +63,11 @@ def send_replyMessage(request,receiver):
     subjet = "Nova resposta " + name
     text = "Tem uma nova resposta à mensagem enviada a " + name
     send_email(subjet,text,receiver.email)
+
+
+# Obtem as mensagens do utilizador
+def getUserMEssages(request):
+
+    return TopicMessage.objects.filter(Q(sender=request.user) | Q(receiver=request.user)).order_by('-date')
+
+
