@@ -10,13 +10,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from . import forms, utils
 from .forms import PersonRegistrationForm, PersonAuthenticationForm, EnterpriseRegistrationForm, ProposalForm
-from django.http import HttpResponse, JsonResponse
-
 from .models import Person, TopicMessage
-from .models import Country
 from .models import City
-from .models import Expertise
-from .models import Specialization
 from .models import Proposal
 from .models import Favorites
 from .models import Registration
@@ -102,9 +97,13 @@ def login_view(request):
 # Area reservada
 def reserved(request):
     list = utils.getUserMEssages(request)
+    proposals = utils.getProposals(request)
+    favorites = utils.getFavorites(request)
     context = {
         'title': 'Building Ukraine - Área Reservada',
         'list': list,
+        'proposals': proposals,
+        'favorites': favorites
     }
     return render(request, 'slavaukraine/reserved.html',context)
 
@@ -148,7 +147,7 @@ def volunteerRegistration_view(request):
     else:
         form = PersonRegistrationForm()
         context['personregistration_form'] = form
-    return render(request, 'slavaukraine/register_person.html', context)
+    return render(request, 'slavaukraine/register_volunteer.html', context)
 
 
 # Pagina de registo de proposta
@@ -181,8 +180,18 @@ def load_cities(request):
     return render(request,'slavaukraine/city_dropdown_list_options.html',{'cities':cities})
 
 
-
-
+# List view de todas as propostas
+class ProposalList(ListView):
+    model = Proposal
+    template_name = 'slavaukraine/listproposals.html'
+    paginate_by = 10
+    def get_queryset(self):
+        proposal_title_inserted = self.request.GET.get('nome_do_titulo')
+        if proposal_title_inserted:
+            proposals = Proposal.objects.filter(title__icontains=proposal_title_inserted)
+        else:
+            proposals = Proposal.objects.all()
+        return proposals
 
 
 
@@ -235,18 +244,7 @@ class ProposalDelete(DeleteView):
 
 ###############     LIST VIEWS     ###############
 
-class ProposalList(ListView):
-    model = Proposal
-    template_name = 'slavaukraine/listproposals.html'
-    paginate_by = 10
 
-    def get_queryset(self):
-        proposal_title_inserted = self.request.GET.get('nome_do_titulo')
-        if proposal_title_inserted:
-            proposals = Proposal.objects.filter(title__icontains=proposal_title_inserted)
-        else:
-            proposals = Proposal.objects.all()
-        return proposals
 
 class EnterpriseProposalList(ListView):
     model = Proposal

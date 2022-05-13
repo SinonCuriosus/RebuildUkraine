@@ -66,7 +66,6 @@ def send_replyMessage(request,receiver):
 
 # Obtem as mensagens do utilizador
 def getUserMEssages(request):
-
     return TopicMessage.objects.filter(Q(sender=request.user) | Q(receiver=request.user)).order_by('-date')
 
 # obtem as propostas

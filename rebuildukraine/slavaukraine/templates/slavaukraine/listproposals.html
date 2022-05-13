@@ -2,43 +2,54 @@
 {% load static %}
 
 {% block box %}
-<br>
-<form action="?" method="GET">
-    <input type="text" name="nome_do_titulo" id=""
-           value="{{ request.GET.nome_do_titulo }}" autocomplete="off"
-           placeholder="Nome do título">
-    <button type="submit" class="btn btn-primary btn-sm me-2 carrousel-button-uk">Pesquisar</button>
 
-    <a href="{% url 'slavaukraine:listproposals' %}" class="btn btn-outline-yellow btn-sm carrousel-button">Limpar</a>
-</form>
-<br>
-<div class="list-group">
-    {% for object in object_list %}
-    <a href="{% url 'slavaukraine:proposal' object.id %}" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 message-page-mtitle">{{ object.title }}</h5>
-            <small class="message-page-stitle"> + Informação</small>
-        </div>
-        <p class="mb-1 message-page-stitle">{{ object.expertiseNeeded }}</p>
-        <small class="text-muted">&nbsp; {{ object.city }}</small>
-
-    </a>
-    {% endfor %}
+<div class="container">
+    <br>
+    <div class="list-group">
+        <table id="table_id" class="display">
+            <thead>
+            <tr>
+                <th>Titulo</th>
+                <th>Especialidade</th>
+                <th>Localização</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                {% for object in object_list %}
+                {% if object.title != "None" %}
+                <td class="list-group-item list-group-item-action">
+                    <h5 class="mb-1 message-page-mtitle">{{ object.title }}</h5>
+                </td>
+                <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ object.expertiseNeeded }}</p></td>
+                <td>
+                    <div class="d-flex w-100 justify-content-between">
+                        <small class="text-muted">&nbsp; {{ object.city }}</small>
+                        <small class="message-page-stitle"> + Informação</small>
+                    </div>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <br>
+    </div>
 </div>
+{% endblock %}
 
-
-<br>
-<div class="text-center">
-    {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-    {% endif %}
-
-    <span class="volunteer-subtext-blue">Página {{ page_obj.number }}</span>
-
-    {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
-    {% endif %}
-</div>
-<br>
-
+{% block js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css"
+      href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/af-2.3.0/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fh-3.1.4/r-2.2.2/datatables.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript"
+        src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/af-2.3.0/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fh-3.1.4/r-2.2.2/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table_id').DataTable({}
+        );
+    });
+</script>
 {% endblock %}

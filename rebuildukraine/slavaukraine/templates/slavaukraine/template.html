@@ -49,7 +49,7 @@
                     <a class="color-uk-w" href="{% url 'slavaukraine:logout' %}">Logout</a>
                 {% else %}
                     <a class="color-uk-w" href="{% url 'slavaukraine:login' %}">Login</a> |
-                    <a class="color-uk-w" href="{% url 'slavaukraine:registerperson' %}">Registo</a>
+                    <a class="color-uk-w" href="{% url 'slavaukraine:register_volunteer' %}">Registo</a>
                 {% endif %}
                 <!-- end if -->
             </div>
@@ -87,6 +87,7 @@
     </footer>
 {% endblock %}
 <script src={% static "slavaukraine/assets/bootstrap/js/bootstrap.min.js" %}></script>
-
+{% block js %}
+{% endblock %}
 </body>
 </html>

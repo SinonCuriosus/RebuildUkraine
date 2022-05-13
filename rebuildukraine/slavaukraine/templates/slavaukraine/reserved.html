@@ -1,9 +1,5 @@
 {% extends "slavaukraine/template_box.html" %}
 {% load static %}
-
-
-
-
 {% block box %}
 <br>
 <ul class="nav nav-pills mb-3 reserved-page-buttons" id="pills-tab" role="tablist">
@@ -65,7 +61,7 @@
                     </div>
                     <div>
                         <a class="btn btn-primary text-right carrousel-button-uk" role="button"
-                           href="{% url 'slavaukraine:enterprise' user.pk %}">Editar</a>
+                           href="{% url 'slavaukraine:enterprise' %}">Editar</a>
                     </div>
                     {% endif %}
 
@@ -83,7 +79,7 @@
                     </div>
                     <div>
                         <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
-                           href="{% url 'slavaukraine:enterprise' user.pk %}">Editar</a>
+                           href="{% url 'slavaukraine:enterprise'%}">Editar</a>
                     </div>
                     {% endif %}
 
@@ -95,124 +91,79 @@
     </div>
     <div class="tab-pane fade reserved-page-information" id="pills-messages" role="tabpanel"
          aria-labelledby="pills-messages-tab">
-        <div class="list-group">
-            {% for message in list %}
-            <a href="#" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1 message-page-mtitle">{{ message.subjet }}</h5>
-                    <small class="message-page-stitle">{{ message.date }}</small>
-                </div>
-                <p class="mb-1 message-page-stitle">Criado por: {{ message.sender.first_name }}</p>
-                {% if message.isRead == True %}
-                <small class="text-muted">&nbsp;&nbsp;&nbsp; S/ Novas Mensagens</small>
-                {% else %}
-                <small class="message-page-mreceiv">
-                    &nbsp;&nbsp;&nbsp; Tem Novas Mensagens</small>
-                {% endif %}
-            </a>
-            {% endfor %}
+
+
+
+         <div class="list-group">
+            <table id="table_id2" class="display">
+                <thead>
+                <tr>
+                    <th>Titulo</th>
+                    <th>Criado por</th>
+                    <th>Data</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    {% for message in list %}
+                    {% if message.subjet != "None" %}
+                    <td class="list-group-item list-group-item-action">
+                        <h5 class="mb-1 message-page-mtitle">{{ message.subjet  }}</h5>
+                    </td>
+                    <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ message.receiver.first_name }}</p>
+                    </td>
+                    <td>
+                        <div class="d-flex w-100 justify-content-between">
+                            <small class="text-muted">&nbsp; {{ message.date }}</small>
+                            <small class="message-page-stitle"> + Informação</small>
+                        </div>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br>
         </div>
+
+
+
+
+
     </div>
     <div class="tab-pane fade reserved-page-information" id="pills-projects" role="tabpanel"
          aria-labelledby="pills-projects-tab">
-
-
-        <form action="?" method="GET" style="margin-left:auto;margin-right:auto;">
-            <input type="text" name="nome_do_titulo"
-                   value="{{ request.GET.nome_do_titulo }}" autocomplete="off"
-                   placeholder="Nome do título">
-
-            <button type="submit" class="btn btn-group-sm">Pesquisar</button>
-
-            <a href="{% url 'slavaukraine:list_personproposals' user.pk %}"
-               class="btn btn-group-sm">Limpar</a>
-
-            <a href="{% url 'slavaukraine:regist_proposal' %}"
-               class="btn btn-group-sm" style="margin-left:auto;margin-right:auto;">Registar nova vaga</a>
-
-        </form>
-        <hr>
-
-                <div class="table-responsive">
-                    <table id="table_id" >
-                        <thead>
-                        <tr>
-                            <th>Cidade</th>
-                            <th>Título</th>
-                            <th>Especialidade</th>
-                            <th>Opções</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for object in object_list %}
-                            <tr class="text-start">
-                                <td>{{ object.city }}</td>
-                                <td>{{ object.title }}</td>
-                                <td>{{ object.expertiseNeeded }}</td>
-                                <td>
-                                    <a href="{% url 'slavaukraine:edit_proposal' object.pk %}" title="edit_proposal">Editar</a>
-                                    <a href="#" title="Excluir">Ver inscritos</a>
-                                    <a href="{% url 'slavaukraine:delete_proposal' object.pk %}"
-                                       title="delete_proposal">Apagar</a>
-                                </td>
-                            </tr>
-                            <br>
-                        {% empty %}
-                            <tr>
-                                <!-- Colspan porque a mensagem vai ocupar as 3 colunas-->
-                                <td colspan="3"> Nenhuma proposta registada.</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-
-                    <hr>
-                    <div class="text-center">
-                        {% if page_obj.has_previous %}
-                            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-                        {% endif %}
-        <div class="table-responsive">
-            <table class="table-striped">
+        <div class="list-group">
+            <table id="table_id" class="display">
+                <thead>
                 <tr>
-                    <th>Cidade</th>
-                    <th>Título</th>
+                    <th>Titulo</th>
                     <th>Especialidade</th>
-                    <th>Opções</th>
+                    <th>Localização</th>
                 </tr>
-
-                {% for proposal in proposals %}
-                <tr class="text-start">
-                    <td>{{ proposal.city }}</td>
-                    <td>{{ proposal.title }}</td>
-                    <td>{{ proposal.expertiseNeeded }}</td>
-                    <td>
-                        <a href="{% url 'slavaukraine:edit_proposal' proposal.pk %}" title="edit_proposal">Editar</a>
-                        <a href="#" title="Excluir">Ver inscritos</a>
-                        <a href="{% url 'slavaukraine:delete_proposal' proposal.pk %}"
-                           title="delete_proposal">Apagar</a>
-                    </td>
-                </tr>
-                <br>
-                {% empty %}
+                </thead>
+                <tbody>
                 <tr>
-                    <!-- Colspan porque a mensagem vai ocupar as 3 colunas-->
-                    <td colspan="3"> Nenhuma proposta registada.</td>
+                    {% for proposal in proposals %}
+                    {% if proposal.title != "None" %}
+                    <td class="list-group-item list-group-item-action">
+                        <h5 class="mb-1 message-page-mtitle">{{ proposal.title }}</h5>
+                    </td>
+                    <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ proposal.expertiseNeeded }}</p>
+                    </td>
+                    <td>
+                        <div class="d-flex w-100 justify-content-between">
+                            <small class="text-muted">&nbsp; {{ proposal.city }}</small>
+                            <small class="message-page-stitle"> + Informação</small>
+                        </div>
+                    </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
+                </tbody>
             </table>
-            <div class="text-center">
-                {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-                {% endif %}
-
-                        <span class="volunteer-subtext-blue">Página {{ page_obj.number }}</span>
-
-                        {% if page_obj.has_next %}
-                            <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
-                        {% endif %}
-                    </div>
-                    <hr>
-                </div>
+            <br>
+        </div>
     </div>
     {% if user.is_person %}
     <div class="tab-pane fade reserved-page-information" id="pills-saved" role="tabpanel"
@@ -257,3 +208,23 @@
 </div>
 {% endblock %}
 
+{% block js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css"
+      href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/af-2.3.0/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fh-3.1.4/r-2.2.2/datatables.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript"
+        src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/af-2.3.0/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fh-3.1.4/r-2.2.2/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table_id').DataTable({}
+        );
+    });
+
+     $(document).ready(function () {
+        $('#table_id2').DataTable({}
+        );
+    });
+</script>
+{% endblock %}

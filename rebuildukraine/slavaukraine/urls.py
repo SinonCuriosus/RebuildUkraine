@@ -60,7 +60,7 @@ urlpatterns = [
         path("ajax/load-cities/", views.load_cities, name="ajax_load_cities"),
 
     # Edição user Empresarial
-    path("editEnterprise/", EnterpriseUpdate.as_view(), name='enterprise'),
+    path("editEnterprise/", EnterpriseUpdate.as_view(), name='enterprise_edit'),
     # Edição proposta da empresa
     path("editProposal/<int:pk>/", ProposalUpdate.as_view(), name='edit_proposal'),
 
