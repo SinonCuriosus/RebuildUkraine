@@ -34,7 +34,7 @@
 
                 <br>
                     {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link active color-uk-w" href="{% url 'slavaukraine:reserved_area' %}">Área Reservada</a></li>
+                        <li class="nav-item"><a class="nav-link active color-uk-w" href="{% url 'slavaukraine:reserved' %}">Área Reservada</a></li>
                     {% else %}
                         <li class="nav-item"><a class="nav-link active color-uk-w" href="{% url 'slavaukraine:volunteer' %}">Ser Voluntário</a></li>
                         <li class="nav-item"><a class="nav-link active color-uk-w" href="{% url 'slavaukraine:enterprise' %}">Apresentar Projetos</a></li>
@@ -45,7 +45,7 @@
                 </ul>
                 <!-- fazer if para aparece a area reservada apenas a users registados -->
                 {% if user.is_authenticated %}
-                    <a class="color-uk-w" href="{% url 'slavaukraine:reserved_area' %}">Bem Vindo, {{ user.first_name }}</a> |
+                    <a class="color-uk-w" href="{% url 'slavaukraine:reserved' %}">Bem Vindo, {{ user.first_name }}</a> |
                     <a class="color-uk-w" href="{% url 'slavaukraine:logout' %}">Logout</a>
                 {% else %}
                     <a class="color-uk-w" href="{% url 'slavaukraine:login' %}">Login</a> |

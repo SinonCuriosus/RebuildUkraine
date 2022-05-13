@@ -25,12 +25,14 @@
                 aria-controls="pills-projects" aria-selected="false">Inscrições
         </button>
     </li>
+    {% if user.is_person %}
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="pills-saved-tab" data-bs-toggle="pill"
                 data-bs-target="#pills-saved" type="button" role="tab"
                 aria-controls="pills-saved" aria-selected="false">Favoritos
         </button>
     </li>
+    {% endif %}
 </ul>
 
 <div class="tab-content reserved-page-information" id="pills-tabContent">
@@ -62,11 +64,6 @@
                         <a class="btn btn-primary text-right carrousel-button-uk" role="button"
                            href="{% url 'slavaukraine:enterprise' user.pk %}">Editar</a>
                     </div>
-
-                        <div>
-                            <a class="btn btn-primary text-right carrousel-button-uk" role="button"
-                               href="{% url 'slavaukraine:test_datatable' user.pk %}">DataTable</a>
-                        </div>
                     {% endif %}
 
                     {% if user.is_person %}
@@ -124,14 +121,13 @@
 
             <button type="submit" class="btn btn-group-sm">Pesquisar</button>
 
-            <a href="{% url 'slavaukraine:list_enterpriseproposals' user.pk %}"
+            <a href="{% url 'slavaukraine:list_personproposals' user.pk %}"
                class="btn btn-group-sm">Limpar</a>
 
-            <a href="{% url 'slavaukraine:registproposal' %}"
+            <a href="{% url 'slavaukraine:regist_proposal' %}"
                class="btn btn-group-sm" style="margin-left:auto;margin-right:auto;">Registar nova vaga</a>
 
         </form>
-
         <hr>
 
                 <div class="table-responsive">
@@ -172,6 +168,38 @@
                         {% if page_obj.has_previous %}
                             <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
                         {% endif %}
+        <div class="table-responsive">
+            <table class="table-striped">
+                <tr>
+                    <th>Cidade</th>
+                    <th>Título</th>
+                    <th>Especialidade</th>
+                    <th>Opções</th>
+                </tr>
+
+                {% for proposal in proposals %}
+                <tr class="text-start">
+                    <td>{{ proposal.city }}</td>
+                    <td>{{ proposal.title }}</td>
+                    <td>{{ proposal.expertiseNeeded }}</td>
+                    <td>
+                        <a href="{% url 'slavaukraine:edit_proposal' proposal.pk %}" title="edit_proposal">Editar</a>
+                        <a href="#" title="Excluir">Ver inscritos</a>
+                        <a href="{% url 'slavaukraine:delete_proposal' proposal.pk %}" title="delete_proposal">Apagar</a>
+                    </td>
+                </tr>
+                <br>
+                {% empty %}
+                <tr>
+                    <!-- Colspan porque a mensagem vai ocupar as 3 colunas-->
+                    <td colspan="3"> Nenhuma proposta registada.</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="text-center">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                {% endif %}
 
                         <span class="volunteer-subtext-blue">Página {{ page_obj.number }}</span>
 
@@ -182,9 +210,64 @@
                     <hr>
                 </div>
     </div>
+
+    {% if user.is_person %}
     <div class="tab-pane fade reserved-page-information" id="pills-saved" role="tabpanel"
          aria-labelledby="pills-saved-tab">Aqui projetos guardados
+
+        <form action="?" method="GET" style="margin-left:auto;margin-right:auto;">
+            <input type="text" name="nome_do_titulo" id="pills-profile"
+                   value="{{ request.GET.nome_do_titulo }}" autocomplete="off"
+                   placeholder="Nome do título">
+
+            <button type="submit" class="btn btn-group-sm">Pesquisar</button>
+
+            <a href="{% url 'slavaukraine:list_personproposals' user.pk %}"
+               class="btn btn-group-sm">Limpar</a>
+
+        </form>
+        <hr>
+        <div class="table-responsive">
+            <table class="table-striped">
+                <tr>
+                    <th>Cidade</th>
+                    <th>Título</th>
+                    <th>Especialidade</th>
+                    <th>Opções</th>
+                </tr>
+
+                {% for favorite in favorites %}
+                <tr class="text-start">
+                    <td>{{ favorite.city }}</td>
+                    <td>{{ favorite.title }}</td>
+                    <td>{{ favorite.expertiseNeeded }}</td>
+                    <td>
+                        <a href="{% url 'slavaukraine:edit_proposal' favorite.pk %}" title="edit_proposal">Editar</a>
+                        <a href="#" title="Excluir">Ver inscritos</a>
+                        <a href="{% url 'slavaukraine:delete_proposal' favorite.pk %}" title="delete_proposal">Apagar</a>
+                    </td>
+                </tr>
+                <br>
+                {% empty %}
+                <tr>
+                    <!-- Colspan porque a mensagem vai ocupar as 3 colunas-->
+                    <td colspan="3"> Nenhuma proposta registada.</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="text-center">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                {% endif %}
+
+                <span class="volunteer-subtext-blue">Página {{ page_obj.number }}</span>
+
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+                {% endif %}
+
     </div>
+    {% endif %}
 </div>
 {% endblock %}
 
