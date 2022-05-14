@@ -2,11 +2,11 @@
 {% load static %}
 {% block main %}
 
-    <div class="carousel slide carrousel-dimensions" data-bs-ride="carousel" id="carousel-1">
-        <div class="container carousel-inner h-100">
-            <div class="carousel-item active h-100"><img
+    <div class="carousel slide carrousel-dimensions rounded" data-bs-ride="carousel" id="carousel-1">
+        <div class="container carousel-inner h-100 rounded">
+            <div class="carousel-item active h-100 rounded"><img
                     class="w-100 d-block position-absolute h-100 fit-cover carrousel-settings"
-                    src="{% static "slavaukraine/assets/img/Volunteering.jpg" %}" alt="Volunteering in Ukraine">
+                    src="{% static "slavaukraine/assets/img/slider1.jpg" %}" alt="Volunteering in Ukraine">
                 <div class="container d-flex flex-column justify-content-center h-100">
                     <div class="row">
                         <div class="col-md-6 col-xl-4 offset-md-2">
@@ -22,9 +22,10 @@
                     </div>
                 </div>
             </div>
-            <div class="carousel-item h-100"><img
+            <div class="carousel-item h-100">
+                <img
                     class="w-100 d-block position-absolute h-100 fit-cover carrousel-settings"
-                    src="{% static "slavaukraine/assets/img/Projects.jpg" %}" alt="Projects to Ukraine">
+                    src="{% static "slavaukraine/assets/img/slider5.jpg" %}" alt="Projects to Ukraine">
                 <div class="container d-flex flex-column justify-content-center h-100">
                     <div class="row">
                         <div class="col-md-6 col-xl-4 offset-md-2">
@@ -41,7 +42,7 @@
             </div>
             <div class="carousel-item h-100"><img
                     class="w-100 d-block position-absolute h-100 fit-cover carrousel-settings"
-                    src="{% static "slavaukraine/assets/img/Building.jpg" %}" alt="Building Ukraine">
+                    src="{% static "slavaukraine/assets/img/slider8.jpg" %}" alt="Building Ukraine">
                 <div class="container d-flex flex-column justify-content-center h-100">
                     <div class="row">
                         <div class="col-md-6 col-xl-4 offset-md-2">
@@ -184,7 +185,7 @@
                             todas as pessoas que tornaram possível que a reconstrução de 7 casa fosse possível.</p>
                         <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                  height="50"
-                                                 src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                                 src="{% static "slavaukraine/assets/img/person1.jpg" %}">
                             <div>
                                 <p class="fw-bold text-primary mb-0 testimonies-before-text">Empresa X</p>
                                 <p class="text-muted mb-0 testimonies-text">Construção Civil</p>
@@ -199,7 +200,7 @@
                             possível...</p>
                         <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                  height="50"
-                                                 src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                                 src="{% static "slavaukraine/assets/img/person2.jpg" %}">
                             <div>
                                 <p class="fw-bold text-primary mb-0 testimonies-before-text">Pedro Mateus</p>
                                 <p class="text-muted mb-0 testimonies-text">Voluntário</p>
@@ -214,7 +215,7 @@
                             de fazer a diferença. Obrigado</p>
                         <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                  height="50"
-                                                 src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                                 src="{% static "slavaukraine/assets/img/person3.jpg" %}">
                             <div>
                                 <p class="fw-bold text-primary mb-0 testimonies-before-text">Joana Arminda</p>
                                 <p class="text-muted mb-0 testimonies-text">Voluntária</p>
