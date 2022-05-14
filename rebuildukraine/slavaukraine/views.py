@@ -292,11 +292,13 @@ class PersonProposalList(ListView):
 def reserved(request):
     list = utils.getUserMEssages(request)
     proposals = utils.getProposals(request)
+    proposals_enterpise = utils.getProposalsEnterprise(request)
     favorites = utils.getFavorites(request)
     context = {
         'title': 'Building Ukraine - Área Reservada',
         'list': list,
         'proposals': proposals,
+        'proposals_enterprise': proposals_enterpise,
         'favorites': favorites
     }
     return render(request, 'slavaukraine/reserved.html',context)

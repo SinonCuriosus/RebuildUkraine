@@ -154,6 +154,25 @@
                 </thead>
                 <tbody>
                 <tr>
+                    {% if user.is_enterprise %}
+                    {% for proposal in proposals_enterprise %}
+                    {% if proposal.title != "None" %}
+                    <td class="list-group-item list-group-item-action">
+                        <h5 class="mb-1 message-page-mtitle">{{ proposal.title }}</h5>
+                    </td>
+                    <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ proposal.expertiseNeeded }}</p>
+                    </td>
+                    <td>
+                        <div class="d-flex w-100 justify-content-between">
+                            <small class="text-muted">&nbsp; {{ proposal.city }}</small>
+                            <small class="message-page-stitle"> + Informação</small>
+                        </div>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                {% endif %}
+                {% if user.is_person %}
                     {% for proposal in proposals %}
                     {% if proposal.title != "None" %}
                     <td class="list-group-item list-group-item-action">
@@ -170,6 +189,8 @@
                     {% endif %}
                 </tr>
                 {% endfor %}
+                {% endif %}
+
                 </tbody>
             </table>
             <br>
