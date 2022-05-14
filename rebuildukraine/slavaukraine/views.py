@@ -21,8 +21,6 @@ from .models import Registration
 #Pagina inicial -RR visto
 def home(request):
     last_proposals = utils.getLastThreeProposal()
-    for proposal in last_proposals:
-        print(proposal.title)
     context = {
         'title': 'Building Ukraine - Homepage',
         'last_proposals': last_proposals
@@ -435,14 +433,22 @@ def newMessage(request,recipient):
         return render(request,'slavaukraine/create_new_message.html',context)
 
 
-# view da reposta as mensagens
-def replyMessage(request,recipient, topic):
-    if request.POST:
-        if utils.getUser(request):
-            utils.saveReply(request, topic, recipient) #cria a mensagem ou resposta
-            utils.send_replyMessage(request,recipient) # envia email para o user
+def replyMessage(request,topic_id):
+    if utils.getUser(request) and utils.partOfTopic(request,topic_id):
+        topic = TopicMessage.objects.filter(id=topic_id).first()
+        sender = utils.getSender(request,topic_id)
+        messages = utils.getTopicMessages(topic_id)
+        if request.POST:
+            utils.saveReply(request,topic,sender) #cria a mensagem ou resposta
+            utils.send_replyMessage(request,sender) # envia email para o user
             # return para a view dos emails
         else:
-            return home(request) # vai para a home
+            print("dk")
+        context = {
+            'title': 'Building Ukraine - Ver/Responde a mensagem',
+            'topic': topic,
+            'messages':messages
+        }
+        return render(request,'slavaukraine/message.html',context)
     else:
-        return None # retornar a pagina
+        return home(request)

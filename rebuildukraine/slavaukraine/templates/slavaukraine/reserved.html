@@ -108,20 +108,25 @@
                 <tr>
                     {% for message in list %}
                     {% if message.subjet != "None" %}
+
                     <td class="list-group-item list-group-item-action">
-                        <h5 class="mb-1 message-page-mtitle">{{ message.subjet }}</h5>
+                        <p class="mb-1 message-page-mtitle">{{ message.subjet }}</p>
                     </td>
-                    <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ message.receiver.first_name
-                        }}</p>
+                    <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ message.receiver.first_name }}</p>
                     </td>
                     <td>
                         <div class="d-flex w-100 justify-content-between">
                             <small class="text-muted">&nbsp; {{ message.date }}</small>
-                            <small class="message-page-stitle"> + Informação</small>
+
+                            <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
+                               href="{% url 'slavaukraine:message' message.id  %}">Editar</a>
+
                         </div>
                     </td>
-                    {% endif %}
+
+
                 </tr>
+                {% endif %}
                 {% endfor %}
                 </tbody>
             </table>
@@ -147,7 +152,7 @@
                     {% for proposal in proposals %}
                     {% if proposal.title != "None" %}
                     <td class="list-group-item list-group-item-action">
-                        <h5 class="mb-1 message-page-mtitle">{{ proposal.title }}</h5>
+                        <p class="mb-1 message-page-mtitle">{{ proposal.title }}</p>
                     </td>
                     <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ proposal.expertiseNeeded }}</p>
                     </td>
@@ -183,7 +188,7 @@
                     {% for favorite in favorites %}
                     {% if favorite.title != "None" %}
                     <td class="list-group-item list-group-item-action">
-                        <h5 class="mb-1 message-page-mtitle">{{ favorite.title }}</h5>
+                        <p class="mb-1 message-page-mtitle">{{ favorite.title }}</p>
                     </td>
                     <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ favorite.expertiseNeeded }}</p>
                     </td>

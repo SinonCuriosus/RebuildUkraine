@@ -1,5 +1,7 @@
 from django.core.mail import send_mail
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
+
 from .models import TopicMessage, Answers, Person, Proposal, Registration
 
 
@@ -87,3 +89,27 @@ def isRegisted(request,proposal_id):
 def getLastThreeProposal():
     return Proposal.objects.filter().order_by('-id')[:4]
 
+
+
+def partOfTopic(request,topic_id):
+    topic = TopicMessage.objects.filter(pk=topic_id).first()
+    if (topic.sender == request.user):
+        return True
+    else:
+        if(topic.receiver == request.user):
+            return True
+        else:
+
+            return False
+
+
+def getSender(request,topic_id):
+    topic = TopicMessage.objects.filter(pk=topic_id).first()
+    if (topic.sender == request.user):
+        return topic.receiver
+    else:
+        return topic.sender
+
+
+def getTopicMessages(topic_id):
+    return Answers.objects.filter(Q(topic_id=topic_id))

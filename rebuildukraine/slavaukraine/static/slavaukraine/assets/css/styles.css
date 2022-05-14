@@ -288,5 +288,12 @@ nav{
 
 .message-page-mreceiv {
     color: crimson !important;
+}
 
+.messge-reply{
+    font-size:small !important;
+}
+
+.message-reply-textarea{
+    height: auto;
 }

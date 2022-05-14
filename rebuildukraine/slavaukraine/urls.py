@@ -34,26 +34,8 @@ urlpatterns = [
     # Visualizacao de proposta
     path("proposal/<int:proposal_id>", views.viewProposal, name="proposal"),
 
-
-
-
-    # --------------------------------------------------------------------------------
-
-    # ------------------------------ Voluntarios -------------------------------------
-
-    # --------------------------------------------------------------------------------
-
-
-
     # Área de edição
     path("reserved/editPerson/<int:pk>/", PersonUpdate.as_view(), name='edit_person'),
-
-    # --------------------------------------------------------------------------------
-
-    # -------------------------------- Empresas ---------------------------------------
-
-    # --------------------------------------------------------------------------------
-
 
 
         #O PATH em baixo é um auxiliar do regist_proposal, na dropdown dinâmica;
@@ -71,8 +53,7 @@ urlpatterns = [
     path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='test_datatable'),
     path("listed_proposals/<int:pk>/", PersonProposalList.as_view(), name='list_personproposals'),
     path("listproposals/", ProposalList.as_view(), name='listproposals'),
-    path("Registration_Volunteer_List", views.registration_volunteer_list, name="Registration_Volunteer_List"),
-    path("Favorites_Volunteer_List", views.favorites_volunteer_list, name="Favorites_Volunteer_List"),
+
     #EM FALTA: Inscrições na Proposta X da Empresa Y
 
     #Área de remoção
@@ -85,12 +66,7 @@ urlpatterns = [
 
     # --------------------------------------------------------------------------------
 
-    #http://127.0.0.1:8000/slavaukraine/Porposal_List
-    path("test_Porposal_List",views.proposal_view, name="test_Porposal_List"),
 
-
-    # Verificar as mensagens dos users
-    path("reserved/view_my_messages", views.viewMessages, name="view_my_messages"),
     # Criar uma nova mensagem para o user
     path("reserved/create_new_message/<int:recipient>", views.newMessage, name="create_new_message"),
 
@@ -98,13 +74,10 @@ urlpatterns = [
     ## Adicionar o id da messagem
     ##
     # Resposta à mensagem
-    path("reserved/reply_message/<int:topic>", views.newMessage, name="reply_message"),
-
-
+    path("reserved/message/<int:topic_id>", views.replyMessage, name="message"),
 
     #Proposta detalhe
     #path('<int:proposal_id>', views.proposal_detail, name="proposal"),
-
     
     #Adicionar aos favoritos
     path('<int:proposal_id>/favorite_proposal', views.favorite_proposal, name="favorite_proposal"),
