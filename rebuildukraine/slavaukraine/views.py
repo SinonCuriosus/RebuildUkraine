@@ -20,8 +20,12 @@ from .models import Registration
 
 #Pagina inicial -RR visto
 def home(request):
+    last_proposals = utils.getLastThreeProposal()
+    for proposal in last_proposals:
+        print(proposal.title)
     context = {
         'title': 'Building Ukraine - Homepage',
+        'last_proposals': last_proposals
     }
     return render(request, 'slavaukraine/home.html', context);
 
