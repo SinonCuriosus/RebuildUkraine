@@ -72,7 +72,10 @@ def getUserMEssages(request):
 
 # obtem as propostas
 def getProposals(request):
-    return  Proposal.objects.filter(registration__person__username=request.user.username)
+    return Proposal.objects.filter(registration__person__username=request.user.username)
+
+def getProposalsEnterprise(request):
+    return Proposal.objects.filter(enterprise_id=request.user.id)
 
 # Obtem os favoritos
 def getFavorites(request):
