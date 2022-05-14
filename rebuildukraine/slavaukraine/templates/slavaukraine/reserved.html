@@ -35,6 +35,7 @@
 </ul>
 
 <div class="tab-content reserved-page-information" id="pills-tabContent">
+    <!-- User -->
     <div class="tab-pane fade show active reserved-page-information" id="pills-home" role="tabpanel"
          aria-labelledby="pills-home-tab">
         <div class="row d-flex justify-content-center">
@@ -89,12 +90,12 @@
 
 
     </div>
+    <!-- Messages-->
     <div class="tab-pane fade reserved-page-information" id="pills-messages" role="tabpanel"
          aria-labelledby="pills-messages-tab">
 
 
-
-         <div class="list-group">
+        <div class="list-group">
             <table id="table_id2" class="display">
                 <thead>
                 <tr>
@@ -108,9 +109,10 @@
                     {% for message in list %}
                     {% if message.subjet != "None" %}
                     <td class="list-group-item list-group-item-action">
-                        <h5 class="mb-1 message-page-mtitle">{{ message.subjet  }}</h5>
+                        <h5 class="mb-1 message-page-mtitle">{{ message.subjet }}</h5>
                     </td>
-                    <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ message.receiver.first_name }}</p>
+                    <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ message.receiver.first_name
+                        }}</p>
                     </td>
                     <td>
                         <div class="d-flex w-100 justify-content-between">
@@ -127,10 +129,8 @@
         </div>
 
 
-
-
-
     </div>
+    <!-- Projetos -->
     <div class="tab-pane fade reserved-page-information" id="pills-projects" role="tabpanel"
          aria-labelledby="pills-projects-tab">
         <div class="list-group">
@@ -165,44 +165,41 @@
             <br>
         </div>
     </div>
+    <!-- Favoritos -->
     {% if user.is_person %}
     <div class="tab-pane fade reserved-page-information" id="pills-saved" role="tabpanel"
-         aria-labelledby="pills-saved-tab">Aqui projetos guardados
-        <form action="?" method="GET">
-            <input type="text" name="nome_do_titulo" id=""
-                   value="{{ request.GET.nome_do_titulo }}" autocomplete="off"
-                   placeholder="Nome do título">
-            <button type="submit" class="btn btn-primary btn-sm me-2 carrousel-button-uk">Pesquisar</button>
-
-            <a href="{% url 'slavaukraine:list_personproposals' user.pk %}"
-               class="btn btn-outline-yellow btn-sm carrousel-button">Limpar</a>
-        </form>
-        <br>
+         aria-labelledby="pills-saved-tab">
         <div class="list-group">
-            {% for favorite in favorites %}
-            <a href="{% url 'slavaukraine:proposal' favorite.id %}" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1 message-page-mtitle">{{ favorite.title }}</h5>
-                    <small class="message-page-stitle"> + Informação</small>
-                </div>
-                <p class="mb-1 message-page-stitle">{{ favorite.expertiseNeeded }}</p>
-                <small class="text-muted">&nbsp; {{ favorite.city }}</small>
-            </a>
-            {% endfor %}
+            <table id="table_id4" class="display">
+                <thead>
+                <tr>
+                    <th>Titulo</th>
+                    <th>Especialidade</th>
+                    <th>Localização</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    {% for favorite in favorites %}
+                    {% if favorite.title != "None" %}
+                    <td class="list-group-item list-group-item-action">
+                        <h5 class="mb-1 message-page-mtitle">{{ favorite.title }}</h5>
+                    </td>
+                    <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ favorite.expertiseNeeded }}</p>
+                    </td>
+                    <td>
+                        <div class="d-flex w-100 justify-content-between">
+                            <small class="text-muted">&nbsp; {{ favorite.city }}</small>
+                            <small class="message-page-stitle"> + Informação</small>
+                        </div>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br>
         </div>
-        <br>
-        <div class="text-center">
-            {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-            {% endif %}
-
-            <span class="volunteer-subtext-blue">Página {{ page_obj.number }}</span>
-
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
-            {% endif %}
-        </div>
-        <br>
     </div>
     {% endif %}
 </div>
@@ -222,8 +219,12 @@
         );
     });
 
-     $(document).ready(function () {
+    $(document).ready(function () {
         $('#table_id2').DataTable({}
+        );
+    });
+    $(document).ready(function () {
+        $('#table_id4').DataTable({}
         );
     });
 </script>
