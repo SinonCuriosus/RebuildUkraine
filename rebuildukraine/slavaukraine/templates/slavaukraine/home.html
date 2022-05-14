@@ -70,6 +70,7 @@
     <div>
         <!-- Ofertas disponiveis -->
         <div class="container py-4 py-xl-5">
+            {% if last_proposals.0 != None %}
             <div class="row mb-5">
                 <div class="col-md-8 col-xl-6 text-center mx-auto card-title">
                     <h2>Últimos Projetos</h2>
@@ -82,62 +83,61 @@
                                            src="{% static "slavaukraine/assets/img/trabalhador_1.jpg" %}">
                         <div class="card-body p-4">
                             <p class="text-primary mb-0 card-before-text">Projeto</p>
-                            <h4 class="card-text">Limpeza de Entulho</h4>
-                            <p class="card-subtext">Vamos necessitar de pessoas para ajudar na remoção de entulho na aldeia
-                                Y que fica na cidade Z. Este trabalho terá a previsão de 12 dias seguidos. Pode ser
-                                pessoas sem nenhuma experiencia na ...</p>
+                            <h4 class="card-text">{{ last_proposals.0.title }}</h4>
+                            <p class="card-subtext">{{ last_proposals.0.description }}</p>
                             <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                      height="50"
                                                      src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                                 <div>
-                                    <p class="fw-bold mb-0 card-before-text">Empresa X</p>
-                                    <p class="text-muted mb-0 card-text">Construção Civil</p>
+                                    <p class="fw-bold mb-0 card-before-text">{{ last_proposals.0.enterprise }}</p>
+                                    <p class="text-muted mb-0 card-text">{{ last_proposals.0.expertiseNeeded }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% if last_proposals.1 != None %}
                 <div class="col">
                     <div class="card"><img class="card-img-top w-100 d-block fit-cover card-size"
                                            src="{% static "slavaukraine/assets/img/trabalhador_2.png" %}">
                         <div class="card-body p-4">
                             <p class="text-primary mb-0 card-before-text">Projeto</p>
-                            <h4 class="card-text">Carpinteiro de Limpos</h4>
-                            <p class="card-subtext">Precisamos de uma pessoa para integrar uma equipa de 7 carpinteiros que
-                                terão como missão social finalizar a obra na parte das cozinhas e quartos. Será
-                                fornecido todo o material necess ....&nbsp;</p>
+                            <h4 class="card-text">{{ last_proposals.1.title }}</h4>
+                            <p class="card-subtext">{{ last_proposals.1.description }}</p>
                             <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                      height="50"
                                                      src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                                 <div>
-                                    <p class="fw-bold mb-0 card-before-text">Empresa Y</p>
-                                    <p class="text-muted mb-0 card-text">Carpintaria</p>
+                                    <p class="fw-bold mb-0 card-before-text">{{ last_proposals.1.enterprise }}</p>
+                                    <p class="text-muted mb-0 card-text">{{ last_proposals.1.expertiseNeeded }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% endif %}
+                {% if last_proposals.2 != None %}
                 <div class="col">
                     <div class="card"><img class="card-img-top w-100 d-block fit-cover card-size"
                                            src="{% static "slavaukraine/assets/img/trabalhador_3.png" %}">
                         <div class="card-body p-4">
                             <p class="text-primary mb-0 card-before-text">Projeto</p>
-                            <h4 class="card-title card-text">Isolamento de Paredes</h4>
-                            <p class="card-subtext">Procuramos&nbsp; voluntários para ajudar na isolação das paredes de um
-                                edifício de 7 andares, com 3 apartamentos cada andar. A intervenção será efetuada
-                                durante cerca de 3 semanas&nbsp; e ...</p>
+                            <h4 class="card-title card-text">{{ last_proposals.2.title }}</h4>
+                            <p class="card-subtext">{{ last_proposals.2.description }}</p>
                             <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                      height="50"
                                                      src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                                 <div>
-                                    <p class="fw-bold mb-0 card-before-text">Empresa Z</p>
-                                    <p class="text-muted mb-0 card-text">Isolamentos</p>
+                                    <p class="fw-bold mb-0 card-before-text">{{ last_proposals.2.enterprise }}</p>
+                                    <p class="text-muted mb-0 card-text">{{ last_proposals.2.expertiseNeeded }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
+            {% endif %}
         </div>
         <!-- Estatisticas -->
         <div class="container py-4 py-xl-5 statistics-color">

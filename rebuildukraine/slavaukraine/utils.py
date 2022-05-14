@@ -84,3 +84,6 @@ def isRegisted(request,proposal_id):
     else:
         return 1
 
+def getLastThreeProposal():
+    return Proposal.objects.filter().order_by('-id')[:4]
+
