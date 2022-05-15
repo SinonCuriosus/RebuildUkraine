@@ -11,11 +11,11 @@
                 <div class="row">
                     <div class="col-md-6 col-xl-4 offset-md-2">
                         <div class="carrousel-text">
-                            <h1 class="text-uppercase fw-bold carrousel-text">Quer ajudar?<br>Registe-se já</h1>
-                            <p class="my-3 carrousel-subtext">Na nossa plataforma vai encontrar vários projetos para
+                            <h1 class="text-uppercase fw-bold carrousel-text">Queres ajudar?<br>Regista-te já</h1>
+                            <p class="my-3 carrousel-subtext">Na nossa plataforma vais encontrar vários projetos para
                                 a reconstrução da Ucrânia</p><a
                                 class="btn btn-primary btn-lg me-2 carrousel-button-uk" role="button"
-                                href="#">Registar</a><a
+                                href="{% url 'slavaukraine:register_volunteer' %}">Registar</a><a
                                 class="btn btn-outline-yellow btn-lg carrousel-button" role="button"
                                 href="{% url 'slavaukraine:listproposals'%}">Verificar
                             Projetos</a>
@@ -32,12 +32,14 @@
                 <div class="row">
                     <div class="col-md-6 col-xl-4 offset-md-2">
                         <div class="carrousel-text">
-                            <h1 class="text-uppercase fw-bold">Biben dum<br>fringi dictum, augue purus</h1>
-                            <p class="my-3 carrousel-subtext">Tincidunt laoreet leo, adipiscing taciti tempor.
-                                Primis senectus sapien, risus donec ad fusce augue interdum.</p><a
+                            <h1 class="text-uppercase fw-bold">Junta-te a nós<br>Regista a tua empresa</h1>
+                            <p class="my-3 carrousel-subtext">Os nossos voluntários querem ajudar o povo ucraniano a
+                                reerguer o seu país</p><a
                                 class="btn btn-primary btn-lg me-2 carrousel-button-uk" role="button"
-                                href="#">Button</a><a
-                                class="btn btn-outline-yellow btn-lg carrousel-button" role="button" href="#">Button</a>
+                                href="{% url 'slavaukraine:register_enterprise' %}">Registar</a><a
+                                class="btn btn-outline-yellow btn-lg carrousel-button" role="button"
+                                href="{% url 'slavaukraine:listproposals'%}">Verificar
+                            Projetos</a>
                         </div>
                     </div>
                 </div>
@@ -50,12 +52,14 @@
                 <div class="row">
                     <div class="col-md-6 col-xl-4 offset-md-2">
                         <div class="carrousel-text">
-                            <h1 class="text-uppercase fw-bold">Biben dum<br>fringi dictum, augue purus</h1>
-                            <p class="my-3 carrousel-subtext">Tincidunt laoreet leo, adipiscing taciti tempor.
-                                Primis senectus sapien, risus donec ad fusce augue interdum.</p><a
+                            <h1 class="text-uppercase fw-bold">Tens alguma dúvida?<br>Entra em contacto conosco</h1>
+                            <p class="my-3 carrousel-subtext">Nós queremos ligar voluntários a projetos que podem mudar
+                            a vida de uma pessoa</p><a
                                 class="btn btn-primary btn-lg me-2 carrousel-button-uk" role="button"
-                                href="#">Button</a><a
-                                class="btn btn-outline-yellow btn-lg carrousel-button" role="button" href="#">Button</a>
+                                href="{% url 'slavaukraine:contacts' %}">Contacta-nos</a><a
+                                class="btn btn-outline-yellow btn-lg carrousel-button" role="button"
+                                href="{% url 'slavaukraine:listproposals'%}">Verificar
+                            Projetos</a>
                         </div>
                     </div>
                 </div>
