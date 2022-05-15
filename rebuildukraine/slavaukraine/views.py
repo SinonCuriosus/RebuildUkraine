@@ -196,26 +196,11 @@ class ProposalList(ListView):
         return proposals
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ###############     UPDATE VIEWS   ###############
 class ProposalUpdate(UpdateView):
     model = Proposal
     fields = ['title','expertiseNeeded','description']
-    template_name = 'slavaukraine/edituser.html'
+    template_name = 'slavaukraine/editform.html'
 
     def get_success_url(self):
         return reverse('slavaukraine:home')
@@ -223,26 +208,31 @@ class ProposalUpdate(UpdateView):
 
 class PersonUpdate(UpdateView):
     model = Person
-    fields = ['first_name', 'last_name','profile_image','gender','address','birth']
-    template_name = 'slavaukraine/reserved.html'
-    success_url = reverse_lazy('slavaukraine:home')
+    fields = ['first_name', 'last_name','profile_image','gender','address']
+    template_name = 'slavaukraine/editform.html'
+    success_url = reverse_lazy('slavaukraine:reserved')
 
 class EnterpriseUpdate(UpdateView):
     model = Person
     fields = ['email','first_name','taxnumber','profile_image','address']
-    template_name = 'slavaukraine/edituser.html'
-    success_url = reverse_lazy('slavaukraine:home')
-
-
+    template_name = 'slavaukraine/editform.html'
+    success_url = reverse_lazy('slavaukraine:reserved')
 
 ###############     DELETE VIEWS   ###############
 class ProposalDelete(DeleteView):
     model = Proposal
-    template_name = 'slavaukraine/deleteproposal.html'
+    template_name = 'slavaukraine/deleteproposalusers.html'
     #success_url = reverse_lazy('slavaukraine:listed_proposals')
 
     def get_success_url(self, **kwargs):
         return reverse('slavaukraine:home')
+
+def deleteUser(request,pk):
+    logout(request)
+    Person.objects.filter(pk=pk).delete()
+    return home(request)
+
+
 
 ###############     LIST VIEWS     ###############
 

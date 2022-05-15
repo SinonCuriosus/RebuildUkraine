@@ -44,6 +44,7 @@ class PersonAuthenticationForm(forms.ModelForm):
         model = Person
         fields = ('email','password')
 
+
     def clean(self):
         if self.is_valid():
             email = self.cleaned_data['email']

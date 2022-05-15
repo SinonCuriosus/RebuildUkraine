@@ -1,4 +1,6 @@
 {% extends "slavaukraine/template_box.html" %}
+
+
 {% load static %}
 
 {% block box %}
@@ -7,7 +9,7 @@
     <form action="" method="POST">
         {% csrf_token %}
 
-        {{ form.as_p }}
+        {{ form.as_p|crispy }}
 
         <button type="submit">Envia</button>
 
@@ -17,7 +19,7 @@
     <form action="" method="POST">
         {% csrf_token %}
 
-        {{ form.as_p }}
+        {{ form.as_p|crispy }}
 
         <button type="submit">Envia</button>
     </form>

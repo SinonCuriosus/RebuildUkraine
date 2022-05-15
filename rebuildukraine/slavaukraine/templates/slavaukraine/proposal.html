@@ -21,11 +21,33 @@
                     Inscrever-me
                 </button>
             </form>
-        {% else  %}
+        {% elif user.is_person and registed == 1  %}
             <form action="{% url 'slavaukraine:removesubscription' proposal.id %}" method="post" id="des-reg">
                 {% csrf_token %}
                 <button type="submit" form="des-reg" value="Desregistar" class="btn btn-danger btn-sm">
                     Desinscrever
+                </button>
+            </form>
+        {% elif user.is_enterprise %}
+
+            <form action="{% url 'slavaukraine:removesubscription' proposal.id %}" method="post" id="see-users">
+                {% csrf_token %}
+                <button type="submit" form="see-users" value="Desregistar" class="btn btn-primary btn-sm me-2 carrousel-button-uk">
+                    Ver inscritos
+                </button>
+            </form>
+            <br>
+            <form action="{% url 'slavaukraine:removesubscription' proposal.id %}" method="post" id="del-prop">
+                {% csrf_token %}
+                <button type="submit" form="del-prop" value="Desregistar" class="btn btn-outline-yellow btn-sm carrousel-button">
+                    Editar Proposta
+                </button>
+            </form>
+            <br>
+            <form action="{% url 'slavaukraine:removesubscription' proposal.id %}" method="post" id="del-prop">
+                {% csrf_token %}
+                <button type="submit" form="del-prop" value="Desregistar" class="btn btn-danger btn-sm">
+                    Apagar Proposta
                 </button>
             </form>
         {% endif %}
@@ -40,7 +62,7 @@
                 </button>
             </form>
         <br>
-        {% else  %}
+        {% elif user.is_person and favorited == 1  %}
             <form action="{% url 'slavaukraine:removefavorite' proposal.id %}" method="post" id="rem-fav">
                 {% csrf_token %}
                 <button type="submit" form="rem-fav" value="Guardar" class="btn btn-danger btn-sm">

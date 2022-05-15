@@ -66,14 +66,19 @@
                         <p>Email: {{ user.email }}</p>
                         <p>Número de contribuinte: {{ user.taxnumber }}</p>
                         <p>Morada: {{ user.address }}</p>
-                        <p>Data de nascimento: {{ user.birth }}</p>
                         <p>Date joined: {{ user.date_joined }}</p>
                         <br>
                     </div>
                     <div>
                         <a class="btn btn-primary text-right carrousel-button-uk" role="button"
-                           href="{% url 'slavaukraine:enterprise' %}">Editar</a>
+                           href="{% url 'slavaukraine:enterprise_edit' user.id %}">Nova proposta</a>
                     </div>
+                    <br>
+                    <div>
+                        <a class="btn btn-outline-yellow text-right carrousel-button" role="button"
+                           href="{% url 'slavaukraine:enterprise_edit' user.id %}">Editar Conta</a>
+                    </div>
+
                     {% endif %}
 
                     {% if user.is_person %}
@@ -90,7 +95,7 @@
                     </div>
                     <div>
                         <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
-                           href="{% url 'slavaukraine:enterprise'%}">Editar</a>
+                           href="{% url 'slavaukraine:edit_person' user.id%}">Editar</a>
                     </div>
                     {% endif %}
 

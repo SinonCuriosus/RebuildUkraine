@@ -31,7 +31,7 @@ urlpatterns = [
     # Registo de proposta
     path("reserved/regist_proposal", views.proposal_create_view, name="regist_proposal"),
 
-    # Visualizacao de proposta com Opção de Inscrição/Add aos Favoritos
+    # Visualizacao de proposta com Opção de Inscrição ou Add aos Favoritos
     path("proposal/<int:proposal_id>", views.viewProposal, name="proposal"),
     # Remoção da Proposta das Inscrições
     path("remProposal/<int:proposal_id>", views.removeProposalSubscription, name="removesubscription"),
@@ -47,7 +47,7 @@ urlpatterns = [
         path("ajax/load-cities/", views.load_cities, name="ajax_load_cities"),
 
     # Edição user Empresarial
-    path("editEnterprise/", EnterpriseUpdate.as_view(), name='enterprise_edit'),
+    path("reserved/editEnterprise/<int:pk>/", EnterpriseUpdate.as_view(), name='enterprise_edit'),
     # Edição proposta da empresa
     path("editProposal/<int:pk>/", ProposalUpdate.as_view(), name='edit_proposal'),
 
@@ -62,7 +62,9 @@ urlpatterns = [
     #EM FALTA: Inscrições na Proposta X da Empresa Y
 
     #Área de remoção
-
+    path("deleteProposal/<int:pk>/", ProposalDelete.as_view(), name='delete_proposal'),
+    #Apagar Empresa
+    path("deleteUser/<int:pk>/", views.deleteUser, name='delete_user'),
     path("deleteProposal/<int:pk>/", ProposalDelete.as_view(), name='delete_proposal'),
 
     # --------------------------------------------------------------------------------
