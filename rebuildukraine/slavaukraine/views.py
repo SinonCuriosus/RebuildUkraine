@@ -158,7 +158,7 @@ def proposal_create_view(request):
             form = ProposalForm(data=form_data)
             if form.is_valid():
                 form.save()
-                return render(request, 'slavaukraine/reserved.html');
+                return reserved(request);
         else:
             context = {
                 'title': 'Building Ukraine - Registo de Proposta',
@@ -194,7 +194,7 @@ class ProposalList(ListView):
 class ProposalUpdate(UpdateView):
     model = Proposal
     fields = ['title','expertiseNeeded','description']
-    template_name = 'slavaukraine/editform.html'
+    template_name = 'slavaukraine/editproposal.html'
 
     def get_success_url(self):
         return reverse('slavaukraine:home')
@@ -216,15 +216,14 @@ class EnterpriseUpdate(UpdateView):
 class ProposalDelete(DeleteView):
     model = Proposal
     template_name = 'slavaukraine/deleteproposalusers.html'
-    #success_url = reverse_lazy('slavaukraine:listed_proposals')
+    success_url = reverse_lazy('slavaukraine:reserved')
 
-    def get_success_url(self, **kwargs):
-        return reverse('slavaukraine:home')
 
 def deleteUser(request,pk):
     logout(request)
     Person.objects.filter(pk=pk).delete()
     return home(request)
+
 
 
 
@@ -263,12 +262,6 @@ class PersonProposalList(ListView):
         else:
             proposals = Proposal.objects.filter(person_id=person.id)
         return proposals
-
-
-
-
-
-
 
 # Area reservada
 def reserved(request):

@@ -47,6 +47,8 @@ urlpatterns = [
     path("listproposals/", ProposalList.as_view(), name='listproposals'),
     # Eliminação de proposta pela empresa
     path("deleteProposal/<int:pk>/", ProposalDelete.as_view(), name='delete_proposal'),
+    # Eliminação de qualquer tipo de utilizador
+    path("deleteUser/<int:pk>/", views.deleteUser, name='delete_user'),
     # #Área de Listagens
     # path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='list_enterpriseproposals'),
 

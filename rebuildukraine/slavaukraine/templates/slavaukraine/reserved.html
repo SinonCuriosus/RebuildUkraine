@@ -20,7 +20,7 @@
                 data-bs-target="#pills-projects" type="button" role="tab"
                 aria-controls="pills-projects" aria-selected="false">
             {% if user.is_person %} Projectos Inscritos
-            {% else %} Projetos Registados
+            {% elif user.is_enterprise %} Projetos Registados
             {% endif %}
         </button>
     </li>
@@ -70,13 +70,8 @@
                         <br>
                     </div>
                     <div>
-                        <a class="btn btn-primary text-right carrousel-button-uk" role="button"
-                           href="{% url 'slavaukraine:enterprise_edit' user.id %}">Nova proposta</a>
-                    </div>
-                    <br>
-                    <div>
                         <a class="btn btn-outline-yellow text-right carrousel-button" role="button"
-                           href="{% url 'slavaukraine:enterprise_edit' user.id %}">Editar Conta</a>
+                           href="{% url 'slavaukraine:enterprise_edit' user.pk %}">Editar Conta</a>
                     </div>
 
                     {% endif %}
