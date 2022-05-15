@@ -446,3 +446,17 @@ def replyMessage(request,topic_id):
         return render(request,'slavaukraine/message.html',context)
     else:
         return home(request)
+
+
+def viewUser(request,user_id):
+    if utils.verifyUser(request):
+        other_user = utils.getOtherUser(user_id)
+        print(other_user)
+        context = {
+            'title': 'Building Ukraine - Ver/Responde a mensagem',
+            'other_user': other_user,
+        }
+        return render(request,'slavaukraine/user.html',context)
+    else:
+        return home(request)
+

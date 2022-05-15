@@ -125,3 +125,6 @@ def getSender(request,topic_id):
 
 def getTopicMessages(topic_id):
     return Answers.objects.filter(Q(topic_id=topic_id))
+
+def getOtherUser(user_id):
+    return Person.objects.filter(Q(id=user_id)).first()
