@@ -1,5 +1,6 @@
 import copy
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.db.models import Q
@@ -154,6 +155,7 @@ def volunteerRegistration_view(request):
 
 
 # Pagina de registo de proposta
+@login_required(login_url='/slavaukraine/login/')
 def proposal_create_view(request):
     if utils.isEnterprise(request):
         enterprise = get_object_or_404(Person, pk=request.user.pk)
@@ -228,7 +230,7 @@ class ProposalDelete(DeleteView):
     template_name = 'slavaukraine/deleteproposalusers.html'
     success_url = reverse_lazy('slavaukraine:reserved')
 
-
+@login_required(login_url='/slavaukraine/login/')
 def deleteUser(request, pk):
     logout(request)
     Person.objects.filter(pk=pk).delete()
@@ -272,6 +274,7 @@ class PersonProposalList(ListView):
 
 
 # Area reservada
+@login_required(login_url='/slavaukraine/login/')
 def reserved(request):
     list = utils.getUserMEssages(request)
     proposals = utils.getProposals(request)
@@ -327,6 +330,7 @@ def viewProposal(request, proposal_id):
 
 
 # Voluntário remove inscrição em Proposta
+@login_required(login_url='/slavaukraine/login/')
 def removeProposalSubscription(request, proposal_id):
     proposal = get_object_or_404(Proposal, pk=proposal_id)
     if request.POST:
@@ -345,6 +349,7 @@ def removeProposalSubscription(request, proposal_id):
 
 
 # Voluntario coloca proposta nos favoritos
+@login_required(login_url='/slavaukraine/login/')
 def favorite_proposal(request, proposal_id):
     proposal = get_object_or_404(Proposal, pk=proposal_id)
     if request.POST:
@@ -364,6 +369,7 @@ def favorite_proposal(request, proposal_id):
 
 
 # Voluntário remove proposta dos favoritos
+@login_required(login_url='/slavaukraine/login/')
 def removeFavoriteProposal(request, proposal_id):
     proposal = get_object_or_404(Proposal, pk=proposal_id)
     if request.POST:
@@ -381,6 +387,7 @@ def removeFavoriteProposal(request, proposal_id):
     return render(request, 'slavaukraine/proposal.html', context)
 
 #Empresa fecha proposta de voluntariado
+@login_required(login_url='/slavaukraine/login/')
 def closeProposal(request, pk):
     proposal_to_close = get_object_or_404(Proposal, pk=pk)
     proposal_to_close.closed = True
@@ -388,6 +395,7 @@ def closeProposal(request, pk):
     return proposal_detail(request,pk)
 
 #Empresa reabre proposta de voluntariado
+@login_required(login_url='/slavaukraine/login/')
 def reopenProposal(request, pk):
     proposal_to_close = get_object_or_404(Proposal, pk=pk)
     print(proposal_to_close)
@@ -396,12 +404,13 @@ def reopenProposal(request, pk):
     print(proposal_to_close.closed)
     return proposal_detail(request,pk)
 
+@login_required(login_url='/slavaukraine/login/')
 def registration_volunteer_list(request):
     context = {}
     context["dataset"] = Proposal.objects.filter(registration__person__username=request.user)
     return render(request, 'slavaukraine/reserved.html', context)
 
-
+@login_required(login_url='/slavaukraine/login/')
 def favorites_volunteer_list(request):
     context = {}
     context["dataset"] = Favorites.objects.filter(favorites__person__username=request.user)
@@ -416,6 +425,7 @@ def proposal_detail(request, proposal_id):
 
 
 # view da nova msg entre user
+@login_required(login_url='/slavaukraine/login/')
 def newMessage(request, recipient):
     if request.POST:
         print("entrou 2")
@@ -436,7 +446,7 @@ def newMessage(request, recipient):
         }
         return render(request, 'slavaukraine/create_new_message.html', context)
 
-
+@login_required(login_url='/slavaukraine/login/')
 def replyMessage(request, topic_id):
     if utils.getUser(request) and utils.partOfTopic(request, topic_id):
         topic = TopicMessage.objects.filter(id=topic_id).first()
@@ -457,7 +467,7 @@ def replyMessage(request, topic_id):
     else:
         return home(request)
 
-
+@login_required(login_url='/slavaukraine/login/')
 def viewUser(request,user_id):
     if utils.verifyUser(request):
         other_user = utils.getOtherUser(user_id)
