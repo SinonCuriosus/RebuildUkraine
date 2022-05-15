@@ -16,9 +16,10 @@ from .models import Proposal
 from .models import Favorites
 from .models import Registration
 
+
 # Create your views here.
 
-#Pagina inicial -RR visto
+# Pagina inicial -RR visto
 def home(request):
     last_proposals = utils.getLastThreeProposal()
     volunteers = utils.getVolunteersRegisted()
@@ -28,10 +29,11 @@ def home(request):
         'title': 'Building Ukraine - Homepage',
         'last_proposals': last_proposals,
         'proposals': proposals,
-        'volunteers' : volunteers,
+        'volunteers': volunteers,
         'enterpises': enterpises
     }
     return render(request, 'slavaukraine/home.html', context);
+
 
 # pagina de mais informações sobre ser voluntário -RR visto
 def volunteer(request):
@@ -40,6 +42,7 @@ def volunteer(request):
     }
     return render(request, 'slavaukraine/volunteers.html', context)
 
+
 # pagina de mais informações sobre empresa -RR visto
 def enterprise(request):
     context = {
@@ -47,7 +50,8 @@ def enterprise(request):
     }
     return render(request, 'slavaukraine/enterprise.html')
 
-#pagina de contactos-RR visto
+
+# pagina de contactos-RR visto
 def contacts(request):
     if request.POST:
         subjet = "From:" + request.POST.get('name')
@@ -58,19 +62,20 @@ def contacts(request):
             'title': 'Building Ukraine - Contactos',
             'enviado': 1
         }
-        return render(request, 'slavaukraine/contacts.html',context)
+        return render(request, 'slavaukraine/contacts.html', context)
     else:
         context = {
             'title': 'Building Ukraine - Contactos',
             'enviado': 0
         }
-        return render(request, 'slavaukraine/contacts.html',context)
+        return render(request, 'slavaukraine/contacts.html', context)
 
 
 # Logout -RR visto
 def logout_view(request):
     logout(request)
     return home(request)
+
 
 # Login -RR visto
 def login_view(request):
@@ -100,21 +105,21 @@ def login_view(request):
                 'title': 'Building Ukraine - Login',
                 'login_form': form
             }
-            return render(request, 'slavaukraine/login.html',context)
+            return render(request, 'slavaukraine/login.html', context)
 
 
 # Registo de Empresa
 def enterpriseRegistration_view(request):
-    context={}
+    context = {}
     if request.POST:
         form = EnterpriseRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            email= form.cleaned_data.get('email')
+            email = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
             person = authenticate(email=email, password=raw_password)
-            #person.setEnterprise()
-            login(request,person)
+            # person.setEnterprise()
+            login(request, person)
             return home(request)
         else:
 
@@ -127,16 +132,16 @@ def enterpriseRegistration_view(request):
 
 # Registo de Voluntarios
 def volunteerRegistration_view(request):
-    context={}
+    context = {}
     if request.POST:
         form = PersonRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            email= form.cleaned_data.get('email')
+            email = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
             person = authenticate(email=email, password=raw_password)
             person.setPerson()
-            login(request,person)
+            login(request, person)
             return home(request)
         else:
             context['personregistration_form'] = form
@@ -152,7 +157,7 @@ def proposal_create_view(request):
         enterprise = get_object_or_404(Person, pk=request.user.pk)
         form = ProposalForm(initial={'enterprise': enterprise})
         if request.method == 'POST':
-        #We need to do a copy of the form data from the request, because Forms are IMMUTABLE.
+            # We need to do a copy of the form data from the request, because Forms are IMMUTABLE.
             form_data = copy.copy(request.POST)
             form_data['enterprise'] = enterprise.id
             form = ProposalForm(data=form_data)
@@ -169,11 +174,11 @@ def proposal_create_view(request):
         return render(request, 'slavaukraine/home.html')
 
 
-#aux para alimentar a pagina de criaçao de propostas
+# aux para alimentar a pagina de criaçao de propostas
 def load_cities(request):
     country_id = request.GET.get('country_id')
     cities = City.objects.filter(country_id=country_id)
-    return render(request,'slavaukraine/city_dropdown_list_options.html',{'cities':cities})
+    return render(request, 'slavaukraine/city_dropdown_list_options.html', {'cities': cities})
 
 
 # List view de todas as propostas
@@ -181,6 +186,7 @@ class ProposalList(ListView):
     model = Proposal
     template_name = 'slavaukraine/listproposals.html'
     paginate_by = 10
+
     def get_queryset(self):
         proposal_title_inserted = self.request.GET.get('nome_do_titulo')
         if proposal_title_inserted:
@@ -193,7 +199,7 @@ class ProposalList(ListView):
 ###############     UPDATE VIEWS   ###############
 class ProposalUpdate(UpdateView):
     model = Proposal
-    fields = ['title','expertiseNeeded','description']
+    fields = ['title', 'expertiseNeeded', 'description']
     template_name = 'slavaukraine/editproposal.html'
 
     def get_success_url(self):
@@ -202,15 +208,17 @@ class ProposalUpdate(UpdateView):
 
 class PersonUpdate(UpdateView):
     model = Person
-    fields = ['first_name', 'last_name','profile_image','gender','address']
+    fields = ['first_name', 'last_name', 'profile_image', 'gender', 'address']
     template_name = 'slavaukraine/editform.html'
     success_url = reverse_lazy('slavaukraine:reserved')
 
+
 class EnterpriseUpdate(UpdateView):
     model = Person
-    fields = ['email','first_name','taxnumber','profile_image','address']
+    fields = ['email', 'first_name', 'taxnumber', 'profile_image', 'address']
     template_name = 'slavaukraine/editform.html'
     success_url = reverse_lazy('slavaukraine:reserved')
+
 
 ###############     DELETE VIEWS   ###############
 class ProposalDelete(DeleteView):
@@ -219,41 +227,38 @@ class ProposalDelete(DeleteView):
     success_url = reverse_lazy('slavaukraine:reserved')
 
 
-def deleteUser(request,pk):
+def deleteUser(request, pk):
     logout(request)
     Person.objects.filter(pk=pk).delete()
     return home(request)
 
 
-
-
 ###############     LIST VIEWS     ###############
-
 
 
 class EnterpriseProposalList(ListView):
     model = Proposal
     template_name = 'slavaukraine/test_datatable.html'
-    #slavaukraine / listed_proposals / 3
+    # slavaukraine / listed_proposals / 3
     paginate_by = 10
-
 
     def get_queryset(self):
         enterprise = self.request.user
         proposal_title_inserted = self.request.GET.get('nome_do_titulo')
         if proposal_title_inserted:
-            proposals = Proposal.objects.filter(enterprise_id=enterprise.id).filter(title__icontains=proposal_title_inserted)
+            proposals = Proposal.objects.filter(enterprise_id=enterprise.id).filter(
+                title__icontains=proposal_title_inserted)
         else:
             proposals = Proposal.objects.filter(enterprise_id=enterprise.id)
         return proposals
 
 
-#Proposals by user
+# Proposals by user
 class PersonProposalList(ListView):
     model = Proposal
     template_name = 'slavaukraine/reserved.html'
     paginate_by = 10
-    
+
     def get_queryset(self):
         person = self.request.user
         proposal_title_inserted = self.request.GET.get('nome_do_titulo')
@@ -262,6 +267,7 @@ class PersonProposalList(ListView):
         else:
             proposals = Proposal.objects.filter(person_id=person.id)
         return proposals
+
 
 # Area reservada
 def reserved(request):
@@ -276,7 +282,8 @@ def reserved(request):
         'proposals_enterprise': proposals_enterpise,
         'favorites': favorites
     }
-    return render(request, 'slavaukraine/reserved.html',context)
+    return render(request, 'slavaukraine/reserved.html', context)
+
 
 # pagina de mais informações sobre ser voluntário -RR visto
 def volunteer(request):
@@ -285,6 +292,7 @@ def volunteer(request):
     }
     return render(request, 'slavaukraine/volunteers.html', context)
 
+
 # pagina de mais informações sobre empresa -RR visto
 def enterprise(request):
     context = {
@@ -292,26 +300,33 @@ def enterprise(request):
     }
     return render(request, 'slavaukraine/enterprise.html')
 
+
 # Visualização da proposta
-def viewProposal(request,proposal_id):
+def viewProposal(request, proposal_id):
     proposal = get_object_or_404(Proposal, pk=proposal_id)
+    registered_users = Registration.objects.filter(proposal_id=proposal_id)
     if request.POST:
         if utils.verifyUser(request):
-            new_subscribe = Registration(proposal_id = proposal_id, person_id = request.user.id)
+            new_subscribe = Registration(proposal_id=proposal_id, person_id=request.user.id)
             new_subscribe.save()
+    if request.user.is_enterprise and request.user.pk == proposal.enterprise.id and Registration.objects.filter(
+            proposal_id=proposal_id):
+        registered_users = Registration.objects.filter(proposal_id=proposal_id)
 
     registed = utils.isRegisted(request, proposal_id)
     favorited = utils.isFavorited(request, proposal_id)
     context = {
-            'title': 'Building Ukraine - Visualização Proposta',
-            'proposal': proposal,
-            'registed': registed,
-            'favorited': favorited,
+        'title': 'Building Ukraine - Visualização Proposta',
+        'proposal': proposal,
+        'registed': registed,
+        'favorited': favorited,
+        'registered_users': registered_users,
     }
-    return render(request,'slavaukraine/proposal.html', context)
+    return render(request, 'slavaukraine/proposal.html', context)
 
-#Voluntário remove inscrição em Proposta
-def removeProposalSubscription(request,proposal_id):
+
+# Voluntário remove inscrição em Proposta
+def removeProposalSubscription(request, proposal_id):
     proposal = get_object_or_404(Proposal, pk=proposal_id)
     if request.POST:
         if utils.verifyUser(request):
@@ -320,14 +335,15 @@ def removeProposalSubscription(request,proposal_id):
     registed = utils.isRegisted(request, proposal_id)
     favorited = utils.isFavorited(request, proposal_id)
     context = {
-            'title': 'Building Ukraine - Visualização Proposta',
-            'proposal': proposal,
-            'registed': registed,
-            'favorited': favorited,
+        'title': 'Building Ukraine - Visualização Proposta',
+        'proposal': proposal,
+        'registed': registed,
+        'favorited': favorited,
     }
-    return render(request,'slavaukraine/proposal.html', context)
+    return render(request, 'slavaukraine/proposal.html', context)
 
-#Voluntario coloca proposta nos favoritos
+
+# Voluntario coloca proposta nos favoritos
 def favorite_proposal(request, proposal_id):
     proposal = get_object_or_404(Proposal, pk=proposal_id)
     if request.POST:
@@ -346,7 +362,7 @@ def favorite_proposal(request, proposal_id):
     return render(request, 'slavaukraine/proposal.html', context)
 
 
-#Voluntário remove proposta dos favoritos
+# Voluntário remove proposta dos favoritos
 def removeFavoriteProposal(request, proposal_id):
     proposal = get_object_or_404(Proposal, pk=proposal_id)
     if request.POST:
@@ -363,6 +379,7 @@ def removeFavoriteProposal(request, proposal_id):
     }
     return render(request, 'slavaukraine/proposal.html', context)
 
+
 def registration_volunteer_list(request):
     context = {}
     context["dataset"] = Proposal.objects.filter(registration__person__username=request.user)
@@ -375,7 +392,7 @@ def favorites_volunteer_list(request):
     return render(request, 'slavaukraine/reserved.html', context)
 
 
-#Só para teste
+# Só para teste
 def proposal_detail(request, proposal_id):
     proposal = get_object_or_404(Proposal, pk=proposal_id)
     context = {'proposal': proposal}
@@ -383,49 +400,49 @@ def proposal_detail(request, proposal_id):
 
 
 # view da nova msg entre user
-def newMessage(request,recipient):
+def newMessage(request, recipient):
     if request.POST:
         print("entrou 2")
         if utils.verifyUser(request):
-            topic = utils.saveMessage(request, recipient) # cria o titulo ou topico da mensagem
-            utils.saveReply(request, topic, Person.objects.get(id=recipient)) #cria a mensagem ou resposta
-            utils.send_newMessage(request,Person.objects.get(id=recipient)) # envia email para o user
-            context={
+            topic = utils.saveMessage(request, recipient)  # cria o titulo ou topico da mensagem
+            utils.saveReply(request, topic, Person.objects.get(id=recipient))  # cria a mensagem ou resposta
+            utils.send_newMessage(request, Person.objects.get(id=recipient))  # envia email para o user
+            context = {
                 'recipient': recipient
             }
-            return render(request, 'slavaukraine/reserved.html',context)
+            return render(request, 'slavaukraine/create_new_message.html', context)
         else:
-            return home(request) # vai para a home
+            return home(request)  # vai para a home
     else:
         context = {
             'recipient': recipient,
             'to_name': Person.objects.get(id=recipient)
         }
-        return render(request,'slavaukraine/create_new_message.html',context)
+        return render(request, 'slavaukraine/create_new_message.html', context)
 
 
-def replyMessage(request,topic_id):
-    if utils.getUser(request) and utils.partOfTopic(request,topic_id):
+def replyMessage(request, topic_id):
+    if utils.getUser(request) and utils.partOfTopic(request, topic_id):
         topic = TopicMessage.objects.filter(id=topic_id).first()
-        sender = utils.getSender(request,topic_id)
+        sender = utils.getSender(request, topic_id)
         messages = utils.getTopicMessages(topic_id)
         if request.POST:
-            utils.saveReply(request,topic,sender) #cria a mensagem ou resposta
-            utils.send_replyMessage(request,sender) # envia email para o user
+            utils.saveReply(request, topic, sender)  # cria a mensagem ou resposta
+            utils.send_replyMessage(request, sender)  # envia email para o user
             # return para a view dos emails
         else:
             print("dk")
         context = {
             'title': 'Building Ukraine - Ver/Responde a mensagem',
             'topic': topic,
-            'messages':messages
+            'messages': messages
         }
-        return render(request,'slavaukraine/message.html',context)
+        return render(request, 'slavaukraine/message.html', context)
     else:
         return home(request)
 
 
-def viewUser(request,user_id):
+def viewUser(request, user_id):
     if utils.verifyUser(request):
         other_user = utils.getOtherUser(user_id)
         print(other_user)
@@ -433,7 +450,6 @@ def viewUser(request,user_id):
             'title': 'Building Ukraine - Ver/Responde a mensagem',
             'other_user': other_user,
         }
-        return render(request,'slavaukraine/user.html',context)
+        return render(request, 'slavaukraine/user.html', context)
     else:
         return home(request)
-

@@ -15,6 +15,8 @@ class PersonRegistrationForm(UserCreationForm):
     is_person = forms.BooleanField(initial=True,widget=forms.HiddenInput(), required=False,label="")
     is_enterprise = forms.BooleanField(initial=False, widget=forms.HiddenInput(), required=False,label="")
     profile_image = forms.ImageField(required=False)
+    first_name = forms.CharField(label="Primeiro Nome",required=True)
+    last_name = forms.CharField(label="Apelido",required=True)
 
 
     class Meta:
@@ -58,11 +60,13 @@ class EnterpriseRegistrationForm(UserCreationForm):
     is_person = forms.BooleanField(initial=False,widget=forms.HiddenInput(), required=False,label="")
     is_enterprise = forms.BooleanField(initial=True, widget=forms.HiddenInput(), required=False,label="")
     profile_image = forms.ImageField(required=False,label="Imagem de Perfil")
+    first_name = forms.CharField(label="Nome da empresa",required=True)
+    last_name = forms.CharField(label="Sigla",required=True)
 
 
     class Meta:
         model = Person
-        fields= ("email","username","profile_image","taxnumber", "address","password1","password2","is_person","is_enterprise")
+        fields= ("email","username","first_name","last_name","profile_image","taxnumber", "address","password1","password2","is_person","is_enterprise")
         labels={
             'username': "Nome da empresa",
             'taxnumber':"Número de contribuinte",
