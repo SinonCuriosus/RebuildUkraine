@@ -25,7 +25,7 @@
                                 {% block content %}
 
                                     <h2>Registo de empresa</h2>
-                                    <form action="{% url 'slavaukraine:register_enterprise' %}" method="post">
+                                    <form action="{% url 'slavaukraine:register_enterprise' %}" method="post" enctype="multipart/form-data">
                                         {% csrf_token %}
 
                                         {{ enterpriseregistration_form|crispy }}
