@@ -1,4 +1,3 @@
-
 /* Template */
 html {
     color: #ffc400;
@@ -9,9 +8,12 @@ body {
     background: #005BBB !important;
     font-family: Helvetica, sans-serif
 }
-nav{
+
+
+nav {
     background: #ffc400;
 }
+
 .color-uk {
     color: #005BBB !important;
 }
@@ -20,7 +22,7 @@ nav{
     color: #ffffff !important;
 }
 
-.color-uk-w:hover{
+.color-uk-w:hover {
 
     text-decoration: underline;
 }
@@ -30,7 +32,6 @@ nav{
     color: #ffffff !important;
     font-weight: bold;
 }
-
 
 
 /* Carrousel section */
@@ -51,7 +52,7 @@ nav{
 
 }
 
-.carrousel-subtext{
+.carrousel-subtext {
     color: #ffb700 !important;
 
 }
@@ -67,7 +68,7 @@ nav{
 }
 
 .carrousel-button-uk {
-    color: #ffffff!important;
+    color: #ffffff !important;
     text-shadow: none;
 }
 
@@ -85,14 +86,19 @@ nav{
     height: 200px;
 }
 
+.card-link{
+    text-decoration: none;
+    width: 32.5%;
+}
 
 .card-before-text {
-    color: #ffb700!important;
+    color: #ffb700 !important;
 }
 
 .card-text {
     color: #005BBB !important;
 }
+
 .card-subtext {
     color: #909090 !important;
 }
@@ -119,7 +125,7 @@ nav{
 }
 
 .testimonies-before-text {
-    color: #ffb700!important;
+    color: #ffb700 !important;
 }
 
 .testimonies-text {
@@ -133,6 +139,8 @@ nav{
     color: #005BBB !important;
     background: #ffc400 !important;
     height: auto !important;
+
+
     padding: 1rem;
 }
 
@@ -140,7 +148,7 @@ nav{
 /* login page */
 
 .login-size-form {
-   width: 700px !important;
+    width: 700px !important;
     height: auto;
 }
 
@@ -149,8 +157,8 @@ nav{
 }
 
 .login-size-fileds {
-    width: 350px ;
-    height: auto ;
+    width: 350px;
+    height: auto;
 }
 
 .login-color-error {
@@ -167,7 +175,7 @@ nav{
     margin: 10px;
 }
 
-.login-hiperlinks,.login-hiperlinks:active {
+.login-hiperlinks, .login-hiperlinks:active {
     color: grey !important;
 }
 
@@ -178,7 +186,7 @@ nav{
 /* register page */
 
 .register-size-form {
-   width: 700px !important;
+    width: 700px !important;
     height: auto;
 }
 
@@ -191,8 +199,8 @@ nav{
 }
 
 .register-size-fileds {
-    width: 470px ;
-    height: auto ;
+    width: 470px;
+    height: auto;
 }
 
 .register-color-help {
@@ -215,20 +223,21 @@ nav{
 }
 
 .contacts-margin-title {
-    margin-bottom:  1rem !important;
+    margin-bottom: 1rem !important;
 }
 
-.contacts-subtext{
+.contacts-subtext {
     color: #909090;
 }
 
-.contacts-contacts{
+.contacts-contacts {
 
     color: #909090;
 }
+
 /* volunteer area */
 
-.volunteer-register{
+.volunteer-register {
     background: #ffc400 !important;
 }
 
@@ -236,11 +245,11 @@ nav{
     color: #ffffff !important;
 }
 
-.volunteer-subtext{
+.volunteer-subtext {
     color: #909090;
 }
 
-.volunteer-subtext-blue{
+.volunteer-subtext-blue {
     color: #005BBB;
 }
 
@@ -249,20 +258,19 @@ nav{
 }
 
 
-
 /* reserved area */
 .reserved-page-card {
     background: #ffffff !important;
     width: 80% !important;
-    margin-top:  1.5rem !important;
+    margin-top: 1.5rem !important;
 }
 
 .reserved-page-buttons {
-    margin:  0.5rem !important;
+    margin: 0.5rem !important;
 }
 
 .reserved-page-information {
-    margin:  0.5rem !important;
+    margin: 0.5rem !important;
     color: grey;
     padding: 1rem !important;
 }
@@ -271,7 +279,7 @@ nav{
 /* Messages */
 
 .messages-page-box {
-   padding: 5% !important;
+    padding: 5% !important;
 }
 
 .message-page-title {
@@ -290,10 +298,10 @@ nav{
     color: crimson !important;
 }
 
-.messge-reply{
-    font-size:small !important;
+.messge-reply {
+    font-size: small !important;
 }
 
-.message-reply-textarea{
+.message-reply-textarea {
     height: auto;
 }

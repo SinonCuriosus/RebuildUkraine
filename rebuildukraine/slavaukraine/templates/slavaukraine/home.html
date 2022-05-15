@@ -6,7 +6,7 @@
         <div class="container carousel-inner h-100 rounded">
             <div class="carousel-item active h-100 rounded"><img
                     class="w-100 d-block position-absolute h-100 fit-cover carrousel-settings"
-                    src="{% static "slavaukraine/assets/img/slider1.jpg" %}" alt="Volunteering in Ukraine">
+                    src="{% static 'slavaukraine/assets/img/slider1.jpg' %}" alt="Volunteering in Ukraine">
                 <div class="container d-flex flex-column justify-content-center h-100">
                     <div class="row">
                         <div class="col-md-6 col-xl-4 offset-md-2">
@@ -25,7 +25,7 @@
             <div class="carousel-item h-100">
                 <img
                     class="w-100 d-block position-absolute h-100 fit-cover carrousel-settings"
-                    src="{% static "slavaukraine/assets/img/slider5.jpg" %}" alt="Projects to Ukraine">
+                    src="{% static 'slavaukraine/assets/img/slider5.jpg' %}" alt="Projects to Ukraine">
                 <div class="container d-flex flex-column justify-content-center h-100">
                     <div class="row">
                         <div class="col-md-6 col-xl-4 offset-md-2">
@@ -42,7 +42,7 @@
             </div>
             <div class="carousel-item h-100"><img
                     class="w-100 d-block position-absolute h-100 fit-cover carrousel-settings"
-                    src="{% static "slavaukraine/assets/img/slider8.jpg" %}" alt="Building Ukraine">
+                    src="{% static 'slavaukraine/assets/img/slider8.jpg' %}" alt="Building Ukraine">
                 <div class="container d-flex flex-column justify-content-center h-100">
                     <div class="row">
                         <div class="col-md-6 col-xl-4 offset-md-2">
@@ -72,6 +72,7 @@
         <!-- Ofertas disponiveis -->
         <div class="container py-4 py-xl-5">
             {% if last_proposals.0 != None %}
+            <a class="card-link" href="{% url 'slavaukraine:proposal' last_proposals.0.id  %}">
             <div class="row mb-5">
                 <div class="col-md-8 col-xl-6 text-center mx-auto card-title">
                     <h2>Últimos Projetos</h2>
@@ -80,8 +81,8 @@
             </div>
             <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
                 <div class="col">
-                    <div class="card"><img class="card-img-top w-100 d-block fit-cover card-size"
-                                           src="{% static "slavaukraine/assets/img/trabalhador_1.jpg" %}">
+                    <div class="card">
+                        <img class="card-img-top w-100 d-block fit-cover card-size" src="{% static 'slavaukraine/assets/img/trabalhador_1.jpg' %}">
                         <div class="card-body p-4">
                             <p class="text-primary mb-0 card-before-text">Projeto</p>
                             <h4 class="card-text">{{ last_proposals.0.title }}</h4>
@@ -97,10 +98,11 @@
                         </div>
                     </div>
                 </div>
+                </a>
                 {% if last_proposals.1 != None %}
+                <a class="card-link" href="{% url 'slavaukraine:proposal' last_proposals.1.id  %}">
                 <div class="col">
-                    <div class="card"><img class="card-img-top w-100 d-block fit-cover card-size"
-                                           src="{% static "slavaukraine/assets/img/trabalhador_2.png" %}">
+                    <div class="card"><img class="card-img-top w-100 d-block fit-cover card-size" src="{% static 'slavaukraine/assets/img/trabalhador_2.png' %}">
                         <div class="card-body p-4">
                             <p class="text-primary mb-0 card-before-text">Projeto</p>
                             <h4 class="card-text">{{ last_proposals.1.title }}</h4>
@@ -116,11 +118,12 @@
                         </div>
                     </div>
                 </div>
+                    </a>
                 {% endif %}
                 {% if last_proposals.2 != None %}
+                <a class="card-link" href="{% url 'slavaukraine:proposal' last_proposals.2.id  %}">
                 <div class="col">
-                    <div class="card"><img class="card-img-top w-100 d-block fit-cover card-size"
-                                           src="{% static "slavaukraine/assets/img/trabalhador_3.png" %}">
+                    <div class="card"><img class="card-img-top w-100 d-block fit-cover card-size" src="{% static 'slavaukraine/assets/img/trabalhador_3.png' %}">
                         <div class="card-body p-4">
                             <p class="text-primary mb-0 card-before-text">Projeto</p>
                             <h4 class="card-title card-text">{{ last_proposals.2.title }}</h4>
@@ -136,6 +139,7 @@
                         </div>
                     </div>
                 </div>
+                </a>
                 {% endif %}
             </div>
             {% endif %}
@@ -185,7 +189,7 @@
                             todas as pessoas que tornaram possível que a reconstrução de 7 casa fosse possível.</p>
                         <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                  height="50"
-                                                 src="{% static "slavaukraine/assets/img/person1.jpg" %}">
+                                                 src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                             <div>
                                 <p class="fw-bold text-primary mb-0 testimonies-before-text">Empresa X</p>
                                 <p class="text-muted mb-0 testimonies-text">Construção Civil</p>
@@ -200,7 +204,7 @@
                             possível...</p>
                         <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                  height="50"
-                                                 src="{% static "slavaukraine/assets/img/person2.jpg" %}">
+                                                 src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                             <div>
                                 <p class="fw-bold text-primary mb-0 testimonies-before-text">Pedro Mateus</p>
                                 <p class="text-muted mb-0 testimonies-text">Voluntário</p>
@@ -215,7 +219,7 @@
                             de fazer a diferença. Obrigado</p>
                         <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                  height="50"
-                                                 src="{% static "slavaukraine/assets/img/person3.jpg" %}">
+                                                 src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                             <div>
                                 <p class="fw-bold text-primary mb-0 testimonies-before-text">Joana Arminda</p>
                                 <p class="text-muted mb-0 testimonies-text">Voluntária</p>

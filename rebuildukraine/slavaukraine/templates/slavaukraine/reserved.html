@@ -44,14 +44,14 @@
                     <div class="d-flex align-items-center p-3 ">
                         {% if user.profile_image %}
                         <img class="rounded-circle flex-shrink-0 me-3 fit-cover"
-                            width="150"
-                            height="150"
-                            src="{{ user.profile_image.url }}">
+                             width="150"
+                             height="150"
+                             src="{{ user.profile_image.url }}">
                         {% else %}
                         <img class="rounded-circle flex-shrink-0 me-3 fit-cover"
-                            width="150"
-                            height="150"
-                            src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                             width="150"
+                             height="150"
+                             src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                         {% endif %}
                     </div>
                 </div>
@@ -104,7 +104,7 @@
     <div class="tab-pane fade reserved-page-information" id="pills-messages" role="tabpanel"
          aria-labelledby="pills-messages-tab">
         <div class="list-group">
-            <table id="table_id2" class="display">
+            <table id="table_id2" class="display message-page-mtitle">
                 <thead>
                 <tr>
                     <th>Titulo</th>
@@ -146,7 +146,7 @@
     <div class="tab-pane fade reserved-page-information" id="pills-projects" role="tabpanel"
          aria-labelledby="pills-projects-tab">
         <div class="list-group">
-            <table id="table_id" class="display">
+            <table id="table_id" class="display message-page-mtitle">
                 <thead>
                 <tr>
                     <th>Titulo</th>
@@ -160,36 +160,43 @@
                     {% for proposal in proposals_enterprise %}
                     {% if proposal.title != "None" %}
                     <td class="list-group-item list-group-item-action">
-                        <h5 class="mb-1 message-page-mtitle">{{ proposal.title }}</h5>
+                        <h5 class="mb-1 message-page-stitle">{{ proposal.title }}</h5>
                     </td>
-                    <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ proposal.expertiseNeeded }}</p>
+                    <td>
+                        <p class="mb-1 message-page-stitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ proposal.expertiseNeeded }}</p>
                     </td>
                     <td>
                         <div class="d-flex w-100 justify-content-between">
                             <small class="text-muted">&nbsp; {{ proposal.city }}</small>
-                            <small class="message-page-stitle"> + Informação</small>
+                            <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
+                               href="{% url 'slavaukraine:proposal' proposal.id  %}">Editar</a>
                         </div>
                     </td>
-                    {% endif %}
+
                 </tr>
+                {% endif %}
                 {% endfor %}
                 {% endif %}
                 {% if user.is_person %}
-                    {% for proposal in proposals %}
-                    {% if proposal.title != "None" %}
-                    <td class="list-group-item list-group-item-action">
-                        <p class="mb-1 message-page-mtitle">{{ proposal.title }}</p>
-                    </td>
-                    <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ proposal.expertiseNeeded }}</p>
-                    </td>
-                    <td>
-                        <div class="d-flex w-100 justify-content-between">
-                            <small class="text-muted">&nbsp; {{ proposal.city }}</small>
-                            <small class="message-page-stitle"> + Informação</small>
-                        </div>
-                    </td>
-                    {% endif %}
+                {% for proposal in proposals %}
+                {% if proposal.title != "None" %}
+                <td class="list-group-item list-group-item-action">
+                    <p class="mb-1 message-page-stitle">{{ proposal.title }}</p>
+                </td>
+                <td><p class="mb-1 message-page-stitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ proposal.expertiseNeeded }}</p>
+                </td>
+                <td>
+                    <div class="d-flex w-100 justify-content-between">
+                        <small class="text-muted">&nbsp; {{ proposal.city }}</small>
+                        <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
+                           href="{% url 'slavaukraine:proposal' proposal.id  %}">Editar</a>
+                    </div>
+
+
+                </td>
                 </tr>
+
+                {% endif %}
                 {% endfor %}
                 {% endif %}
 
@@ -203,7 +210,7 @@
     <div class="tab-pane fade reserved-page-information" id="pills-saved" role="tabpanel"
          aria-labelledby="pills-saved-tab">
         <div class="list-group">
-            <table id="table_id4" class="display">
+            <table id="table_id4" class="display message-page-mtitle">
                 <thead>
                 <tr>
                     <th>Titulo</th>
@@ -216,14 +223,15 @@
                     {% for favorite in favorites %}
                     {% if favorite.title != "None" %}
                     <td class="list-group-item list-group-item-action">
-                        <p class="mb-1 message-page-mtitle">{{ favorite.title }}</p>
+                        <p class="mb-1 message-page-stitle">{{ favorite.title }}</p>
                     </td>
-                    <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ favorite.expertiseNeeded }}</p>
+                    <td><p class="mb-1 message-page-stitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ favorite.expertiseNeeded }}</p>
                     </td>
                     <td>
                         <div class="d-flex w-100 justify-content-between">
                             <small class="text-muted">&nbsp; {{ favorite.city }}</small>
-                            <small class="message-page-stitle"> + Informação</small>
+                           <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
+                               href="{% url 'slavaukraine:proposal' favorite.id  %}">Editar</a>
                         </div>
                     </td>
                     {% endif %}

@@ -6,7 +6,7 @@
 <div class="container">
     <br>
     <div class="list-group">
-        <table id="table_id" class="display">
+        <table id="table_id" class="display message-page-mtitle">
             <thead>
             <tr>
                 <th>Titulo</th>
@@ -19,13 +19,14 @@
                 {% for object in object_list %}
                 {% if object.title != "None" %}
                 <td class="list-group-item list-group-item-action">
-                    <h5 class="mb-1 message-page-mtitle">{{ object.title }}</h5>
+                    <p class="mb-1 message-page-stitle">{{ object.title }}</p>
                 </td>
-                <td><p class="mb-1 message-page-mtitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ object.expertiseNeeded }}</p></td>
+                <td><p class="mb-1 message-page-stitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ object.expertiseNeeded }}</p></td>
                 <td>
                     <div class="d-flex w-100 justify-content-between">
                         <small class="text-muted">&nbsp; {{ object.city }}</small>
-                        <small class="message-page-stitle"> + Informação</small>
+                        <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
+                               href="{% url 'slavaukraine:proposal' object.id  %}">Editar</a>
                     </div>
                 </td>
                 {% endif %}
