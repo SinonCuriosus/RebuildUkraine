@@ -16,11 +16,11 @@
         <p class="card-subtext">{{ proposal.description }}</p>
 
         <br>
-        <form action="{% url 'slavaukraine:proposal' proposal.id %}" method="post" id="reg">
+        <form action="{% url 'slavaukraine:proposal' proposal.id %}" method="GET" id="reg">
             {% csrf_token %}
             <div class="justify-content-between">
                 {% if user.is_person and registed == 0 %}
-                <button type="submit" form="reg" value="Registar"
+                <button type="submit" form="reg" value="Registar" formaction="{% url 'slavaukraine:proposal' proposal.id %}"
                         class="btn btn-primary btn-sm me-2 carrousel-button-uk">
                     Inscrever-me
                 </button>
@@ -40,8 +40,7 @@
                     Reabrir proposta
                 </button>
                 {% endif %}
-                <button type="submit" value="editar" formaction="{% url 'slavaukraine:edit_proposal' proposal.id %}"
-                        class="btn btn-outline-yellow btn-sm carrousel-button">
+                <button type="submit" value="editar" formaction="{% url 'slavaukraine:edit_proposal' proposal.id %}" class="btn btn-outline-yellow btn-sm carrousel-button">
                     Editar Proposta
                 </button>
                 <button type="submit" value="apagar" class="btn btn-danger btn-sm" formaction="{% url 'slavaukraine:delete_proposal' proposal.id %}">

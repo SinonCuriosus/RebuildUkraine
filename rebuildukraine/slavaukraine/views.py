@@ -201,11 +201,10 @@ class ProposalList(ListView):
 ###############     UPDATE VIEWS   ###############
 class ProposalUpdate(UpdateView):
     model = Proposal
-    fields = ['title', 'expertiseNeeded', 'description']
+    fields = ['title', 'description','expertiseNeeded','country','city']
     template_name = 'slavaukraine/editproposal.html'
+    success_url = reverse_lazy('slavaukraine:reserved')
 
-    def get_success_url(self):
-        return reverse('slavaukraine:home')
 
 
 class PersonUpdate(UpdateView):
