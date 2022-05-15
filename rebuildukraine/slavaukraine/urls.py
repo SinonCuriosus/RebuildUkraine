@@ -58,8 +58,6 @@ urlpatterns = [
 
     # Pagina de perfil de utilizador
     path("reserved/user/<int:user_id>", views.viewUser, name="user"),
-    # Pagina de perfil de utilizador
-    path("reserved/user/<int:user_id>", views.viewUser, name="user"),
 
     # --------------------------------------------------------------------------------
 

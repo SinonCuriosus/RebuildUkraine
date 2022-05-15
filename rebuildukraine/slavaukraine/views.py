@@ -441,22 +441,22 @@ def replyMessage(request, topic_id):
         sender = utils.getSender(request, topic_id)
         messages = utils.getTopicMessages(topic_id)
         if request.POST:
-            utils.saveReply(request, topic, sender)  # cria a mensagem ou resposta
-            utils.send_replyMessage(request, sender)  # envia email para o user
+            utils.saveReply(request,topic,sender) #cria a mensagem ou resposta
+            utils.send_replyMessage(request,sender) # envia email para o user
             # return para a view dos emails
         else:
             print("dk")
         context = {
             'title': 'Building Ukraine - Ver/Responde a mensagem',
             'topic': topic,
-            'messages': messages
+            'messages':messages
         }
-        return render(request, 'slavaukraine/message.html', context)
+        return render(request,'slavaukraine/message.html',context)
     else:
         return home(request)
 
 
-def viewUser(request, user_id):
+def viewUser(request,user_id):
     if utils.verifyUser(request):
         other_user = utils.getOtherUser(user_id)
         print(other_user)
@@ -464,6 +464,7 @@ def viewUser(request, user_id):
             'title': 'Building Ukraine - Ver/Responde a mensagem',
             'other_user': other_user,
         }
-        return render(request, 'slavaukraine/user.html', context)
+        return render(request,'slavaukraine/user.html',context)
     else:
         return home(request)
+

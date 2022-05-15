@@ -8,117 +8,100 @@
         <div class="col-md-8 col-xl-6 text-center mx-auto">
             <br>
             <h2>Título: {{ proposal.title }}</h2>
-            <p class="w-lg-50 contacts-subtext">Empresa: {{ proposal.enterprise }}</p>
+            <p class="w-lg-50 contacts-subtext">Empresa: {{ proposal.enterprise.first_name }} {{ proposal.enterprise.last_name }}</p>
         </div>
     </div>
     <div class="container">
-        <p>Descrição: <br>{{ proposal.description }}<br/>
+        <p class="color-uk">Descrição:</p>
+        <p class="card-subtext">{{ proposal.description }}</p>
 
-        {% if user.is_person and registed == 0 %}
-            <form action="{% url 'slavaukraine:proposal' proposal.id %}" method="post" id="reg">
-                {% csrf_token %}
-                <button type="submit" form="reg" value="Registar" class="btn btn-primary btn-sm me-2 carrousel-button-uk">
+        <br>
+        <form action="{% url 'slavaukraine:proposal' proposal.id %}" method="post" id="reg">
+            {% csrf_token %}
+            <div class="justify-content-between">
+                {% if user.is_person and registed == 0 %}
+                <button type="submit" form="reg" value="Registar"
+                        class="btn btn-primary btn-sm me-2 carrousel-button-uk">
                     Inscrever-me
                 </button>
-            </form>
-        {% elif user.is_person and registed == 1  %}
-            <form action="{% url 'slavaukraine:removesubscription' proposal.id %}" method="post" id="des-reg">
-                {% csrf_token %}
-                <button type="submit" form="des-reg" value="Desregistar" class="btn btn-danger btn-sm">
+                {% elif user.is_person and registed == 1 %}
+                <button type="submit" value="Desregistar" class="btn btn-danger btn-sm" formaction="{% url 'slavaukraine:removesubscription' proposal.id %}">
                     Desinscrever
                 </button>
-            </form>
-        {% elif user.is_enterprise and user.pk == proposal.enterprise.id%}
-            {% if not proposal.closed %}
-            <form action="{% url 'slavaukraine:close_proposal' proposal.id %}" method="post" id="close-prop">
-                {% csrf_token %}
-                <button type="submit" form="close-prop" value="Desregistar" class="btn btn-primary btn-sm me-2 carrousel-button-uk" >
+                {% elif user.is_enterprise and user.pk == proposal.enterprise.id %}
+                {% if not proposal.closed %}
+                <button type="submit" value="editar" formaction="{% url 'slavaukraine:close_proposal' proposal.id %}"
+                    class="btn-sm btn-primary text-right carrousel-button-uk">
                     Fechar proposta
                 </button>
-            </form>
-            {% elif proposal.closed %}
-            <form action="{% url 'slavaukraine:reopen_proposal' proposal.id %}" method="post" id="reopen-prop">
-                {% csrf_token %}
-                <button type="submit" form="reopen-prop" value="Desregistar" class="btn btn-primary btn-sm me-2 carrousel-button-uk" >
+                {% elif proposal.closed %}
+                <button type="submit" value="editar" formaction="{% url 'slavaukraine:reopen_proposal' proposal.id %}"
+                    class="btn-sm btn-primary text-right carrousel-button-uk">
                     Reabrir proposta
                 </button>
-            </form>
-            {% endif %}
-
-            <form action="{% url 'slavaukraine:edit_proposal' proposal.id %}" method="post" id="edit-prop">
-                {% csrf_token %}
-                <button type="submit" form="edit-prop" value="Desregistar" class="btn btn-outline-yellow btn-sm carrousel-button" >
+                {% endif %}
+                <button type="submit" value="editar" formaction="{% url 'slavaukraine:edit_proposal' proposal.id %}"
+                        class="btn btn-outline-yellow btn-sm carrousel-button">
                     Editar Proposta
                 </button>
-            </form>
-
-            <form action="{% url 'slavaukraine:delete_proposal' proposal.id %}" method="post" id="del-prop">
-                {% csrf_token %}
-                <button type="submit" form="del-prop" value="Desregistar" class="btn btn-danger btn-sm">
+                <button type="submit" value="apagar" class="btn btn-danger btn-sm" formaction="{% url 'slavaukraine:delete_proposal' proposal.id %}">
                     Apagar Proposta
                 </button>
-            </form>
-            <br><br>
-                <div class="container">
-                    <br>
-                    <div class="list-group">
-                        <table id="table_id" class="display message-page-mtitle">
-                            <thead>
-                            <tr>
-                                <th>Voluntário</th>
-                                <th>Contacto</th>
-                                <th>Opções</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                {% for volunteer in registered_users %}
-                                <td class="list-group-item list-group-item-action">
-                                    <p class="mb-1 message-page-stitle">{{ volunteer.username}}</p>
-                                </td>
-                                <td><p class="mb-1 message-page-stitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ volunteer.email }}</p></td>
-                                <td>
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
-                                               href="{% url 'slavaukraine:message' volunteer.id  %}">Perfil do voluntário</a>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                            {% if not registered_users %}
-                                <br>
-                                <p class="col-md-8 col-xl-6 text-center mx-auto"> Não há voluntários inscritos</p>
-                            {% endif %}
-                        <br>
-                    </div>
-                </div>
-        {% endif %}
-
-        <br>
-
-        {% if user.is_person and favorited == 0 %}
-            <form action="{% url 'slavaukraine:favorite_proposal' proposal.id %}" method="post" id="fav">
-                {% csrf_token %}
-                <button type="submit" form="fav" value="Guardar" class="btn btn-outline-yellow btn-sm carrousel-button">
+                {% endif %}
+                {% if user.is_person and favorited == 0 %}
+                <button type="submit" value="Guardar" class="btn btn-outline-yellow btn-sm carrousel-button" formaction="{% url 'slavaukraine:favorite_proposal' proposal.id %}">
                     Guardar
                 </button>
-            </form>
-        <br>
-        {% elif user.is_person and favorited == 1  %}
-            <form action="{% url 'slavaukraine:removefavorite' proposal.id %}" method="post" id="rem-fav">
-                {% csrf_token %}
-                <button type="submit" form="rem-fav" value="Guardar" class="btn btn-danger btn-sm">
+                {% elif user.is_person and favorited == 1 %}
+                <button type="submit" value="Guardar" class="btn btn-danger btn-sm" formaction="{% url 'slavaukraine:removefavorite' proposal.id %}">
                     Remover dos favoritos
                 </button>
-            </form>
+                {% endif %}
+            </div>
         </form>
-        <br>
-        {% endif %}
-        <br><br>
+
     </div>
+    {%if user.is_enterprise and user.pk == proposal.enterprise.id %}
+    <div class="container">
+        <br>
+        <div class="list-group">
+            <table id="table_id" class="display message-page-mtitle">
+                <thead>
+                <tr>
+                    <th>Voluntário</th>
+                    <th>Contacto</th>
+                    <th>Opções</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    {% for volunteer in registered_users %}
+                    <td class="list-group-item list-group-item-action">
+                        <p class="mb-1 message-page-stitle">{{ volunteer.person.first_name}}</p>
+                    </td>
+                    <td><p class="mb-1 message-page-stitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ volunteer.person.email }}</p>
+                    </td>
+                    <td>
+                        <div class="d-flex w-100 justify-content-between">
+                            <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
+                               href="{% url 'slavaukraine:user' volunteer.person.id  %}">Contactar</a>
+                        </div>
+                    </td>
+                </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if not registered_users %}
+            <br>
+            <p class="col-md-8 col-xl-6 text-center mx-auto"> Não há voluntários inscritos</p>
+            {% endif %}
+            <br>
+        </div>
+    </div>
+    {% endif %}
+    <br>
+    <br>
 </div>
 {% endblock %}
 
