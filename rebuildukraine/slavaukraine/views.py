@@ -317,65 +317,74 @@ def enterprise(request):
 
 # Visualização da proposta
 def viewProposal(request,proposal_id):
-    print("proposal")
     proposal = get_object_or_404(Proposal, pk=proposal_id)
     if request.POST:
-        print("post")
         if utils.verifyUser(request):
-            print("verificado")
-            regist = Registration()
-            regist.proposal_id = proposal_id
-            print(proposal_id)
-            regist.person_id=request.user.id
-            print(request.user.id)
-            regist.save()
-            registed = 1
-        else:
-            registed = 0
-    else:
-        registed = utils.isRegisted(request, proposal_id)
+            new_subscribe = Registration(proposal_id = proposal_id, person_id = request.user.id)
+            new_subscribe.save()
+
+    registed = utils.isRegisted(request, proposal_id)
+    favorited = utils.isFavorited(request, proposal_id)
     context = {
             'title': 'Building Ukraine - Visualização Proposta',
             'proposal': proposal,
             'registed': registed,
+            'favorited': favorited,
     }
     return render(request,'slavaukraine/proposal.html', context)
 
+#Voluntário remove inscrição em Proposta
+def removeProposalSubscription(request,proposal_id):
+    proposal = get_object_or_404(Proposal, pk=proposal_id)
+    if request.POST:
+        if utils.verifyUser(request):
+            Registration.objects.filter(proposal_id=proposal_id).filter(person_id=request.user.id).delete()
 
+    registed = utils.isRegisted(request, proposal_id)
+    favorited = utils.isFavorited(request, proposal_id)
+    context = {
+            'title': 'Building Ukraine - Visualização Proposta',
+            'proposal': proposal,
+            'registed': registed,
+            'favorited': favorited,
+    }
+    return render(request,'slavaukraine/proposal.html', context)
 
-
-
-
-# voluntario remove propostaw
-def unregister_proposal(request, proposal_id):
-    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
-        proposal = get_object_or_404(Proposal, pk=proposal_id)
-        proposal.unregister(user=request.user)
-        context = {'proposal': proposal}
-        return render(request, 'slavaukraine/reserved.html', context)
-    else:
-        return login_view(request)
-
-#voluntario coloca proposta nos favoritos
+#Voluntario coloca proposta nos favoritos
 def favorite_proposal(request, proposal_id):
-    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
-        proposal = get_object_or_404(Proposal, pk=proposal_id)
-        proposal.subscribe(user=request.user)
-        context = {'proposal': proposal}
-        return render(request, 'slavaukraine/reserved.html', context)
-    else:
-        return login_view(request)
+    proposal = get_object_or_404(Proposal, pk=proposal_id)
+    if request.POST:
+        if utils.verifyUser(request):
+            new_favorite = Favorites(proposal_id=proposal_id, person_id=request.user.id)
+            new_favorite.save()
+
+    registed = utils.isRegisted(request, proposal_id)
+    favorited = utils.isFavorited(request, proposal_id)
+    context = {
+        'title': 'Building Ukraine - Visualização Proposta',
+        'proposal': proposal,
+        'registed': registed,
+        'favorited': favorited,
+    }
+    return render(request, 'slavaukraine/proposal.html', context)
 
 
-# voluntario remove dos favoritos
-def not_favorite_proposal(request, proposal_id):
-    if request.user.is_authenticated & request.user.is_active:  # Alterar por decorator
-        proposal = get_object_or_404(Proposal, pk=proposal_id)
-        proposal.unsubscribe(user=request.user)
-        context = {'proposal': proposal}
-        return render(request, 'slavaukraine/reserved.html', context)
-    else:
-        return login_view(request)
+#Voluntário remove proposta dos favoritos
+def removeFavoriteProposal(request, proposal_id):
+    proposal = get_object_or_404(Proposal, pk=proposal_id)
+    if request.POST:
+        if utils.verifyUser(request):
+            Favorites.objects.filter(proposal_id=proposal_id).filter(person_id=request.user.id).delete()
+
+    registed = utils.isRegisted(request, proposal_id)
+    favorited = utils.isFavorited(request, proposal_id)
+    context = {
+        'title': 'Building Ukraine - Visualização Proposta',
+        'proposal': proposal,
+        'registed': registed,
+        'favorited': favorited,
+    }
+    return render(request, 'slavaukraine/proposal.html', context)
 
 def registration_volunteer_list(request):
     context = {}

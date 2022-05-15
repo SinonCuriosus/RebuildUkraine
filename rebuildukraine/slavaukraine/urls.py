@@ -31,8 +31,13 @@ urlpatterns = [
     # Registo de proposta
     path("reserved/regist_proposal", views.proposal_create_view, name="regist_proposal"),
 
-    # Visualizacao de proposta
+    # Visualizacao de proposta com Opção de Inscrição/Add aos Favoritos
     path("proposal/<int:proposal_id>", views.viewProposal, name="proposal"),
+    # Remoção da Proposta das Inscrições
+    path("remProposal/<int:proposal_id>", views.removeProposalSubscription, name="removesubscription"),
+    # Remoção da Proposta dos Favoritos
+    path("remFavorite/<int:proposal_id>", views.removeFavoriteProposal, name="removefavorite"),
+
 
     # Área de edição
     path("reserved/editPerson/<int:pk>/", PersonUpdate.as_view(), name='edit_person'),
@@ -76,8 +81,6 @@ urlpatterns = [
     # Resposta à mensagem
     path("reserved/message/<int:topic_id>", views.replyMessage, name="message"),
 
-    #Proposta detalhe
-    #path('<int:proposal_id>', views.proposal_detail, name="proposal"),
     
     #Adicionar aos favoritos
     path('<int:proposal_id>/favorite_proposal', views.favorite_proposal, name="favorite_proposal"),

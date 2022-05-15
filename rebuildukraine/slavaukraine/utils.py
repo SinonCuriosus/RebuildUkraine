@@ -2,7 +2,7 @@ from django.core.mail import send_mail
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 
-from .models import TopicMessage, Answers, Person, Proposal, Registration
+from .models import TopicMessage, Answers, Person, Proposal, Registration, Favorites
 
 
 def send_email(subjet,text,email):
@@ -81,13 +81,18 @@ def getProposalsEnterprise(request):
 def getFavorites(request):
     return Proposal.objects.filter(favorites__person__username=request.user.username)
 
-# verifica se está registado na proposta
+#Verifica se a PERSON tem a proposta Registada
 def isRegisted(request,proposal_id):
-    registed = Registration.objects.filter((Q(proposal=proposal_id) & Q(person=request.user.id)))
-    if registed is None:
-        return 0
-    else:
+    if Registration.objects.filter(proposal_id=proposal_id).filter(person_id=request.user.id):
         return 1
+    else:
+        return 0
+#Verifica se a PERSON tem a proposta nos favoritos
+def isFavorited(request,proposal_id):
+    if Favorites.objects.filter(proposal_id=proposal_id).filter(person_id=request.user.id):
+        return 1
+    else:
+        return 0
 
 def getLastThreeProposal():
     return Proposal.objects.filter().order_by('-id')[:4]
