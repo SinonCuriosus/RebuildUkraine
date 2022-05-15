@@ -2,28 +2,6 @@
 {% load static %}
 {% block main %}
 
-    <div class="carousel slide carrousel-dimensions rounded" data-bs-ride="carousel" id="carousel-1">
-        <div class="container carousel-inner h-100 rounded">
-            <div class="carousel-item active h-100 rounded"><img
-                    class="w-100 d-block position-absolute h-100 fit-cover carrousel-settings"
-                    src="{% static 'slavaukraine/assets/img/slider1.jpg' %}" alt="Volunteering in Ukraine">
-                <div class="container d-flex flex-column justify-content-center h-100">
-                    <div class="row">
-                        <div class="col-md-6 col-xl-4 offset-md-2">
-                            <div class="carrousel-text">
-                                <h1 class="text-uppercase fw-bold carrousel-text">Quer ajudar?<br>Registe-se já</h1>
-                                <p class="my-3 carrousel-subtext">Na nossa plataforma vai encontrar vários projetos para
-                                    a reconstrução da Ucrânia</p><a
-                                    class="btn btn-primary btn-lg me-2 carrousel-button-uk" role="button" href="#">Registar</a><a
-                                    class="btn btn-outline-yellow btn-lg carrousel-button" role="button" href="{% url 'slavaukraine:listproposals'%}">Verificar
-                                Projetos</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item h-100">
-                <img
 <div class="carousel slide carrousel-dimensions rounded" data-bs-ride="carousel" id="carousel-1">
     <div class="container carousel-inner h-100 rounded">
         <div class="carousel-item active h-100 rounded"><img
@@ -111,8 +89,6 @@
                     <div class="card">
                         <img class="card-img-top w-100 d-block fit-cover card-size"
                              src="{% static 'slavaukraine/assets/img/trabalhador_1.jpg' %}">
-                    <div class="card">
-                        <img class="card-img-top w-100 d-block fit-cover card-size" src="{% static 'slavaukraine/assets/img/trabalhador_1.jpg' %}">
                         <div class="card-body p-4">
                             <p class="text-primary mb-0 card-before-text">Projeto</p>
                             <h4 class="card-text">{{ last_proposals.0.title }}</h4>
@@ -128,16 +104,12 @@
                         </div>
                     </div>
                 </div>
-                </a>
-                {% if last_proposals.1 != None %}
-                <a class="card-link" href="{% url 'slavaukraine:proposal' last_proposals.1.id  %}">
             </a>
             {% if last_proposals.1 != None %}
             <a class="card-link" href="{% url 'slavaukraine:proposal' last_proposals.1.id  %}">
                 <div class="col">
                     <div class="card"><img class="card-img-top w-100 d-block fit-cover card-size"
                                            src="{% static 'slavaukraine/assets/img/trabalhador_2.png' %}">
-                    <div class="card"><img class="card-img-top w-100 d-block fit-cover card-size" src="{% static 'slavaukraine/assets/img/trabalhador_2.png' %}">
                         <div class="card-body p-4">
                             <p class="text-primary mb-0 card-before-text">Projeto</p>
                             <h4 class="card-text">{{ last_proposals.1.title }}</h4>
@@ -153,16 +125,11 @@
                         </div>
                     </div>
                 </div>
-                    </a>
-                {% endif %}
-                {% if last_proposals.2 != None %}
-                <a class="card-link" href="{% url 'slavaukraine:proposal' last_proposals.2.id  %}">
             </a>
             {% endif %}
             {% if last_proposals.2 != None %}
             <a class="card-link" href="{% url 'slavaukraine:proposal' last_proposals.2.id  %}">
                 <div class="col">
-                    <div class="card"><img class="card-img-top w-100 d-block fit-cover card-size" src="{% static 'slavaukraine/assets/img/trabalhador_3.png' %}">
                     <div class="card"><img class="card-img-top w-100 d-block fit-cover card-size"
                                            src="{% static 'slavaukraine/assets/img/trabalhador_3.png' %}">
                         <div class="card-body p-4">
@@ -180,97 +147,6 @@
                         </div>
                     </div>
                 </div>
-                </a>
-                {% endif %}
-            </div>
-            {% endif %}
-        </div>
-        <!-- Estatisticas -->
-        <div class="container py-4 py-xl-5 statistics-color">
-            <div class="text-center text-white-50 bg-warning border rounded border-0 p-3">
-                <div class="row row-cols-2 row-cols-md-4 statistics-color">
-                    <div class="col">
-                        <div class="p-3">
-                            <h4 class="display-5 fw-bold text-white mb-0">123+</h4>
-                            <p class="mb-0 statistics-text">Voluntários</p>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="p-3">
-                            <h4 class="display-5 fw-bold text-white mb-0">45+</h4>
-                            <p class="mb-0 statistics-text">Empresas</p>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="p-3">
-                            <h4 class="display-5 fw-bold text-white mb-0">67+</h4>
-                            <p class="mb-0 statistics-text">Projetos Criados</p>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="p-3">
-                            <h4 class="display-5 fw-bold text-white mb-0">89</h4>
-                            <p class="mb-0 statistics-text">Projetos Concluidos</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Testemunhos -->
-        <div class="container py-4 py-xl-5">
-            <div class="row mb-5">
-                <div class="col-md-8 col-xl-6 text-center mx-auto testimonies-title">
-                    <h2>Testemunhos</h2>
-                </div>
-            </div>
-            <div class="row gy-4 row-cols-1 row-cols-sm-2 row-cols-lg-3">
-                <div class="col">
-                    <div>
-                        <p class="bg-light border rounded border-0 border-light p-4 testimonies-color">Quero agradecer a
-                            todas as pessoas que tornaram possível que a reconstrução de 7 casa fosse possível.</p>
-                        <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
-                                                 height="50"
-                                                 src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                            <div>
-                                <p class="fw-bold text-primary mb-0 testimonies-before-text">Empresa X</p>
-                                <p class="text-muted mb-0 testimonies-text">Construção Civil</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div>
-                        <p class="bg-light border rounded border-0 border-light p-4 testimonies-color">Foi incrível ter
-                            tido a oportunidade de ajudar as pessoas no terreno. Sem vocês não tinha sido
-                            possível...</p>
-                        <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
-                                                 height="50"
-                                                 src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                            <div>
-                                <p class="fw-bold text-primary mb-0 testimonies-before-text">Pedro Mateus</p>
-                                <p class="text-muted mb-0 testimonies-text">Voluntário</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div>
-                        <p class="bg-light border rounded border-0 border-light p-4 testimonies-color">Inscrevi-me e
-                            passado um dia já estava a embarcar para uma pequena cidade de Kiev onde tive a oportunidade
-                            de fazer a diferença. Obrigado</p>
-                        <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
-                                                 height="50"
-                                                 src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                            <div>
-                                <p class="fw-bold text-primary mb-0 testimonies-before-text">Joana Arminda</p>
-                                <p class="text-muted mb-0 testimonies-text">Voluntária</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
             </a>
             {% endif %}
         </div>
