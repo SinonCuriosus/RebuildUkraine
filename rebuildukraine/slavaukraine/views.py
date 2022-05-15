@@ -393,7 +393,7 @@ def newMessage(request,recipient):
             context={
                 'recipient': recipient
             }
-            return render(request, 'slavaukraine/create_new_message.html',context)
+            return render(request, 'slavaukraine/reserved.html',context)
         else:
             return home(request) # vai para a home
     else:

@@ -288,6 +288,11 @@ nav {
 }
 
 
+.reserved-remove-underline{
+    text-decoration: none !important;
+
+}
+
 /* Messages */
 
 .messages-page-box {
@@ -316,4 +321,10 @@ nav {
 
 .message-reply-textarea {
     height: auto;
+}
+
+/* Edit proposal */
+
+.edit-proposal-size {
+    width: 50%;
 }

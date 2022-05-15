@@ -58,8 +58,9 @@
             </div>
             <div class="col-md-8 col-lg-9 col-xl-9">
                 <div>
+                    <br>
                     {% if user.is_enterprise %}
-                    <div class="mb-3"> Dados Cliente
+                    <div class="mb-3">
                         {% if user.first_name %}
                         <p>Nome: {{ user.first_name }} {{ user.last_name }}</p>
                         {% endif %}
@@ -70,10 +71,9 @@
                         <br>
                     </div>
                     <div>
-                        <a class="btn btn-outline-yellow text-right carrousel-button" role="button"
-                           href="{% url 'slavaukraine:enterprise_edit' user.pk %}">Editar Conta</a>
+                        <a class="btn btn-primary text-right carrousel-button-uk" role="button"
+                           href="{% url 'slavaukraine:enterprise_edit' user.pk %}">Alterar</a>
                     </div>
-
                     {% endif %}
 
                     {% if user.is_person %}
@@ -90,7 +90,7 @@
                     </div>
                     <div>
                         <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
-                           href="{% url 'slavaukraine:edit_person' request.user.id %}">Editar</a>
+                           href="{% url 'slavaukraine:edit_person' request.user.id %}">Alterar</a>
                     </div>
                     {% endif %}
 
@@ -127,8 +127,8 @@
                         <div class="d-flex w-100 justify-content-between">
                             <small class="text-muted">&nbsp; {{ message.date }}</small>
 
-                            <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
-                               href="{% url 'slavaukraine:message' message.id  %}">Editar</a>
+                            <a class="btn-sm btn-primary text-right carrousel-button-uk reserved-remove-underline" role="button"
+                               href="{% url 'slavaukraine:message' message.id  %}">Ver / Responder</a>
 
                         </div>
                     </td>
@@ -170,8 +170,8 @@
                     <td>
                         <div class="d-flex w-100 justify-content-between">
                             <small class="text-muted">&nbsp; {{ proposal.city }}</small>
-                            <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
-                               href="{% url 'slavaukraine:proposal' proposal.id  %}">Editar</a>
+                            <a class="btn-sm btn-primary text-right carrousel-button-uk reserved-remove-underline" role="button"
+                               href="{% url 'slavaukraine:proposal' proposal.id  %}">Ver / Editar</a>
                         </div>
                     </td>
 
@@ -191,8 +191,8 @@
                 <td>
                     <div class="d-flex w-100 justify-content-between">
                         <small class="text-muted">&nbsp; {{ proposal.city }}</small>
-                        <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
-                           href="{% url 'slavaukraine:proposal' proposal.id  %}">Editar</a>
+                        <a class="btn-sm btn-primary text-right carrousel-button-uk reserved-remove-underline" role="button"
+                           href="{% url 'slavaukraine:proposal' proposal.id  %}">Ver / Editar</a>
                     </div>
 
 
@@ -210,7 +210,7 @@
         <br>
         {% if user.is_enterprise %}
         <div class="d-inline-flex w-100 justify-content-end">
-            <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
+            <a class="btn-sm btn-primary text-right carrousel-button-uk reserved-remove-underline" role="button"
                href="{% url 'slavaukraine:regist_proposal'  %}">Criar Nova Proposta</a>
         </div>
         {% endif %}
@@ -240,8 +240,8 @@
                     <td>
                         <div class="d-flex w-100 justify-content-between">
                             <small class="text-muted">&nbsp; {{ favorite.city }}</small>
-                           <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
-                               href="{% url 'slavaukraine:proposal' favorite.id  %}">Editar</a>
+                           <a class="btn-sm btn-primary text-right carrousel-button-uk reserved-remove-underline" role="button"
+                               href="{% url 'slavaukraine:proposal' favorite.id  %}">Ver / Editar</a>
                         </div>
                     </td>
                     {% endif %}

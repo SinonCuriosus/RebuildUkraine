@@ -11,8 +11,7 @@
     <div class="row mb-5 contacts-margin-title">
         <div class="col-md-8 col-xl-6 text-center mx-auto">
             <br>
-            <h2>Mensagem</h2>
-            <p class="w-lg-50 contacts-subtext">Utilize sempre os nosso canais oficiais de contactos</p>
+
         </div>
     </div>
     <div class="row d-flex justify-content-center">
@@ -22,7 +21,7 @@
             {% if message.sender != request.user %}
             <div>
                 <div class="mb-3">
-                    <p class="fw-bold mb-0 card-before-text text-end messge-reply">{{ message.sender}} </p>
+                    <p class="fw-bold mb-0 card-before-text text-end messge-reply">{{ message.sender.first_name }} {{ message.sender.last_name }} </p>
                     <textarea class="form-control text-end message-reply-textarea" id="text" name="text"
                               placeholder="text" disabled>{{ message.message }}</textarea>
                     <p class="mb-0 card-text text-end messge-reply">{{ message.date }}</p>
@@ -33,7 +32,7 @@
             {% else %}
             <div>
                 <div class="mb-3">
-                    <p class="fw-bold mb-0 card-before-text text-start messge-reply">{{ message.sender}} </p>
+                    <p class="fw-bold mb-0 card-before-text text-start messge-reply">{{ message.sender.first_name }} {{ message.sender.last_name }}</p>
                     <textarea class="form-control text-start message-reply-textarea" id="text2" name="text"
                               placeholder="text" disabled>{{ message.message }}</textarea>
                     <p class="mb-0 card-text text-start messge-reply">{{ message.date }}</p>
@@ -43,7 +42,7 @@
             {% endif %}
             {% endfor %}
             <div>
-                <form class="p-3 p-xl-4" method="post" action="{% url 'slavaukraine:message' topic.id  %}">
+                <form class="p-3 p-xl-6" method="post" action="{% url 'slavaukraine:message' topic.id  %}">
                     {% csrf_token %}
                     <div class="mb-1"><textarea class="form-control" id="message-1" name="message" rows="6"
                                                 placeholder="Message"></textarea></div>
@@ -56,7 +55,7 @@
     </div>
 </div>
 <div class="mb-5">
-    <div class="col-md-8 col-xl-6 text-center mx-auto">
+    <div class="col-md-12 col-xl-12 text-center mx-auto">
         <p class="w-lg-50"></p>
     </div>
 </div>
