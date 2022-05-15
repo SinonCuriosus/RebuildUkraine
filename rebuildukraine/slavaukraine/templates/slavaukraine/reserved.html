@@ -61,7 +61,7 @@
                     {% if user.is_enterprise %}
                     <div class="mb-3"> Dados Cliente
                         {% if user.first_name %}
-                        <p>Nome: {{ user.first_name }} {{ user.profile_image }}</p>
+                        <p>Nome: {{ user.first_name }} {{ user.last_name }}</p>
                         {% endif %}
                         <p>Email: {{ user.email }}</p>
                         <p>Número de contribuinte: {{ user.taxnumber }}</p>
@@ -84,7 +84,7 @@
                     {% if user.is_person %}
                     <div>
                         {% if user.first_name %}
-                        <p>Nome Pessoa: {{ user.first_name }} </p>
+                        <p>Nome Pessoa: {{ user.first_name }} {{ user.last_name }}</p>
                         {% endif %}
                         <p>Email: {{ user.email }}</p>
                         <p>Número de contribuinte: {{ user.taxnumber }}</p>

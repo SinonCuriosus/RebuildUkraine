@@ -11,12 +11,14 @@
                 <div class="row">
                     <div class="col-md-6 col-xl-4 offset-md-2">
                         <div class="carrousel-text">
-                            <h1 class="text-uppercase fw-bold carrousel-text">Queres ajudar?<br>Regista-te já</h1>
-                            <p class="my-3 carrousel-subtext">Na nossa plataforma vais encontrar vários projetos para
-                                a reconstrução da Ucrânia</p><a
-                                class="btn btn-primary btn-lg me-2 carrousel-button-uk" role="button"
+                            <h1 class="text-uppercase fw-bold carrousel-text carrousel-highlight">&nbsp;Queres ajudar?<br>&nbsp;Regista-te já</h1>
+                            <p class="my-3 carrousel-subtext carrousel-highlight2">&nbsp;Na nossa plataforma vais encontrar vários projetos  &nbsp; &nbsp;para
+                                a reconstrução da Ucrânia</p>
+                            <br>
+                            <a
+                                class="btn btn-primary btn-lm me-2 carrousel-button-uk" role="button"
                                 href="{% url 'slavaukraine:register_volunteer' %}">Registar</a><a
-                                class="btn btn-outline-yellow btn-lg carrousel-button" role="button"
+                                class="btn btn-outline-yellow btn-lm carrousel-button" role="button"
                                 href="{% url 'slavaukraine:listproposals'%}">Verificar
                             Projetos</a>
                         </div>
@@ -32,12 +34,12 @@
                 <div class="row">
                     <div class="col-md-6 col-xl-4 offset-md-2">
                         <div class="carrousel-text">
-                            <h1 class="text-uppercase fw-bold">Junta-te a nós<br>Regista a tua empresa</h1>
-                            <p class="my-3 carrousel-subtext">Os nossos voluntários querem ajudar o povo ucraniano a
+                            <h1 class="text-uppercase fw-bold carrousel-text carrousel-highlight">&nbsp;Junta-te a nós!<br>&nbsp;Regista a tua empresa</h1>
+                            <p class="my-3 carrousel-subtext carrousel-highlight2">&nbsp;Os nossos voluntários querem ajudar o povo ucraniano &nbsp;a
                                 reerguer o seu país</p><a
-                                class="btn btn-primary btn-lg me-2 carrousel-button-uk" role="button"
+                                class="btn btn-primary btn-lm me-2 carrousel-button-uk" role="button"
                                 href="{% url 'slavaukraine:register_enterprise' %}">Registar</a><a
-                                class="btn btn-outline-yellow btn-lg carrousel-button" role="button"
+                                class="btn btn-outline-yellow btn-lm carrousel-button" role="button"
                                 href="{% url 'slavaukraine:listproposals'%}">Verificar
                             Projetos</a>
                         </div>
@@ -52,12 +54,12 @@
                 <div class="row">
                     <div class="col-md-6 col-xl-4 offset-md-2">
                         <div class="carrousel-text">
-                            <h1 class="text-uppercase fw-bold">Tens alguma dúvida?<br>Entra em contacto conosco</h1>
-                            <p class="my-3 carrousel-subtext">Nós queremos ligar voluntários a projetos que podem mudar
+                            <h1 class="text-uppercase fw-bold carrousel-highlight">&nbsp;Tens Duvidas?<br>&nbsp;Contacta-nos!</h1>
+                            <p class="my-3 carrousel-subtext carrousel-highlight2">&nbsp;Nós queremos ligar voluntários a projetos que podem &nbsp;mudar
                             a vida de uma pessoa</p><a
-                                class="btn btn-primary btn-lg me-2 carrousel-button-uk" role="button"
+                                class="btn btn-primary btn-lm me-2 carrousel-button-uk" role="button"
                                 href="{% url 'slavaukraine:contacts' %}">Contacta-nos</a><a
-                                class="btn btn-outline-yellow btn-lg carrousel-button" role="button"
+                                class="btn btn-outline-yellow btn-lm carrousel-button" role="button"
                                 href="{% url 'slavaukraine:listproposals'%}">Verificar
                             Projetos</a>
                         </div>
@@ -99,7 +101,7 @@
                             <p class="card-subtext">{{ last_proposals.0.description }}</p>
                             <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                      height="50"
-                                                     src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                                     src="{% static 'slavaukraine/assets/img/Building.jpg' %}">
                                 <div>
                                     <p class="fw-bold mb-0 card-before-text">{{ last_proposals.0.enterprise }}</p>
                                     <p class="text-muted mb-0 card-text">{{ last_proposals.0.expertiseNeeded }}</p>
@@ -120,7 +122,7 @@
                             <p class="card-subtext">{{ last_proposals.1.description }}</p>
                             <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                      height="50"
-                                                     src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                                     src="{% static 'slavaukraine/assets/img/Volunteering.jpg' %}">
                                 <div>
                                     <p class="fw-bold mb-0 card-before-text">{{ last_proposals.1.enterprise }}</p>
                                     <p class="text-muted mb-0 card-text">{{ last_proposals.1.expertiseNeeded }}</p>
@@ -142,7 +144,7 @@
                             <p class="card-subtext">{{ last_proposals.2.description }}</p>
                             <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                                      height="50"
-                                                     src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                                     src="{% static 'slavaukraine/assets/img/Volunteering2.jpg' %}">
                                 <div>
                                     <p class="fw-bold mb-0 card-before-text">{{ last_proposals.2.enterprise }}</p>
                                     <p class="text-muted mb-0 card-text">{{ last_proposals.2.expertiseNeeded }}</p>
@@ -201,7 +203,7 @@
                         todas as pessoas que tornaram possível que a reconstrução de 7 casa fosse possível.</p>
                     <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                              height="50"
-                                             src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                             src="{% static 'slavaukraine/assets/img/person1.jpg' %}">
                         <div>
                             <p class="fw-bold text-primary mb-0 testimonies-before-text">Empresa X</p>
                             <p class="text-muted mb-0 testimonies-text">Construção Civil</p>
@@ -216,7 +218,7 @@
                         possível...</p>
                     <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                              height="50"
-                                             src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                             src="{% static 'slavaukraine/assets/img/person2.jpg' %}">
                         <div>
                             <p class="fw-bold text-primary mb-0 testimonies-before-text">Pedro Mateus</p>
                             <p class="text-muted mb-0 testimonies-text">Voluntário</p>
@@ -231,7 +233,7 @@
                         de fazer a diferença. Obrigado</p>
                     <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50"
                                              height="50"
-                                             src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                             src="{% static 'slavaukraine/assets/img/person3.jpg' %}">
                         <div>
                             <p class="fw-bold text-primary mb-0 testimonies-before-text">Joana Arminda</p>
                             <p class="text-muted mb-0 testimonies-text">Voluntária</p>

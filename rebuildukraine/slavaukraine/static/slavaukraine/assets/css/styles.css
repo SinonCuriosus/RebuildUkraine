@@ -53,20 +53,19 @@ nav {
 
 .carrousel-text {
     color: #ffffff;
-    max-width: 400px;
-    text-shadow: 1px 1px #909090;
+    max-width: 450px;
 
 }
 
 .carrousel-subtext {
-    color: #ffb700 !important;
+    padding: 0;
+    margin: 0;
 
 }
 
 .carrousel-button {
     color: #ffffff !important;
     background: #ffc400 !important;
-    text-shadow: none;
 }
 
 .carrousel-button:hover {
@@ -75,9 +74,16 @@ nav {
 
 .carrousel-button-uk {
     color: #ffffff !important;
-    text-shadow: none;
 }
 
+.carrousel-highlight{
+    background-color: #ffb700 !important;;
+
+}
+.carrousel-highlight2{
+    background-color: #005BBB !important;;
+
+}
 
 /* Offerts section */
 .card-title {
