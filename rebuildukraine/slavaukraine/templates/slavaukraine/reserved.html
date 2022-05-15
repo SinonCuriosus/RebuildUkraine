@@ -42,7 +42,7 @@
             <div class="col-md-3 col-lg-3 col-xl-3">
                 <div class="d-flex flex-column justify-content-sm-start align-items-start h-100 contacts-contacts">
                     <div class="d-flex align-items-center p-3 ">
-                        {% if user.profile_image %}
+                        {% if user.profile_image  %}
                         <img class="rounded-circle flex-shrink-0 me-3 fit-cover"
                              width="150"
                              height="150"
@@ -89,7 +89,7 @@
                         <br>
                     </div>
                     <div>
-                        <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
+                        <a class="btn btn-primary text-right carrousel-button-uk" role="button"
                            href="{% url 'slavaukraine:edit_person' request.user.id %}">Alterar</a>
                     </div>
                     {% endif %}
