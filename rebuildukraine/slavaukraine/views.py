@@ -21,9 +21,15 @@ from .models import Registration
 #Pagina inicial -RR visto
 def home(request):
     last_proposals = utils.getLastThreeProposal()
+    volunteers = utils.getVolunteersRegisted()
+    enterpises = utils.getEnterprisesRegisted()
+    proposals = utils.getProposalsRegisted()
     context = {
         'title': 'Building Ukraine - Homepage',
-        'last_proposals': last_proposals
+        'last_proposals': last_proposals,
+        'proposals': proposals,
+        'volunteers' : volunteers,
+        'enterpises': enterpises
     }
     return render(request, 'slavaukraine/home.html', context);
 
@@ -96,18 +102,6 @@ def login_view(request):
             }
             return render(request, 'slavaukraine/login.html',context)
 
-# Area reservada
-def reserved(request):
-    list = utils.getUserMEssages(request)
-    proposals = utils.getProposals(request)
-    favorites = utils.getFavorites(request)
-    context = {
-        'title': 'Building Ukraine - Área Reservada',
-        'list': list,
-        'proposals': proposals,
-        'favorites': favorites
-    }
-    return render(request, 'slavaukraine/reserved.html',context)
 
 # Registo de Empresa
 def enterpriseRegistration_view(request):
