@@ -59,8 +59,8 @@ class Person(AbstractBaseUser):
     ]
     email                       =models.EmailField(verbose_name="email", max_length=60, unique=True)
     username                    =models.CharField(max_length=30, unique=True)
-    profile_image               =models.ImageField(null=True,blank=True)
-    taxnumber                   =models.CharField( unique=True, max_length=10, validators=[RegexValidator(r'^\d{1,10}$')])
+    profile_image               =models.ImageField(null=True,blank=True,verbose_name="Imagem de perfil")
+    taxnumber                   =models.CharField( unique=True, max_length=10, validators=[RegexValidator(r'^\d{1,10}$')],verbose_name="Número de Contribuinte")
     date_joined                 =models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login                  =models.DateTimeField(verbose_name='last login', auto_now=True)
     is_admin                    =models.BooleanField(default=False)
@@ -69,11 +69,11 @@ class Person(AbstractBaseUser):
     is_superuser                = models.BooleanField(default=False)
     is_enterprise               = models.BooleanField(null=True, blank=True)
     is_person                   = models.BooleanField(null=True, blank=True)
-    first_name                  = models.CharField(max_length=30,null=True, blank=True)
-    last_name                   = models.CharField(max_length=30,null=True, blank=True)
-    gender                      = models.CharField(max_length=10,choices=GENDER,null=True, blank=True)
-    address                     = models.CharField(max_length=150,null=True, blank=True)
-    birth                       = models.DateField(null=True, blank=True)
+    first_name                  = models.CharField(max_length=30,null=True, blank=True, verbose_name="Nome")
+    last_name                   = models.CharField(max_length=30,null=True, blank=True, verbose_name="Último nome")
+    gender                      = models.CharField(max_length=10,choices=GENDER,null=True, blank=True, verbose_name="Género")
+    address                     = models.CharField(max_length=150,null=True, blank=True, verbose_name="Morada")
+    birth                       = models.DateField(null=True, blank=True, verbose_name="Data de nascimento")
 #Se quisermos o login com o username invés do e-mail é substituir aqui
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', ]

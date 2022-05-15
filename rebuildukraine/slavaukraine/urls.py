@@ -40,18 +40,27 @@ urlpatterns = [
         #O PATH em baixo é um auxiliar do regist_proposal, na dropdown dinâmica;
         path("ajax/load-cities/", views.load_cities, name="ajax_load_cities"),
     # Edição user Empresarial
-    path("editEnterprise/", EnterpriseUpdate.as_view(), name='enterprise_edit'),
+    path("reserved/editEnterprise/<int:pk>/", EnterpriseUpdate.as_view(), name='enterprise_edit'),
     # Edição proposta da empresa
     path("editProposal/<int:pk>/", ProposalUpdate.as_view(), name='edit_proposal'),
     # Listar todas as propostas
     path("listproposals/", ProposalList.as_view(), name='listproposals'),
     # Eliminação de proposta pela empresa
     path("deleteProposal/<int:pk>/", ProposalDelete.as_view(), name='delete_proposal'),
-   # #Área de Listagens
-   # path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='list_enterpriseproposals'),
+    # #Área de Listagens
+    # path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='list_enterpriseproposals'),
 
     # Pagina de perfil de utilizador
-    path("reserved/user/<int:user_id>", views.viewUser,name="user"),
+    path("reserved/user/<int:user_id>", views.viewUser, name="user"),
+    # Pagina de perfil de utilizador
+    path("reserved/user/<int:user_id>", views.viewUser, name="user"),
+
+    # --------------------------------------------------------------------------------
+
+    # --------------------------- Serviço de Emails ----------------------------------
+
+    # --------------------------------------------------------------------------------
+
 
     # Criar uma nova mensagem para o user
     path("reserved/create_new_message/<int:recipient>", views.newMessage, name="create_new_message"),
@@ -59,9 +68,9 @@ urlpatterns = [
     # Visualizacao e resposta à mensagem
     path("reserved/message/<int:topic_id>", views.replyMessage, name="message"),
 
-
     
-
+    #Adicionar aos favoritos
+    path('<int:proposal_id>/favorite_proposal', views.favorite_proposal, name="favorite_proposal"),
 
 
 
