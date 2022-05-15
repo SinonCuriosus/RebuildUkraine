@@ -19,70 +19,49 @@ urlpatterns = [
     path("login/",views.login_view, name="login"),
     # Logout
     path("logout/",views.logout_view, name="logout"),
-    #area reservada
+    # Area reservada onde visualiza conta, mensagens e propostas
     path("reserved", views.reserved, name="reserved"),
-
     # Registo de Empresa
     path("register_enterprise", views.enterpriseRegistration_view, name="register_enterprise"),
-
     # Registo de Voluntario
     path("register_volunteer", views.volunteerRegistration_view, name="register_volunteer"),
-
     # Registo de proposta
     path("reserved/regist_proposal", views.proposal_create_view, name="regist_proposal"),
-
     # Visualizacao de proposta com Opção de Inscrição/Add aos Favoritos
     path("proposal/<int:proposal_id>", views.viewProposal, name="proposal"),
     # Remoção da Proposta das Inscrições
     path("remProposal/<int:proposal_id>", views.removeProposalSubscription, name="removesubscription"),
+    # Adicionar aos favoritos
+    path('reserverd/<int:proposal_id>/favorite_proposal', views.favorite_proposal, name="favorite_proposal"),
     # Remoção da Proposta dos Favoritos
     path("remFavorite/<int:proposal_id>", views.removeFavoriteProposal, name="removefavorite"),
-
-
-    # Área de edição
+    # Edição de utilizador
     path("reserved/editPerson/<int:pk>/", PersonUpdate.as_view(), name='edit_person'),
-
-
         #O PATH em baixo é um auxiliar do regist_proposal, na dropdown dinâmica;
         path("ajax/load-cities/", views.load_cities, name="ajax_load_cities"),
-
     # Edição user Empresarial
     path("editEnterprise/", EnterpriseUpdate.as_view(), name='enterprise_edit'),
     # Edição proposta da empresa
     path("editProposal/<int:pk>/", ProposalUpdate.as_view(), name='edit_proposal'),
-
-
-    #Área de Listagens
-    path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='list_enterpriseproposals'),
-
-
+    # Listar todas as propostas
     path("listproposals/", ProposalList.as_view(), name='listproposals'),
-
-    #EM FALTA: Inscrições na Proposta X da Empresa Y
-
-    #Área de remoção
-
+    # Eliminação de proposta pela empresa
     path("deleteProposal/<int:pk>/", ProposalDelete.as_view(), name='delete_proposal'),
+   # #Área de Listagens
+   # path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='list_enterpriseproposals'),
 
-    # --------------------------------------------------------------------------------
-
-    # --------------------------- Serviço de Emails ----------------------------------
-
-    # --------------------------------------------------------------------------------
-
+    # Pagina de perfil de utilizador
+    path("reserved/user/<int:user_id>", views.viewUser,name="user"),
 
     # Criar uma nova mensagem para o user
     path("reserved/create_new_message/<int:recipient>", views.newMessage, name="create_new_message"),
 
-    ##
-    ## Adicionar o id da messagem
-    ##
-    # Resposta à mensagem
+    # Visualizacao e resposta à mensagem
     path("reserved/message/<int:topic_id>", views.replyMessage, name="message"),
 
+
     
-    #Adicionar aos favoritos
-    path('reserverd/<int:proposal_id>/favorite_proposal', views.favorite_proposal, name="favorite_proposal"),
+
 
 
 
