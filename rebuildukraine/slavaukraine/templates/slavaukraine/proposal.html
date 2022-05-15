@@ -12,28 +12,45 @@
         </div>
     </div>
     <div class="container">
-        <p>Descrição: {{ proposal.description }}<br/>
-            {% if user.is_person %}
-        <form action="{% url 'slavaukraine:proposal' proposal.id %}" method="post" id="reg">
-            {% csrf_token %}
+        <p>Descrição: <br>{{ proposal.description }}<br/>
 
-            {% if registed == '0'%}
-            <button type="submit" form="reg" value="Registar" class="btn btn-primary btn-sm me-2 carrousel-button-uk">
-                Inscrever-me
-            </button>
-
-        </form>
-
-
-        <form action="{% url 'slavaukraine:favorite_proposal' proposal.id %}" method="post" id="fav">
-            {% csrf_token %}
-            <button type="submit" form="fav" value="Guardar" class="btn btn-outline-yellow btn-sm carrousel-button">
-                Guardar
-            </button>
-
-        </form>
+        {% if user.is_person and registed == 0 %}
+            <form action="{% url 'slavaukraine:proposal' proposal.id %}" method="post" id="reg">
+                {% csrf_token %}
+                <button type="submit" form="reg" value="Registar" class="btn btn-primary btn-sm me-2 carrousel-button-uk">
+                    Inscrever-me
+                </button>
+            </form>
+        {% else  %}
+            <form action="{% url 'slavaukraine:removesubscription' proposal.id %}" method="post" id="des-reg">
+                {% csrf_token %}
+                <button type="submit" form="des-reg" value="Desregistar" class="btn btn-danger btn-sm">
+                    Desinscrever
+                </button>
+            </form>
         {% endif %}
+
+        <br>
+
+        {% if user.is_person and favorited == 0 %}
+            <form action="{% url 'slavaukraine:favorite_proposal' proposal.id %}" method="post" id="fav">
+                {% csrf_token %}
+                <button type="submit" form="fav" value="Guardar" class="btn btn-outline-yellow btn-sm carrousel-button">
+                    Guardar
+                </button>
+            </form>
+        <br>
+        {% else  %}
+            <form action="{% url 'slavaukraine:removefavorite' proposal.id %}" method="post" id="rem-fav">
+                {% csrf_token %}
+                <button type="submit" form="rem-fav" value="Guardar" class="btn btn-danger btn-sm">
+                    Remover dos favoritos
+                </button>
+            </form>
+        </form>
+        <br>
         {% endif %}
+        <br><br>
     </div>
 </div>
 {% endblock %}
