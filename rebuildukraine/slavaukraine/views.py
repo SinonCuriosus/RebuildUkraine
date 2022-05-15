@@ -424,13 +424,13 @@ def replyMessage(request,topic_id):
     else:
         return home(request)
 
-
+# Ver pagina do outro utilizador
 def viewUser(request,user_id):
     if utils.verifyUser(request):
         other_user = utils.getOtherUser(user_id)
         print(other_user)
         context = {
-            'title': 'Building Ukraine - Ver/Responde a mensagem',
+            'title': 'Building Ukraine - Pagina de perfil',
             'other_user': other_user,
         }
         return render(request,'slavaukraine/user.html',context)
