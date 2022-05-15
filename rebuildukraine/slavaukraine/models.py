@@ -159,6 +159,7 @@ class Proposal(models.Model):
     expertiseNeeded             =models.ForeignKey(Expertise,on_delete=models.CASCADE, blank=True, null=True, verbose_name='Especialidade')
     title                       =models.CharField(max_length=50,verbose_name='Título')
     description                 =models.CharField(max_length=150,verbose_name='Descrição')
+    closed                      =models.BooleanField(default=False)
 
     def __str__(self):
         return self.enterprise.username

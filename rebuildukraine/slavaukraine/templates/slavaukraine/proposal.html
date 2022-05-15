@@ -29,6 +29,17 @@
                     Desinscrever
                 </button>
                 {% elif user.is_enterprise and user.pk == proposal.enterprise.id %}
+                {% if not proposal.closed %}
+                <button type="submit" value="editar" formaction="{% url 'slavaukraine:close_proposal' proposal.id %}"
+                    class="btn-sm btn-primary text-right carrousel-button-uk">
+                    Fechar proposta
+                </button>
+                {% elif proposal.closed %}
+                <button type="submit" value="editar" formaction="{% url 'slavaukraine:reopen_proposal' proposal.id %}"
+                    class="btn-sm btn-primary text-right carrousel-button-uk">
+                    Reabrir proposta
+                </button>
+                {% endif %}
                 <button type="submit" value="editar" formaction="{% url 'slavaukraine:edit_proposal' proposal.id %}"
                         class="btn btn-outline-yellow btn-sm carrousel-button">
                     Editar Proposta

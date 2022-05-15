@@ -309,8 +309,7 @@ def viewProposal(request, proposal_id):
         if utils.verifyUser(request):
             new_subscribe = Registration(proposal_id=proposal_id, person_id=request.user.id)
             new_subscribe.save()
-    if request.user.is_enterprise and request.user.pk == proposal.enterprise.id and Registration.objects.filter(
-            proposal_id=proposal_id):
+    if request.user.is_authenticated and request.user.is_enterprise and request.user.pk == proposal.enterprise.id and Registration.objects.filter(proposal_id=proposal_id):
         registered_users = Registration.objects.filter(proposal_id=proposal_id)
 
     registed = utils.isRegisted(request, proposal_id)
@@ -379,6 +378,21 @@ def removeFavoriteProposal(request, proposal_id):
     }
     return render(request, 'slavaukraine/proposal.html', context)
 
+#Empresa fecha proposta de voluntariado
+def closeProposal(request, pk):
+    proposal_to_close = get_object_or_404(Proposal, pk=pk)
+    proposal_to_close.closed = True
+    proposal_to_close.save()
+    return proposal_detail(request,pk)
+
+#Empresa reabre proposta de voluntariado
+def reopenProposal(request, pk):
+    proposal_to_close = get_object_or_404(Proposal, pk=pk)
+    print(proposal_to_close)
+    proposal_to_close.closed = False
+    proposal_to_close.save()
+    print(proposal_to_close.closed)
+    return proposal_detail(request,pk)
 
 def registration_volunteer_list(request):
     context = {}
