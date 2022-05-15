@@ -222,12 +222,10 @@ class EnterpriseUpdate(UpdateView):
     template_name = 'slavaukraine/editform.html'
     success_url = reverse_lazy('slavaukraine:reserved')
 
-
-###############     DELETE VIEWS   ###############
-class ProposalDelete(DeleteView):
-    model = Proposal
-    template_name = 'slavaukraine/deleteproposalusers.html'
-    success_url = reverse_lazy('slavaukraine:reserved')
+@login_required(login_url='/slavaukraine/login/')
+def deleteProposal(request, pk):
+    Proposal.objects.filter(pk=pk).delete()
+    return reserved(request)
 
 @login_required(login_url='/slavaukraine/login/')
 def deleteUser(request, pk):

@@ -2,8 +2,7 @@ from django.urls import include, path
 from django.views.generic import DeleteView
 
 from . import views
-from .views import ProposalList, ProposalUpdate, EnterpriseProposalList, EnterpriseUpdate, ProposalDelete, PersonUpdate, \
-    PersonProposalList
+from .views import ProposalList, ProposalUpdate, EnterpriseProposalList, EnterpriseUpdate, PersonUpdate
 
 app_name='slavaukraine'
 urlpatterns = [
@@ -50,7 +49,7 @@ urlpatterns = [
     # Empresa reabre proposta
     path("reopenProposal/<int:pk>/", views.reopenProposal, name='reopen_proposal'),
     # Eliminação de proposta pela empresa
-    path("deleteProposal/<int:pk>/", ProposalDelete.as_view(), name='delete_proposal'),
+    path("deleteProposal/<int:pk>/", views.deleteProposal, name='delete_proposal'),
     # Eliminação de qualquer tipo de utilizador
     path("deleteUser/<int:pk>/", views.deleteUser, name='delete_user'),
     # #Área de Listagens
