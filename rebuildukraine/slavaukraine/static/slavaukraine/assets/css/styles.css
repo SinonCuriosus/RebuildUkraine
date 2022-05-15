@@ -33,6 +33,12 @@ nav {
     font-weight: bold;
 }
 
+.logo-size{
+    width: 200%;
+    height: auto;
+    margin-top: 0.5rem;
+}
+
 
 /* Carrousel section */
 .carrousel-dimensions {

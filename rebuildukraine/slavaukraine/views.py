@@ -21,9 +21,15 @@ from .models import Registration
 #Pagina inicial -RR visto
 def home(request):
     last_proposals = utils.getLastThreeProposal()
+    volunteers = utils.getVolunteersRegisted()
+    enterpises = utils.getEnterprisesRegisted()
+    proposals = utils.getProposalsRegisted()
     context = {
         'title': 'Building Ukraine - Homepage',
-        'last_proposals': last_proposals
+        'last_proposals': last_proposals,
+        'proposals': proposals,
+        'volunteers' : volunteers,
+        'enterpises': enterpises
     }
     return render(request, 'slavaukraine/home.html', context);
 
@@ -96,18 +102,6 @@ def login_view(request):
             }
             return render(request, 'slavaukraine/login.html',context)
 
-# Area reservada
-def reserved(request):
-    list = utils.getUserMEssages(request)
-    proposals = utils.getProposals(request)
-    favorites = utils.getFavorites(request)
-    context = {
-        'title': 'Building Ukraine - Área Reservada',
-        'list': list,
-        'proposals': proposals,
-        'favorites': favorites
-    }
-    return render(request, 'slavaukraine/reserved.html',context)
 
 # Registo de Empresa
 def enterpriseRegistration_view(request):
@@ -387,29 +381,12 @@ def favorites_volunteer_list(request):
     context["dataset"] = Favorites.objects.filter(favorites__person__username=request.user)
     return render(request, 'slavaukraine/reserved.html', context)
 
-def proposal_view(request):
-    context = {}
-    context["dataset"] = Proposal.objects.all()
-    return render(request, 'slavaukraine/test_Porposal_List.html', context)
 
 #Só para teste
 def proposal_detail(request, proposal_id):
     proposal = get_object_or_404(Proposal, pk=proposal_id)
     context = {'proposal': proposal}
     return render(request, 'slavaukraine/proposal.html', context)
-
-
-# view para listar todas as mensagens - Possivelmente para remover
-def viewMessages(request):
-    if True: #getUser(request):
-        list = TopicMessage.objects.filter(Q(sender=request.user) | Q(receiver=request.user)).order_by('-date')
-        context = {
-            'title': 'Building Ukraine - Homepage',
-            'list' : list
-        }
-        return render(request, 'slavaukraine/viewMessages.html', context)
-    else:
-        return home(request)
 
 
 # view da nova msg entre user
@@ -453,3 +430,17 @@ def replyMessage(request,topic_id):
         return render(request,'slavaukraine/message.html',context)
     else:
         return home(request)
+
+
+def viewUser(request,user_id):
+    if utils.verifyUser(request):
+        other_user = utils.getOtherUser(user_id)
+        print(other_user)
+        context = {
+            'title': 'Building Ukraine - Ver/Responde a mensagem',
+            'other_user': other_user,
+        }
+        return render(request,'slavaukraine/user.html',context)
+    else:
+        return home(request)
+

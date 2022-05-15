@@ -95,7 +95,7 @@
                     </div>
                     <div>
                         <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
-                           href="{% url 'slavaukraine:edit_person' user.id%}">Editar</a>
+                           href="{% url 'slavaukraine:edit_person' request.user.id %}">Editar</a>
                     </div>
                     {% endif %}
 
@@ -124,7 +124,9 @@
                     <td class="list-group-item list-group-item-action">
                         <p class="mb-1 message-page-stitle">{{ message.subjet }}</p>
                     </td>
-                    <td><p class="mb-1 message-page-stitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ message.receiver.first_name }}</p>
+                    <td>
+                        <p class="mb-1 message-page-stitle">&nbsp;&nbsp; &nbsp;&nbsp;{{ message.receiver.first_name }}
+                        </p>
                     </td>
                     <td>
                         <div class="d-flex w-100 justify-content-between">
@@ -182,6 +184,7 @@
                 {% endif %}
                 {% endfor %}
                 {% endif %}
+
                 {% if user.is_person %}
                 {% for proposal in proposals %}
                 {% if proposal.title != "None" %}
@@ -209,6 +212,13 @@
             </table>
             <br>
         </div>
+        <br>
+        {% if user.is_enterprise %}
+        <div class="d-inline-flex w-100 justify-content-end">
+            <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
+               href="{% url 'slavaukraine:regist_proposal'  %}">Criar Nova Proposta</a>
+        </div>
+        {% endif %}
     </div>
     <!-- Favoritos -->
     {% if user.is_person %}
