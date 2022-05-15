@@ -29,13 +29,21 @@
                 </button>
             </form>
         {% elif user.is_enterprise and user.pk == proposal.enterprise.id%}
-
-            <form action="{% url 'slavaukraine:removesubscription' proposal.id %}" method="post" id="see-users">
+            {% if not proposal.closed %}
+            <form action="{% url 'slavaukraine:close_proposal' proposal.id %}" method="post" id="close-prop">
                 {% csrf_token %}
-                <button type="submit" form="see-users" value="Desregistar" class="btn btn-primary btn-sm me-2 carrousel-button-uk" >
-                    Ver inscritos
+                <button type="submit" form="close-prop" value="Desregistar" class="btn btn-primary btn-sm me-2 carrousel-button-uk" >
+                    Fechar proposta
                 </button>
             </form>
+            {% elif proposal.closed %}
+            <form action="{% url 'slavaukraine:reopen_proposal' proposal.id %}" method="post" id="reopen-prop">
+                {% csrf_token %}
+                <button type="submit" form="reopen-prop" value="Desregistar" class="btn btn-primary btn-sm me-2 carrousel-button-uk" >
+                    Reabrir proposta
+                </button>
+            </form>
+            {% endif %}
 
             <form action="{% url 'slavaukraine:edit_proposal' proposal.id %}" method="post" id="edit-prop">
                 {% csrf_token %}
@@ -72,7 +80,7 @@
                                 <td>
                                     <div class="d-flex w-100 justify-content-between">
                                         <a class="btn-sm btn-primary text-right carrousel-button-uk" role="button"
-                                               href="{% url 'slavaukraine:edit_proposal' volunteer.id  %}">Contactar</a>
+                                               href="{% url 'slavaukraine:message' volunteer.id  %}">Perfil do voluntário</a>
                                     </div>
                                 </td>
                             </tr>

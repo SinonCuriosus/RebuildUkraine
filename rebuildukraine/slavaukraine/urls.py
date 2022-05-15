@@ -45,6 +45,10 @@ urlpatterns = [
     path("editProposal/<int:pk>/", ProposalUpdate.as_view(), name='edit_proposal'),
     # Listar todas as propostas
     path("listproposals/", ProposalList.as_view(), name='listproposals'),
+    # Empresa fecha proposta
+    path("closeProposal/<int:pk>/", views.closeProposal, name='close_proposal'),
+    # Empresa reabre proposta
+    path("reopenProposal/<int:pk>/", views.reopenProposal, name='reopen_proposal'),
     # Eliminação de proposta pela empresa
     path("deleteProposal/<int:pk>/", ProposalDelete.as_view(), name='delete_proposal'),
     # Eliminação de qualquer tipo de utilizador
