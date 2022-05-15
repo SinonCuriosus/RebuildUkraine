@@ -16,20 +16,22 @@
         </div>
 
         <div class="col-6 align-content-center">
-            <form class="color-uk" method="post" id="proposalForm" data-cities-url="{% url 'slavaukraine:ajax_load_cities' %}">
+            <form class="color-uk" method="post" id="proposalForm"
+                  data-cities-url="{% url 'slavaukraine:ajax_load_cities' %}">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <br>
                 <div class="d-inline-flex w-100 justify-content-end">
-                    <button type="submit" class="btn-sm btn-primary text-right carrousel-button-uk">Gravar Proposta</button>
-        </div>
+                    <button type="submit" class="btn-sm btn-primary text-right carrousel-button-uk">Gravar Proposta
+                    </button>
+                </div>
             </form>
             <br>
             <br>
         </div>
-            <div class="col-3">
-        <br>
-    </div>
+        <div class="col-3">
+            <br>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
