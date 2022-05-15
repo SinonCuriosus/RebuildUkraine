@@ -50,8 +50,7 @@ urlpatterns = [
     #Área de Listagens
     path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='list_enterpriseproposals'),
 
-    path("listed_proposals/<int:pk>/", EnterpriseProposalList.as_view(), name='test_datatable'),
-    path("listed_proposals/<int:pk>/", PersonProposalList.as_view(), name='list_personproposals'),
+
     path("listproposals/", ProposalList.as_view(), name='listproposals'),
 
     #EM FALTA: Inscrições na Proposta X da Empresa Y
@@ -80,7 +79,7 @@ urlpatterns = [
     #path('<int:proposal_id>', views.proposal_detail, name="proposal"),
     
     #Adicionar aos favoritos
-    path('<int:proposal_id>/favorite_proposal', views.favorite_proposal, name="favorite_proposal"),
+    path('reserverd/<int:proposal_id>/favorite_proposal', views.favorite_proposal, name="favorite_proposal"),
 
 
 

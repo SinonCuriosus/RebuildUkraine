@@ -388,29 +388,12 @@ def favorites_volunteer_list(request):
     context["dataset"] = Favorites.objects.filter(favorites__person__username=request.user)
     return render(request, 'slavaukraine/reserved.html', context)
 
-def proposal_view(request):
-    context = {}
-    context["dataset"] = Proposal.objects.all()
-    return render(request, 'slavaukraine/test_Porposal_List.html', context)
 
 #Só para teste
 def proposal_detail(request, proposal_id):
     proposal = get_object_or_404(Proposal, pk=proposal_id)
     context = {'proposal': proposal}
     return render(request, 'slavaukraine/proposal.html', context)
-
-
-# view para listar todas as mensagens - Possivelmente para remover
-def viewMessages(request):
-    if True: #getUser(request):
-        list = TopicMessage.objects.filter(Q(sender=request.user) | Q(receiver=request.user)).order_by('-date')
-        context = {
-            'title': 'Building Ukraine - Homepage',
-            'list' : list
-        }
-        return render(request, 'slavaukraine/viewMessages.html', context)
-    else:
-        return home(request)
 
 
 # view da nova msg entre user

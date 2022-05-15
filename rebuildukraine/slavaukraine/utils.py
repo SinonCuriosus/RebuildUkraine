@@ -70,9 +70,13 @@ def send_replyMessage(request,receiver):
 def getUserMEssages(request):
     return TopicMessage.objects.filter(Q(sender=request.user) | Q(receiver=request.user)).order_by('-date')
 
-# obtem as propostas
+# obtem as propostas do voluntario ou da empresa
 def getProposals(request):
-    return Proposal.objects.filter(registration__person__username=request.user.username)
+    if isEnterprise(request):
+        return Proposal.objects.filter(enterprise=request.user)
+    else:
+        return Proposal.objects.filter(registration__person__username=request.user.username)
+
 
 def getProposalsEnterprise(request):
     return Proposal.objects.filter(enterprise_id=request.user.id)
