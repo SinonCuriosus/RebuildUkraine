@@ -143,3 +143,8 @@ def getProposalsRegisted():
     return Proposal.objects.count()
 
 
+def getProposalsCloseds():
+    return Proposal.objects.filter(Q(closed=1)).count()
+
+
+

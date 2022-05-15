@@ -25,12 +25,14 @@ def home(request):
     volunteers = utils.getVolunteersRegisted()
     enterpises = utils.getEnterprisesRegisted()
     proposals = utils.getProposalsRegisted()
+    closed = utils.getProposalsCloseds()
     context = {
         'title': 'Building Ukraine - Homepage',
         'last_proposals': last_proposals,
         'proposals': proposals,
         'volunteers': volunteers,
-        'enterpises': enterpises
+        'enterpises': enterpises,
+        'closed': closed
     }
     return render(request, 'slavaukraine/home.html', context);
 
