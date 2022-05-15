@@ -28,7 +28,7 @@
                     Desinscrever
                 </button>
             </form>
-        {% elif user.is_enterprise %}
+        {% elif user.is_enterprise and user.pk == proposal.enterprise.id%}
 
             <form action="{% url 'slavaukraine:removesubscription' proposal.id %}" method="post" id="see-users">
                 {% csrf_token %}
@@ -37,14 +37,14 @@
                 </button>
             </form>
             <br>
-            <form action="{% url 'slavaukraine:removesubscription' proposal.id %}" method="post" id="del-prop">
+            <form action="{% url 'slavaukraine:edit_proposal' proposal.id %}" method="post" id="edit-prop">
                 {% csrf_token %}
-                <button type="submit" form="del-prop" value="Desregistar" class="btn btn-outline-yellow btn-sm carrousel-button">
+                <button type="submit" form="edit-prop" value="Desregistar" class="btn btn-outline-yellow btn-sm carrousel-button">
                     Editar Proposta
                 </button>
             </form>
             <br>
-            <form action="{% url 'slavaukraine:removesubscription' proposal.id %}" method="post" id="del-prop">
+            <form action="{% url 'slavaukraine:delete_proposal' proposal.id %}" method="post" id="del-prop">
                 {% csrf_token %}
                 <button type="submit" form="del-prop" value="Desregistar" class="btn btn-danger btn-sm">
                     Apagar Proposta

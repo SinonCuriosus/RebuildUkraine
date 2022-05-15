@@ -4,9 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db.models import Model
 from django.forms import DateInput
 from django.utils import timezone
-
-# Create your models here.
-# Create your models here.
+from django import forms
 
 #Utilizadores da Aplicação
 
